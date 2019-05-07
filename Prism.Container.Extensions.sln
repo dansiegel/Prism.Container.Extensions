@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Container.Extensions"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Extensions", "src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj", "{3A82A96A-F3FC-4244-87C3-28706494F614}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DryIoc.Extensions.Tests", "tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj", "{24CED393-E72C-4A67-B367-9D7AC5CA6E00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Extensions.Tests", "tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj", "{24CED393-E72C-4A67-B367-9D7AC5CA6E00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5592888F-61D8-4C76-8AD7-8A128EDAEBDD}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

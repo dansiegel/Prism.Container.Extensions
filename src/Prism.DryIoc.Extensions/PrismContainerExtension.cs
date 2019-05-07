@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Prism.DryIoc.Extensions.Tests")]
 namespace Prism.DryIoc
 {
-    public partial class ExtendedPrismDryIocContainer : IContainerExtension<IContainer>, IExtendedContainerRegistry
+    public partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -17,7 +17,7 @@ namespace Prism.DryIoc
             {
                 if(_current is null)
                 {
-                    _current = new ExtendedPrismDryIocContainer();
+                    _current = new PrismContainerExtension();
                 }
 
                 return _current;
@@ -26,7 +26,7 @@ namespace Prism.DryIoc
 
         internal static void Reset()
         {
-            if(_current != null && _current is ExtendedPrismDryIocContainer ext && !(ext.Instance?.IsDisposed ?? true))
+            if(_current != null && _current is PrismContainerExtension ext && !(ext.Instance?.IsDisposed ?? true))
             {
                 ext.Instance.Dispose();
             }
@@ -35,28 +35,30 @@ namespace Prism.DryIoc
         }
 
         public static IContainerExtension Create(Rules rules) =>
-            new ExtendedPrismDryIocContainer(rules);
+            new PrismContainerExtension(rules);
 
         public static IContainerExtension Create(IContainer container) => 
-            new ExtendedPrismDryIocContainer(container);
+            new PrismContainerExtension(container);
 
-        public IContainer Instance { get; private set; }
+        private static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
+                                                                    .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                                    .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
-        public ExtendedPrismDryIocContainer() 
+        public PrismContainerExtension() 
             : this(CreateContainerRules())
         {
         }
 
-        public ExtendedPrismDryIocContainer(Rules rules) 
+        public PrismContainerExtension(Rules rules) 
             : this(new global::DryIoc.Container(rules))
         {
         }
 
-        public ExtendedPrismDryIocContainer(IContainer container)
+        public PrismContainerExtension(IContainer container)
         {
             if(_current != null)
             {
-                Trace.WriteLine($"{nameof(ExtendedPrismDryIocContainer)} has already been initialized. Note that you may lose any service registrations that have already been made");
+                Trace.WriteLine($"{nameof(PrismContainerExtension)} has already been initialized. Note that you may lose any service registrations that have already been made");
             }
 
             _current = this;
@@ -64,9 +66,7 @@ namespace Prism.DryIoc
             Splat.Locator.SetLocator(this);
         }
 
-        private static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
-                                                                    .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
-                                                                    .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+        public IContainer Instance { get; private set; }
 
         public void FinalizeExtension() { }
 

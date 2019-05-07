@@ -14,7 +14,7 @@ namespace Prism.DryIoc.Extensions.Tests
         {
             var services = new ServiceCollection();
             services.AddTransient<IFoo, Foo>();
-            var container = new ExtendedPrismDryIocContainer();
+            var container = new PrismContainerExtension();
             var serviceProvider = container.CreateServiceProvider(services);
 
             object service = null;

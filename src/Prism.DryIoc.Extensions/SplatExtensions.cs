@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Prism.DryIoc
 {
-    public partial class ExtendedPrismDryIocContainer : IDependencyResolver
+    public partial class PrismContainerExtension : IDependencyResolver
     {
         object IReadonlyDependencyResolver.GetService(Type serviceType, string contract = null) =>
             string.IsNullOrEmpty(contract)
