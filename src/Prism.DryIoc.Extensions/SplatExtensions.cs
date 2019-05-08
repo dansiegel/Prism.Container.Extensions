@@ -55,6 +55,7 @@ namespace Prism.DryIoc
 
         IDisposable IMutableDependencyResolver.ServiceRegistrationCallback(Type serviceType, string contract, Action<IDisposable> callback)
         {
+            // this method is not used by RxUI
             throw new NotImplementedException();
         }
 
