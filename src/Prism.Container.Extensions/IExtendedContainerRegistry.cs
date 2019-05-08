@@ -113,7 +113,7 @@ namespace Prism.Ioc
         {
             if (containerRegistry is IExtendedContainerRegistry ecr)
             {
-                ecr.Register<T>(factoryMethod);
+                ecr.RegisterSingleton<T>(factoryMethod);
                 return ecr;
             }
             else
@@ -126,7 +126,7 @@ namespace Prism.Ioc
         {
             if (containerRegistry is IExtendedContainerRegistry ecr)
             {
-                ecr.Register<T>(factoryMethod);
+                ecr.RegisterSingleton<T>(factoryMethod);
                 return ecr;
             }
             else

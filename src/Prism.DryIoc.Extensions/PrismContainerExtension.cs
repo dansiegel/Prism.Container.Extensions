@@ -63,6 +63,8 @@ namespace Prism.DryIoc
 
             _current = this;
             Instance = container;
+            Instance.UseInstance<IContainerProvider>(this);
+            Instance.UseInstance<IServiceProvider>(this);
             Splat.Locator.SetLocator(this);
         }
 
@@ -160,31 +162,35 @@ namespace Prism.DryIoc
 
         public IContainerRegistry Register<T>(Func<T> factoryMethod)
         {
-            Instance.Register(typeof(T), made: Made.Of(() => factoryMethod()));
+            Instance.RegisterDelegate(typeof(T), r => factoryMethod());
+            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod()));
             return this;
         }
 
         public IContainerRegistry Register<T>(Func<IContainerProvider, T> factoryMethod)
         {
-            Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(typeof(T), c => factoryMethod(c.Resolve<IContainerProvider>()));
+            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(Arg.Of<IContainerProvider>())));
             return this;
         }
 
         public IContainerRegistry Register<T>(Func<IServiceProvider, T> factoryMethod)
         {
-            Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(typeof(T), r => factoryMethod(this));
+            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(Arg.Of<IServiceProvider>())));
             return this;
         }
 
         public IContainerRegistry Register(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.Register(serviceType, made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(this));
+            //Instance.Register(serviceType, made: Made.Of(() => factoryMethod(this)));
             return this;
         }
 
         public IContainerRegistry RegisterSingleton<T>(Func<T> factoryMethod)
         {
-            Instance.Register(typeof(T), Reuse.Singleton, made: Made.Of(() => factoryMethod.Invoke()));
+            Instance.RegisterDelegate(typeof(T), r => factoryMethod(), Reuse.Singleton);
             return this;
         }
 
