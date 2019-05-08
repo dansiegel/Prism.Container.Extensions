@@ -1,5 +1,25 @@
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - .editorconfig
+    - .gitignore
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - .editorconfig
+    - .gitignore
+
+name: $(Build.BuildId)
 
 stages:
 - stage: build
