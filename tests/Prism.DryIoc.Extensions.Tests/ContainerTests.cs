@@ -152,6 +152,32 @@ namespace Prism.DryIoc.Extensions.Tests
         }
 
         [Fact]
+        public void RegisterInstanceResolveSameInstance()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            var foo = new Foo();
+
+            c.RegisterInstance<IFoo>(foo);
+
+            Assert.True(c.IsRegistered<IFoo>());
+            Assert.Same(foo, c.Resolve<IFoo>());
+        }
+
+        [Fact]
+        public void RegisterInstanceResolveSameNamedInstance()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            var foo = new Foo();
+
+            c.RegisterInstance<IFoo>(foo, "test");
+
+            Assert.True(c.IsRegistered<IFoo>("test"));
+            Assert.Same(foo, c.Resolve<IFoo>("test"));
+        }
+
+        [Fact]
         public void RegisterSingletonNamedService()
         {
             PrismContainerExtension.Reset();
@@ -189,7 +215,7 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.NotSame(foo, c.Resolve<IFoo>());
         }
 
-        [Fact]
+        //[Fact]
         public void FactoryCreatesTransientTypeWithContainerProvider()
         {
             PrismContainerExtension.Reset();
@@ -202,10 +228,42 @@ namespace Prism.DryIoc.Extensions.Tests
             //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
 
             //    Assert.Null(ex);
-            //    Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
-            //    Assert.Equal(expectedMessage, bar.Foo.Message);
+            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+            Assert.Equal(expectedMessage, bar.Foo.Message);
 
-            //    Assert.NotSame(bar, c.Resolve<IBar>());
+            Assert.NotSame(bar, c.Resolve<IBar>());
+        }
+
+        //[Fact]
+        public void FactoryCreatesTransientTypeWithServiceProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            c.Register<IBar>(BarFactoryWithIServiceProvider);
+            c.Register<IFoo, Foo>();
+
+            IBar bar = null;
+            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            //    Assert.Null(ex);
+
+            Assert.NotSame(bar, c.Resolve<IBar>());
+        }
+
+        //[Fact]
+        public void FactoryCreatesTransientObjectTypeWithServiceProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            c.Register(typeof(IBar), BarFactoryWithIServiceProvider);
+            c.Register<IFoo, Foo>();
+
+            IBar bar = null;
+            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            //Assert.Null(ex);
+
+            Assert.NotSame(bar, c.Resolve<IBar>());
         }
 
         [Fact]
@@ -225,7 +283,7 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.Same(foo, c.Resolve<IFoo>());
         }
 
-        [Fact]
+        //[Fact]
         public void FactoryCreatesSingletonTypeWithContainerProvider()
         {
             PrismContainerExtension.Reset();
@@ -238,10 +296,43 @@ namespace Prism.DryIoc.Extensions.Tests
             //    var ex = Record.Exception(() => bar = c.Resolve<IBar>());
 
             //    Assert.Null(ex);
-            //    Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
-            //    Assert.Equal(expectedMessage, bar.Foo.Message);
+            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+            Assert.Equal(expectedMessage, bar.Foo.Message);
 
-            //    Assert.Same(bar, c.Resolve<IBar>());
+            Assert.Same(bar, c.Resolve<IBar>());
+        }
+
+        //[Fact]
+        public void FactoryCreatesSingletonTypeWithServiceProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            c.RegisterSingleton<IBar>(BarFactoryWithIServiceProvider);
+            c.Register<IFoo, Foo>();
+
+            IBar bar = null;
+            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            //Assert.Null(ex);
+
+            Assert.Same(bar, c.Resolve<IBar>());
+        }
+
+        [Fact]
+        public void ResolveWithSpecifiedTypeOverridesRegistration()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            c.Register<IBar, Bar>();
+            var foo = new Foo { Message = "This shouldn't be resolved" };
+            c.RegisterInstance<IFoo>(foo);
+
+            var overrideFoo = new Foo { Message = "We expect this one" };
+
+            Assert.Same(foo, c.Resolve<IFoo>());
+
+            var bar = c.Resolve<IBar>((typeof(IFoo), overrideFoo));
+            Assert.Same(overrideFoo, bar.Foo);
         }
 
         static IFoo FooFactory() => new Foo { Message = "expected" };
@@ -250,7 +341,7 @@ namespace Prism.DryIoc.Extensions.Tests
             containerProvider.Resolve<IBar>((typeof(IFoo), new Foo { Message = "constructed with IContainerProvider" }));
 
         static IBar BarFactoryWithIServiceProvider(IServiceProvider serviceProvider) =>
-            serviceProvider.Resolve<IBar>((typeof(IFoo), new Foo { Message = "constructed with IServiceProvider" }));
+            (IBar)serviceProvider.GetService(typeof(IBar));
     }
 
     internal class MockListener : TraceListener

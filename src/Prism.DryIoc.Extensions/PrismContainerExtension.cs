@@ -163,28 +163,24 @@ namespace Prism.DryIoc
         public IContainerRegistry Register<T>(Func<T> factoryMethod)
         {
             Instance.RegisterDelegate(typeof(T), r => factoryMethod());
-            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod()));
             return this;
         }
 
         public IContainerRegistry Register<T>(Func<IContainerProvider, T> factoryMethod)
         {
             Instance.RegisterDelegate(typeof(T), c => factoryMethod(c.Resolve<IContainerProvider>()));
-            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(Arg.Of<IContainerProvider>())));
             return this;
         }
 
         public IContainerRegistry Register<T>(Func<IServiceProvider, T> factoryMethod)
         {
-            Instance.RegisterDelegate(typeof(T), r => factoryMethod(this));
-            //Instance.Register(typeof(T), made: Made.Of(() => factoryMethod(Arg.Of<IServiceProvider>())));
+            Instance.RegisterDelegate(typeof(T), r => factoryMethod(r));
             return this;
         }
 
         public IContainerRegistry Register(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(this));
-            //Instance.Register(serviceType, made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r));
             return this;
         }
 
@@ -202,7 +198,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterSingleton<T>(Func<IServiceProvider, T> factoryMethod)
         {
-            Instance.Register(typeof(T), Reuse.Singleton, made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(typeof(T), r => factoryMethod(r), Reuse.Singleton);
             return this;
         }
 

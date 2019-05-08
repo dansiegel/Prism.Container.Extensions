@@ -134,5 +134,31 @@ namespace Prism.Ioc
                 throw new NotImplementedException();
             }
         }
+
+        public static IContainerRegistry RegisterSingleton<T>(this IContainerRegistry containerRegistry, Func<IServiceProvider, T> factoryMethod)
+        {
+            if (containerRegistry is IExtendedContainerRegistry ecr)
+            {
+                ecr.RegisterSingleton<T>(factoryMethod);
+                return ecr;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public static IContainerRegistry RegisterSingleton(this IContainerRegistry containerRegistry, Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        {
+            if (containerRegistry is IExtendedContainerRegistry ecr)
+            {
+                ecr.Register(serviceType, factoryMethod);
+                return ecr;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

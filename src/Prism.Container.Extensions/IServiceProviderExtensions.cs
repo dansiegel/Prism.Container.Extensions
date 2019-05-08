@@ -36,13 +36,12 @@ namespace Prism.Ioc
                     case ServiceLifetime.Transient:
                         if (service.ImplementationType != null)
                             containerRegistry.Register(service.ServiceType, service.ImplementationType);
-                        else if (service.ImplementationInstance != null)
-                            throw new NotSupportedException($"You cannot provide an instance for a Transient Service '{service.ServiceType.FullName}'");
                         else if (service.ImplementationFactory != null)
                             containerRegistry.Register(service.ServiceType, service.ImplementationFactory);
+                        // Transient Lifetime cannot occur with an Instance
                         break;
                     default:
-                        throw new NotSupportedException($"We do not currently support Transient Lifetimes from IServiceCollection '{service.ServiceType.FullName}'");
+                        throw new NotSupportedException($"We do not currently support Scoped Lifetimes from IServiceCollection '{service.ServiceType.FullName}'");
                 }
             }
         }
