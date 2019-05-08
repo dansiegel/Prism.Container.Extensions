@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Extensions.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5592888F-61D8-4C76-8AD7-8A128EDAEBDD}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.build.props = Directory.build.props
 		README.md = README.md
 	EndProjectSection
 EndProject

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <Authors>Dan Siegel</Authors>
+    <Copyright>© Dan Siegel. All rights reserved.</Copyright>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
+    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/dansiegel/Prism.Container.Extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dansiegel/Prism.Container.Extensions.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/dansiegel/Prism.Container.Extensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>prism di dryioc</PackageTags>
+  </PropertyGroup>
+
+  <!-- CI Helpers -->
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)/Artifacts</PackageOutputPath>
+    <PackageOutputPath Condition=" $(BUILD_ARTIFACTSTAGINGDIRECTORY) != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</PackageOutputPath>
+    <IsPackable>true</IsPackable>
+    <IsPackable Condition=" $(ProjectName.Contains('Sample')) ">false</IsPackable>
+    <IsPackable Condition=" $(ProjectName.Contains('Test')) ">false</IsPackable>
+    <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
+    <IS_PREVIEW Condition=" $(IS_PREVIEW) == '' ">false</IS_PREVIEW>
+    <IS_RELEASE Condition=" $(IS_RELEASE) == '' ">false</IS_RELEASE>
+    <VersionPrefix Condition=" $(BUILD_BUILDNUMBER) != '' ">$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
+    <VersionSuffix>ci</VersionSuffix>
+    <VersionSuffix Condition=" $(IS_PREVIEW) ">pre</VersionSuffix>
+    <VersionSuffix Condition=" $(IS_RELEASE) "></VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Strong Naming -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)plugin.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Nuget source link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(IsPackable) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(IsPackable)' ">
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
