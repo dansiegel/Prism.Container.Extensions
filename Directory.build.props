@@ -33,7 +33,7 @@
     <VersionSuffix Condition=" $(IS_RELEASE) "></VersionSuffix>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(IsPackable) ">
+  <PropertyGroup>
     <!-- Strong Naming -->
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)plugin.snk</AssemblyOriginatorKeyFile>
