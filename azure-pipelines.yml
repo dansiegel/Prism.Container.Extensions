@@ -21,13 +21,19 @@ pr:
 
 name: $(Build.BuildId)
 
+variables:
+- name: VMImage
+  value: 'windows-2019'
+- group: 'Code Signing'
+- group: 'GitHub Release'
+
 stages:
 - stage: build
   displayName: Build NuGet Packages
   jobs:
   - job: buildJob
     pool:
-      vmImage: 'windows-2019'
+      vmImage: $(VMImage)
       demands:
       - MSBuild
     steps:
@@ -44,6 +50,16 @@ stages:
       inputs:
         configuration: Release
         msbuildArguments: '/p:DebugType=portable'
+    - powershell: ./Sign-Packages.ps1
+      workingDirectory: build
+      displayName: Authenticode Sign Artifacts
+      env:
+        SignClientUser: $(SignClientUser)
+        SignClientSecret: $(SignClientSecret)
+        SignClientClientId: $(SignClientClientId)
+        SignClientTenantId: $(SignClientTenantId)
+        SignServiceResourceId: $(SignServiceResourceId)
+      condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
     - task: PublishPipelineArtifact@0
       displayName: Publish Artifacts
       inputs:
@@ -52,6 +68,12 @@ stages:
 - stage: deploy
   displayName: Deploy NuGets
   jobs:
+  - job: ProcessDeployment
+    pool:
+      vmImage: $(VMImage)
+    steps:
+    - powershell: ./Process-Release.ps1
+      workingDirectory: build
   - deployment: MyGet
     displayName: MyGet.org
     environment: MyGet
@@ -66,3 +88,30 @@ stages:
               packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
               nuGetFeedType: external
               publishFeedCredentials: 'Prism.Plugins - MyGet'
+  - deployment: NuGet
+    displayName: NuGet.org
+    environment: NuGet
+    dependsOn: ProcessDeployment
+    condition: and(succeeded(), eq(variables['DeployToNuGet'], 'true'))
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: jakobehn.jakobehn-vsts-github-tasks.publish-github-release.PublishGitHubRelease@0
+            displayName: 'Publish GitHub Release - Preview'
+            inputs:
+              applicationName: AzureDevOps
+              token: '$(GitHubToken)'
+              repo: Prism.Container.Extensions
+              owner: dansiegel
+              tagName: 'v$(VersionName)'
+              releaseName: '$(ReleaseDisplayName)'
+              prerelease: $(IsPreview)
+              assetsPattern: '$(Pipeline.Workspace)/**/*.nupkg'
+          - task: NuGetCommand@2
+            displayName: NuGet Push
+            inputs:
+              command: push
+              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;$(Pipeline.Workspace)/**/*.symbols.nupkg'
+              nuGetFeedType: external
+              publishFeedCredentials: 'NuGet'
