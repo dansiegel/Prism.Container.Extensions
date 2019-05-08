@@ -33,11 +33,11 @@
     <VersionSuffix Condition=" $(IS_RELEASE) "></VersionSuffix>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition=" $(IsPackable) ">
     <!-- Strong Naming -->
-    <!--<SignAssembly>true</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)plugin.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>-->
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup>
