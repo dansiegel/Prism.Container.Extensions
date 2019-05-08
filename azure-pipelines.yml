@@ -1,0 +1,48 @@
+trigger:
+- master
+
+stages:
+- stage: build
+  displayName: Build NuGet Packages
+  jobs:
+  - job: buildJob
+    pool:
+      vmImage: 'windows-2019'
+      demands:
+      - MSBuild
+    steps:
+    - task: NuGetToolInstaller@0
+      displayName: Install Latest NuGet
+      inputs:
+        versionSpec: 4.9.4
+    - task: NuGetCommand@2
+      displayName: NuGet Restore
+      inputs:
+        noCache: true
+    - task: MSBuild@1
+      displayName: Build Projects
+      inputs:
+        configuration: Release
+        msbuildArguments: '/p:DebugType=portable'
+    - task: PublishPipelineArtifact@0
+      displayName: Publish Artifacts
+      inputs:
+        artifactName: NuGet
+        targetPath: $(Build.ArtifactStagingDirectory)
+- stage: deploy
+  displayName: Deploy NuGets
+  jobs:
+  - deployment: MyGet
+    displayName: MyGet.org
+    environment: MyGet
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: NuGetCommand@2
+            displayName: NuGet Push
+            inputs:
+              command: push
+              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+              nuGetFeedType: external
+              publishFeedCredentials: 'Prism.Plugins - MyGet'
