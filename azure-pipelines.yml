@@ -32,6 +32,7 @@ stages:
   displayName: Build NuGet Packages
   jobs:
   - job: buildJob
+    displayName: Build Container Extensions
     pool:
       vmImage: $(VMImage)
       demands:
@@ -72,8 +73,8 @@ stages:
     pool:
       vmImage: $(VMImage)
     steps:
-    - powershell: ./Process-Release.ps1
-      workingDirectory: build
+    - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
+      workingDirectory: $(Pipeline.Workspace)
   - deployment: MyGet
     displayName: MyGet.org
     environment: MyGet
