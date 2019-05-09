@@ -1,5 +1,13 @@
 $currentDirectory = split-path $MyInvocation.MyCommand.Definition
+
 $nupkg = Get-ChildItem -Path $currentDirectory -Filter *.nupkg -Recurse | Select-Object -First 1
+
+if($nupkg -eq $null)
+{
+    Throw "No NuGet Package could be found in the current directory"
+}
+
+Write-Host "Package Name: $($nupkg.Name)"
 $nupkg.Name -match '^(.*?)\.((?:\.?[0-9]+){3,}(?:[-a-z]+)?)\.nupkg$'
 
 $VersionName = $Matches[2]
