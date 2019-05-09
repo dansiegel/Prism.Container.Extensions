@@ -79,6 +79,7 @@ stages:
         downloadPath: $(Pipeline.Workspace)
     - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
       workingDirectory: $(Pipeline.Workspace)
+      displayName: Process Artifacts for Release
   - deployment: MyGet
     displayName: MyGet.org
     environment: MyGet
@@ -103,7 +104,7 @@ stages:
         deploy:
           steps:
           - task: jakobehn.jakobehn-vsts-github-tasks.publish-github-release.PublishGitHubRelease@0
-            displayName: 'Publish GitHub Release - Preview'
+            displayName: 'Publish GitHub Release'
             inputs:
               applicationName: AzureDevOps
               token: '$(GitHubToken)'
