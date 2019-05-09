@@ -73,6 +73,10 @@ stages:
     pool:
       vmImage: $(VMImage)
     steps:
+    - task: DownloadPipelineArtifact@1
+      inputs:
+        artifactName: 'NuGet'
+        downloadPath: $(Pipeline.Workspace)
     - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
       workingDirectory: $(Pipeline.Workspace)
   - deployment: MyGet
