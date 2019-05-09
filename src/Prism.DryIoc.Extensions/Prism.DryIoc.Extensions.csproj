@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.0.3" />
-    <PackageReference Include="Splat" Version="7.0.8" />
+    <PackageReference Include="DryIoc.dll" Version="4.0.4" />
+    <PackageReference Include="Splat" Version="7.1.1" />
   </ItemGroup>
 
   <ItemGroup>
