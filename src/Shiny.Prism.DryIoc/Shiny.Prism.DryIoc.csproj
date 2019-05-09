@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Provides a seemless wrapper for Prism DryIoc apps using Shiny</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Forms" Version="7.2.0.1233-pre" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.3-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>
