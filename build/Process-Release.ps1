@@ -1,4 +1,7 @@
-$currentDirectory = split-path $MyInvocation.MyCommand.Definition
+$location = Get-Location
+$currentDirectory = $location.Path
+
+Write-Host "Currect working directory: $currentDirectory"
 
 $nupkg = Get-ChildItem -Path $currentDirectory -Filter *.nupkg -Recurse | Select-Object -First 1
 
