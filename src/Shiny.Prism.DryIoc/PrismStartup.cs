@@ -5,9 +5,13 @@ using System;
 
 namespace Shiny.Prism.DryIoc
 {
-    public abstract class PrismStartup : Startup
+    public abstract class PrismStartup : IStartup
     {
-        public override sealed IServiceProvider CreateServiceProvider(IServiceCollection services)
+        public abstract void ConfigureServices(IServiceCollection services);
+
+        void IStartup.ConfigureApp(IServiceProvider provider) { }
+
+        IServiceProvider IStartup.CreateServiceProvider(IServiceCollection services)
         {
             return CreateContainerExtension().CreateServiceProvider(services);
         }
