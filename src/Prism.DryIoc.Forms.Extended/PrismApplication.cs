@@ -1,52 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Prism;
-using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-[assembly: XmlnsDefinition("http://prismlibrary.com", "Shiny.Prism.DryIoc")]
-namespace Shiny.Prism.DryIoc
+[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
+namespace Prism.DryIoc
 {
-    public abstract class PrismApplication : PrismApplicationBase
+    public abstract partial class PrismApplication : PrismApplicationBase
     {
         public PrismApplication()
         {
         }
 
-        public PrismApplication(IPlatformInitializer platformInitializer) : base(platformInitializer)
+        public PrismApplication(IPlatformInitializer platformInitializer) 
+            : base(platformInitializer)
         {
         }
 
-        public PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
+        public PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) 
+            : base(platformInitializer, setFormsDependencyResolver)
         {
         }
 
         public ILogger Logger { get; private set; }
 
+        protected IModuleCatalog ModuleCatalog { get; private set; }
+
         protected override IContainerExtension CreateContainerExtension() => PrismContainerExtension.Current;
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            Logger = Container.Resolve<ILogger>();
-            Log.Listeners.Add(Container.Resolve<FormsLogListener>());
-
-            AppDomain.CurrentDomain.UnhandledException += AppDomain_UnhandledException;
-
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-
-            Container.Resolve<IModuleManager>().LoadModuleCompleted += PrismApplication_LoadModuleCompleted;
-        }
 
         protected override sealed void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterManySingleton<ConsoleLoggingService>();
             base.RegisterRequiredTypes(containerRegistry);
+        }
+
+        protected override void InitializeModules()
+        {
+            if(ModuleCatalog is null)
+            {
+                ModuleCatalog = Container.Resolve<IModuleCatalog>();
+            }
+
+            if(ModuleCatalog.Modules.Any())
+            {
+                var manager = Container.Resolve<IModuleManager>();
+                manager.LoadModuleCompleted += PrismApplication_LoadModuleCompleted;
+                manager.Run();
+            }
         }
 
         private void PrismApplication_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs e)
@@ -56,7 +61,7 @@ namespace Shiny.Prism.DryIoc
 
         protected virtual void LoadModuleCompleted(IModuleInfo moduleInfo, Exception error, bool isHandled)
         {
-            if(error != null)
+            if (error != null)
             {
                 Logger.Debug($"An error occurred while loading {moduleInfo.ModuleName}");
                 Logger.Report(error, new Dictionary<string, string>
