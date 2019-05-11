@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.DryIoc.Forms.Forms.Extended\Prism.DryIoc.Forms.Forms.Extended.csproj" />
+    <ProjectReference Include="..\Prism.DryIoc.Forms.Extended\Prism.DryIoc.Forms.Extended.csproj" />
   </ItemGroup>
 
 </Project>
