@@ -59,7 +59,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: VSTest
-        testResultsFiles: **/*.trx
+        testResultsFiles: '**/*.trx'
         buildConfiguration: $(BuildConfiguration)
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
