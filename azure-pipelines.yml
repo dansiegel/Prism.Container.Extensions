@@ -58,8 +58,8 @@ stages:
       inputs:
         command: test
         projects: |
-         **\*.Tests.csproj
-        arguments: -c $(BuildConfiguration) --collect:"Code Coverage" -s $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings /p:DebugType=portable --no-build
+         tests\**\*.Tests.csproj
+        arguments: -c $(BuildConfiguration) --collect:"Code Coverage" /p:DebugType=portable --no-build
       displayName: Run Tests
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
