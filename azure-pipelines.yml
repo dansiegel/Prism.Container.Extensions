@@ -38,6 +38,9 @@ stages:
       demands:
       - MSBuild
     steps:
+    - task: DotNetCoreInstaller@0
+      inputs:
+        version: '3.0.100-preview5-011568'
     - task: NuGetToolInstaller@0
       displayName: Install Latest NuGet
       inputs:
