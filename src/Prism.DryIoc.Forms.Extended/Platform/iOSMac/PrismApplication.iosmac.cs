@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Foundation;
 using ObjCRuntime;
+using Prism.Behaviors;
+using Prism.DryIoc.Extensions;
 using Prism.Ioc;
 using Prism.Logging;
 using Xamarin.Forms.Internals;
@@ -21,6 +22,12 @@ namespace Prism.DryIoc
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             base.Initialize();
+
+            if (Container.IsRegistered<IPageBehaviorFactoryOptions>())
+            {
+                ((IContainerRegistry)Container).RegisterSingleton<IPageBehaviorFactoryOptions, DefaultPageBehaviorFactoryOptions>();
+            }
+
             Logger = Container.Resolve<ILogger>();
             Log.Listeners.Add(Container.Resolve<FormsLogListener>());
         }

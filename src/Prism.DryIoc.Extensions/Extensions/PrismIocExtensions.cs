@@ -14,5 +14,10 @@ namespace Prism.DryIoc.Extensions
         {
             return ((IContainerExtension<IContainer>)containerRegistry).Instance;
         }
+
+        public static bool IsRegistered<T>(this IContainerProvider containerProvider)
+        {
+            return ((IContainerExtension<IContainer>)containerProvider).Instance.IsRegistered<T>();
+        }
     }
 }

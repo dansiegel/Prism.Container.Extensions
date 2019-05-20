@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Behaviors;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -37,6 +38,7 @@ namespace Prism.DryIoc
         {
             containerRegistry.RegisterManySingleton<ConsoleLoggingService>();
             base.RegisterRequiredTypes(containerRegistry);
+            containerRegistry.RegisterSingleton<IPageBehaviorFactory, ExtendedPageBehaviorFactory>();
         }
 
         protected override void InitializeModules()
