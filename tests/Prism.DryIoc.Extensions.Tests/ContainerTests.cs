@@ -204,7 +204,7 @@ namespace Prism.DryIoc.Extensions.Tests
             PrismContainerExtension.Reset();
             var c = PrismContainerExtension.Current;
             var message = "expected";
-            c.Register<IFoo>(FooFactory);
+            c.RegisterDelegate<IFoo>(FooFactory);
 
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -215,64 +215,13 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.NotSame(foo, c.Resolve<IFoo>());
         }
 
-        //[Fact]
-        public void FactoryCreatesTransientTypeWithContainerProvider()
-        {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
-            var expectedMessage = "constructed with IContainerProvider";
-            c.Register<IBar>(BarFactoryWithIContainerProvider);
-            c.Register<IFoo, Foo>();
-
-            IBar bar = null;
-            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
-
-            //    Assert.Null(ex);
-            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
-            Assert.Equal(expectedMessage, bar.Foo.Message);
-
-            Assert.NotSame(bar, c.Resolve<IBar>());
-        }
-
-        //[Fact]
-        public void FactoryCreatesTransientTypeWithServiceProvider()
-        {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
-            c.Register<IBar>(BarFactoryWithIServiceProvider);
-            c.Register<IFoo, Foo>();
-
-            IBar bar = null;
-            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
-
-            //    Assert.Null(ex);
-
-            Assert.NotSame(bar, c.Resolve<IBar>());
-        }
-
-        //[Fact]
-        public void FactoryCreatesTransientObjectTypeWithServiceProvider()
-        {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
-            c.Register(typeof(IBar), BarFactoryWithIServiceProvider);
-            c.Register<IFoo, Foo>();
-
-            IBar bar = null;
-            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
-
-            //Assert.Null(ex);
-
-            Assert.NotSame(bar, c.Resolve<IBar>());
-        }
-
         [Fact]
         public void FactoryCreatesSingletonTypeWithoutContainerProvider()
         {
             PrismContainerExtension.Reset();
             var c = PrismContainerExtension.Current;
             var message = "expected";
-            c.RegisterSingleton<IFoo>(FooFactory);
+            c.RegisterSingletonFromDelegate<IFoo>(FooFactory);
 
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -283,39 +232,164 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.Same(foo, c.Resolve<IFoo>());
         }
 
-        //[Fact]
-        public void FactoryCreatesSingletonTypeWithContainerProvider()
+        [Fact]
+        public void FactoryCreatesTransientTypeWithServiceProvider()
         {
             PrismContainerExtension.Reset();
             var c = PrismContainerExtension.Current;
-            var expectedMessage = "constructed with IContainerProvider";
-            c.RegisterSingleton<IBar>(BarFactoryWithIContainerProvider);
-            c.Register<IFoo, Foo>();
+            var expectedMessage = "constructed with IServiceProvider";
+            c.RegisterDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
+            c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
             IBar bar = null;
-            //    var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
 
-            //    Assert.Null(ex);
+            Assert.Null(ex);
+            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+            Assert.Equal(expectedMessage, bar.Foo.Message);
+
+            Assert.NotSame(bar, c.Resolve<IBar>());
+        }
+
+        [Fact]
+        public void FactoryCreatesTransientTypeWithServiceProviderFromGeneric()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            var expectedMessage = "constructed with IServiceProvider";
+            c.RegisterDelegate<IBar>(BarFactoryWithIServiceProvider);
+            c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
+            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+            Assert.Equal(expectedMessage, bar.Foo.Message);
+
+            Assert.NotSame(bar, c.Resolve<IBar>());
+        }
+
+        [Fact]
+        public void FactoryCreatesSingletonTypeWithServiceProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+            var expectedMessage = "constructed with IServiceProvider";
+            c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
+            c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
             Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
             Assert.Equal(expectedMessage, bar.Foo.Message);
 
             Assert.Same(bar, c.Resolve<IBar>());
         }
 
-        //[Fact]
-        public void FactoryCreatesSingletonTypeWithServiceProvider()
+        [Fact]
+        public void FactoryCreatesSingletonTypeWithServiceProviderFromGeneric()
         {
             PrismContainerExtension.Reset();
             var c = PrismContainerExtension.Current;
-            c.RegisterSingleton<IBar>(BarFactoryWithIServiceProvider);
-            c.Register<IFoo, Foo>();
+            var expectedMessage = "constructed with IServiceProvider";
+            c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIServiceProvider);
+            c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
             IBar bar = null;
-            //var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
 
-            //Assert.Null(ex);
+            Assert.Null(ex);
+            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+            Assert.Equal(expectedMessage, bar.Foo.Message);
 
             Assert.Same(bar, c.Resolve<IBar>());
+        }
+
+        [Fact]
+        public void FactoryCreatesTransientTypeWithContainerProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+
+            var expectedMessage = "constructed with IContainerProvider";
+            c.RegisterDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
+            c.RegisterSingleton<IFoo, Foo>();
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
+            Assert.IsType<Bar>(bar);
+            Assert.Equal(expectedMessage, ((Bar)bar).Message);
+
+            Assert.Same(c.Resolve<IFoo>(), bar.Foo);
+            Assert.NotSame(c.Resolve<IBar>(), bar);
+        }
+
+        [Fact]
+        public void FactoryCreatesTransientTypeWithContainerProviderWithGeneric()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+
+            var expectedMessage = "constructed with IContainerProvider";
+            c.RegisterDelegate<IBar>(BarFactoryWithIContainerProvider);
+            c.RegisterSingleton<IFoo, Foo>();
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
+            Assert.IsType<Bar>(bar);
+            Assert.Equal(expectedMessage, ((Bar)bar).Message);
+
+            Assert.Same(c.Resolve<IFoo>(), bar.Foo);
+            Assert.NotSame(c.Resolve<IBar>(), bar);
+        }
+
+        [Fact]
+        public void FactoryCreatesSingletonTypeWithContainerProvider()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+
+            var expectedMessage = "constructed with IContainerProvider";
+            c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
+            c.RegisterSingleton<IFoo, Foo>();
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
+            Assert.IsType<Bar>(bar);
+            Assert.Equal(expectedMessage, ((Bar)bar).Message);
+
+            Assert.Same(c.Resolve<IFoo>(), bar.Foo);
+            Assert.Same(c.Resolve<IBar>(), bar);
+        }
+
+        [Fact]
+        public void FactoryCreatesSingletonTypeWithContainerProviderWithGeneric()
+        {
+            PrismContainerExtension.Reset();
+            var c = PrismContainerExtension.Current;
+
+            var expectedMessage = "constructed with IContainerProvider";
+            c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIContainerProvider);
+            c.RegisterSingleton<IFoo, Foo>();
+
+            IBar bar = null;
+            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+
+            Assert.Null(ex);
+            Assert.IsType<Bar>(bar);
+            Assert.Equal(expectedMessage, ((Bar)bar).Message);
+
+            Assert.Same(c.Resolve<IFoo>(), bar.Foo);
+            Assert.Same(c.Resolve<IBar>(), bar);
         }
 
         [Fact]
@@ -335,13 +409,16 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.Same(overrideFoo, bar.Foo);
         }
 
-        static IFoo FooFactory() => new Foo { Message = "expected" };
+        public static IFoo FooFactory() => new Foo { Message = "expected" };
 
-        static IBar BarFactoryWithIContainerProvider(IContainerProvider containerProvider) =>
-            containerProvider.Resolve<IBar>((typeof(IFoo), new Foo { Message = "constructed with IContainerProvider" }));
+        public static IBar BarFactoryWithIContainerProvider(IContainerProvider containerProvider) =>
+            new Bar(containerProvider.Resolve<IFoo>())
+            {
+                Message = "constructed with IContainerProvider"
+            };
 
-        static IBar BarFactoryWithIServiceProvider(IServiceProvider serviceProvider) =>
-            (IBar)serviceProvider.GetService(typeof(IBar));
+        public static IBar BarFactoryWithIServiceProvider(IServiceProvider serviceProvider) =>
+            new Bar((IFoo)serviceProvider.GetService(typeof(IFoo)));
     }
 
     internal class MockListener : TraceListener

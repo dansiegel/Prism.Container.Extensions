@@ -2,11 +2,13 @@
 {
     public class Bar : IBar
     {
-        public Bar(Foo foo)
+        public Bar(IFoo foo)
         {
             Foo = foo;
         }
 
         public IFoo Foo { get; }
+
+        public string Message { get; set; }
     }
 }

@@ -42,6 +42,7 @@ namespace Prism.DryIoc
 
         private static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
                                                                     .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                                    .WithoutThrowOnRegisteringDisposableTransient()
                                                                     .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
         public PrismContainerExtension() 
@@ -160,48 +161,42 @@ namespace Prism.DryIoc
             return Instance.IsRegistered(type, name);
         }
 
-        public IContainerRegistry Register<T>(Func<T> factoryMethod)
+        public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            Instance.RegisterDelegate(typeof(T), r => factoryMethod());
+            Instance.RegisterDelegate(serviceType, r => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry Register<T>(Func<IContainerProvider, T> factoryMethod)
+        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(typeof(T), c => factoryMethod(c.Resolve<IContainerProvider>()));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry Register<T>(Func<IServiceProvider, T> factoryMethod)
+        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(typeof(T), r => factoryMethod(r));
+            Instance.RegisterDelegate(serviceType, factoryMethod);
             return this;
         }
 
-        public IContainerRegistry Register(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(), Reuse.Singleton);
             return this;
         }
 
-        public IContainerRegistry RegisterSingleton<T>(Func<T> factoryMethod)
+        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(typeof(T), r => factoryMethod(), Reuse.Singleton);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()), Reuse.Singleton);
             return this;
         }
 
-        public IContainerRegistry RegisterSingleton<T>(Func<IContainerProvider, T> factoryMethod)
+        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.Register(typeof(T), Reuse.Singleton, made: Made.Of(() => factoryMethod(this)));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Singleton);
             return this;
         }
 
-        public IContainerRegistry RegisterSingleton<T>(Func<IServiceProvider, T> factoryMethod)
-        {
-            Instance.RegisterDelegate(typeof(T), r => factoryMethod(r), Reuse.Singleton);
-            return this;
-        }
-
-        public object GetService(Type serviceType) => Resolve(serviceType);
+        public object GetService(Type serviceType) => Instance.GetService(serviceType);
     }
 }

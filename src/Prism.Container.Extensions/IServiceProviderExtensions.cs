@@ -37,7 +37,7 @@ namespace Prism.Ioc
                         if (service.ImplementationType != null)
                             containerRegistry.Register(service.ServiceType, service.ImplementationType);
                         else if (service.ImplementationFactory != null)
-                            containerRegistry.Register(service.ServiceType, service.ImplementationFactory);
+                            containerRegistry.RegisterDelegate(service.ServiceType, service.ImplementationFactory);
                         // Transient Lifetime cannot occur with an Instance
                         break;
                     default:

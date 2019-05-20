@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shiny.Core" Version="1.0.0.3-beta" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.7-beta" />
   </ItemGroup>
 
   <ItemGroup>
