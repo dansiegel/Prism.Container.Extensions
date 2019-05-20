@@ -58,8 +58,9 @@ stages:
     - script: dotnet test tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $(BuildConfiguration) --logger trx --collect "Code Coverage" --no-build
     - task: PublishTestResults@2
       inputs:
-        testRunner: VSTest
+        testResultsFormat: VSTest
         testResultsFiles: **/*.trx
+        buildConfiguration: $(BuildConfiguration)
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
       displayName: Authenticode Sign Artifacts
