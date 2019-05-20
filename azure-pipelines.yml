@@ -54,13 +54,12 @@ stages:
       inputs:
         configuration: Release
         msbuildArguments: '/p:DebugType=portable'
-    - task: DotNetCoreCLI@2
+    - script: dotnet test tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $(BuildConfiguration) --logger trx --collect "Code Coverage" --no-build
+    - script: dotnet test tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $(BuildConfiguration) --logger trx --collect "Code Coverage" --no-build
+    - task: PublishTestResults@2
       inputs:
-        command: test
-        projects: |
-         tests\**\*.Tests.csproj
-        arguments: -c $(BuildConfiguration) --collect:"Code Coverage" /p:DebugType=portable --no-build
-      displayName: Run Tests
+        testRunner: VSTest
+        testResultsFiles: **/*.trx
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
       displayName: Authenticode Sign Artifacts
@@ -113,17 +112,19 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: jakobehn.jakobehn-vsts-github-tasks.publish-github-release.PublishGitHubRelease@0
-            displayName: 'Publish GitHub Release'
+          - task: GithubRelease@0 
+            displayName: 'Create GitHub Release'
+            condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/release-v')
             inputs:
-              applicationName: AzureDevOps
-              token: '$(GitHubToken)'
-              repo: Prism.Container.Extensions
-              owner: dansiegel
-              tagName: 'v$(VersionName)'
-              releaseName: '$(ReleaseDisplayName)'
-              prerelease: $(IsPreview)
-              assetsPattern: '$(Pipeline.Workspace)/**/*.nupkg'
+              action: create
+              githubConnection: 'GitHub - Dan Siegel'
+              repositoryName: dansiegel/Prism.Container.Extensions
+              title: '$(ReleaseDisplayName)'
+              tag: 'v$(VersionName)'
+              isPreRelease: $(IsPreview)
+              assets: '$(Pipeline.Workspace)/**/*.nupkg'
+              addChangeLog: true
+              isDraft: true
           - task: NuGetCommand@2
             displayName: NuGet Push
             inputs:
