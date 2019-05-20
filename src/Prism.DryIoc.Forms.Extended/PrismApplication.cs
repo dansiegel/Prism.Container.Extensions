@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Prism.Behaviors;
+using Prism.DryIoc.Forms.Extended.ViewModels;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
+[assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 [assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
 namespace Prism.DryIoc
 {
@@ -39,6 +43,9 @@ namespace Prism.DryIoc
             containerRegistry.RegisterManySingleton<ConsoleLoggingService>();
             base.RegisterRequiredTypes(containerRegistry);
             containerRegistry.RegisterSingleton<IPageBehaviorFactory, ExtendedPageBehaviorFactory>();
+            containerRegistry.RegisterSingleton<IPageBehaviorFactoryOptions, DefaultPageBehaviorFactoryOptions>();
+
+            ViewModelLocationProvider.Register<TabbedPage, DefaultViewModel>();
         }
 
         protected override void InitializeModules()

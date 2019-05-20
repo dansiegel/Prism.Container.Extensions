@@ -3,6 +3,7 @@ using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.Ta
 using TabbedPage = Xamarin.Forms.TabbedPage;
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
+using Prism.DryIoc.Forms.Extended.ViewModels;
 
 namespace Prism.Behaviors
 {
@@ -19,12 +20,17 @@ namespace Prism.Behaviors
         {
             base.ApplyTabbedPageBehaviors(page);
 
-            if(_options.UseBottomTabs)
+            if (page.BindingContext is DefaultViewModel)
+            {
+                page.SetBinding(Page.TitleProperty, new Binding { Path = "Title" });
+            }
+
+            if (_options.UseBottomTabs)
             {
                 AndroidTabbedPage.SetToolbarPlacement(page, Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
             }
 
-            if(_options.UseChildTitle)
+            if (_options.UseChildTitle)
             {
                 page.Behaviors.Add(new TabbedPageChildTitleBehavior());
             }

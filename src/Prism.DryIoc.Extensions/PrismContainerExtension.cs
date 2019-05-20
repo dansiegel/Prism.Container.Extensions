@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Prism.DryIoc.Extensions.Tests")]
+[assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 namespace Prism.DryIoc
 {
     public partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
