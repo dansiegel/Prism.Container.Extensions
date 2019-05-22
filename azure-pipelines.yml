@@ -24,6 +24,8 @@ name: $(Build.BuildId)
 variables:
 - name: VMImage
   value: 'windows-2019'
+- name: BuildConfiguration
+  value: Release
 - name: DeployToNuGet
   value: 'false'
 - name: IsPreview
@@ -59,10 +61,11 @@ stages:
     - task: MSBuild@1
       displayName: Build Projects
       inputs:
-        configuration: Release
+        configuration: $(BuildConfiguration)
         msbuildArguments: '/p:DebugType=portable'
-    - script: dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $(BuildConfiguration) --logger trx --no-build --collect "Code Coverage"
-    - script: dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $(BuildConfiguration) --logger trx --no-build --collect "Code Coverage"
+    - powershell: |
+       dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
+       dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: VSTest
