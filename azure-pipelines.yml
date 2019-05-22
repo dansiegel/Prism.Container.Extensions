@@ -66,6 +66,7 @@ stages:
     - powershell: |
        dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
        dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
+      displayName: Runt Unit Tests
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: VSTest
