@@ -26,14 +26,6 @@ variables:
   value: 'windows-2019'
 - name: BuildConfiguration
   value: Release
-- name: DeployToNuGet
-  value: 'false'
-- name: IsPreview
-  value: 'false'
-- name: VersionName
-  value: ''
-- name: ReleaseDisplayName
-  value: ''
 - group: 'Code Signing'
 
 stages:
@@ -99,6 +91,7 @@ stages:
         artifactName: 'NuGet'
         downloadPath: $(Pipeline.Workspace)
     - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
+      name: processRelease
       workingDirectory: $(Pipeline.Workspace)
       displayName: Process Artifacts for Release
   - deployment: MyGet
@@ -119,7 +112,11 @@ stages:
     displayName: NuGet.org
     environment: NuGet
     dependsOn: ProcessDeployment
-    condition: and(succeeded(), eq(variables['DeployToNuGet'], 'true'))
+    condition: and(succeeded(), eq(dependencies.ProcessDeployment.outputs['processRelease.DeployToNuGet'], 'true'))
+    variables:
+      IsPreview: $[ dependencies.ProcessDeployment.outputs['processRelease.IsPreview'] ]
+      VersionName: $[ dependencies.ProcessDeployment.outputs['processRelease.VersionName'] ]
+      ReleaseDisplayName: $[ dependencies.ProcessDeployment.outputs['processRelease.ReleaseDisplayName'] ]
     strategy:
       runOnce:
         deploy:
