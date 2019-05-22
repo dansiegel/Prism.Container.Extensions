@@ -24,8 +24,15 @@ name: $(Build.BuildId)
 variables:
 - name: VMImage
   value: 'windows-2019'
+- name: DeployToNuGet
+  value: 'false'
+- name: IsPreview
+  value: 'false'
+- name: VersionName
+  value: ''
+- name: ReleaseDisplayName
+  value: ''
 - group: 'Code Signing'
-- group: 'GitHub Release'
 
 stages:
 - stage: build
@@ -54,16 +61,8 @@ stages:
       inputs:
         configuration: Release
         msbuildArguments: '/p:DebugType=portable'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '**\*.Tests.csproj'
-        arguments: '--logger trx --results-directory $(Agent.TempDirectory) --collect "Code Coverage" --no-build --configuration $(BuildConfiguration)'
-        feedsToUse: 'select'
-        versioningScheme: 'off'
-        workingDirectory: 'tests'
-    # - script: dotnet test tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $(BuildConfiguration) --logger trx  --no-build
-    # - script: dotnet test tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $(BuildConfiguration) --logger trx --collect "Code Coverage" --no-build
+    - script: dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $(BuildConfiguration) --logger trx --no-build --collect "Code Coverage"
+    - script: dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $(BuildConfiguration) --logger trx --no-build --collect "Code Coverage"
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: VSTest
