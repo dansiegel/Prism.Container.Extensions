@@ -42,28 +42,35 @@ stages:
     - task: DotNetCoreInstaller@0
       inputs:
         version: '3.0.100-preview5-011568'
+
     - task: NuGetToolInstaller@0
       displayName: Install Latest NuGet
       inputs:
         versionSpec: 4.9.4
+
     - task: NuGetCommand@2
       displayName: NuGet Restore
       inputs:
         noCache: true
+
     - task: MSBuild@1
       displayName: Build Projects
       inputs:
         configuration: $(BuildConfiguration)
         msbuildArguments: '/p:DebugType=portable'
+
     - powershell: |
        dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
        dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-      displayName: Runt Unit Tests
+
+      displayName: Run Unit Tests
+
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: VSTest
         testResultsFiles: '**/*.trx'
         buildConfiguration: $(BuildConfiguration)
+
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
       displayName: Authenticode Sign Artifacts
@@ -74,11 +81,13 @@ stages:
         SignClientTenantId: $(SignClientTenantId)
         SignServiceResourceId: $(SignServiceResourceId)
       condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
     - task: PublishPipelineArtifact@0
       displayName: Publish Artifacts
       inputs:
         artifactName: NuGet
         targetPath: $(Build.ArtifactStagingDirectory)
+
 - stage: deploy
   displayName: Deploy NuGets
   jobs:
@@ -90,10 +99,12 @@ stages:
       inputs:
         artifactName: 'NuGet'
         downloadPath: $(Pipeline.Workspace)
+
     - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
       name: processRelease
       workingDirectory: $(Pipeline.Workspace)
       displayName: Process Artifacts for Release
+
   - deployment: MyGet
     displayName: MyGet.org
     environment: MyGet
@@ -108,6 +119,7 @@ stages:
               packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
               nuGetFeedType: external
               publishFeedCredentials: 'Prism.Plugins - MyGet'
+
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
@@ -134,6 +146,7 @@ stages:
               assets: '$(Pipeline.Workspace)/**/*.nupkg'
               addChangeLog: true
               isDraft: true
+
           - task: NuGetCommand@2
             displayName: NuGet Push
             inputs:
