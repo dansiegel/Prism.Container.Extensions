@@ -176,7 +176,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, factoryMethod);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IServiceProvider>()));
             return this;
         }
 
@@ -194,10 +194,10 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Singleton);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IServiceProvider>()), Reuse.Singleton);
             return this;
         }
 
-        public object GetService(Type serviceType) => Instance.GetService(serviceType);
+        public object GetService(Type serviceType) => Instance.Resolve(serviceType);
     }
 }
