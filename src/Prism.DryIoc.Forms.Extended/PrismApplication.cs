@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Prism.Behaviors;
+using Prism.DryIoc.Events;
 using Prism.DryIoc.Forms.Extended.ViewModels;
 using Prism.DryIoc.Ioc;
 using Prism.Ioc;
@@ -81,6 +84,19 @@ namespace Prism.DryIoc
                     { "moduleType", moduleInfo.ModuleType }
                 });
             }
+        }
+
+        protected virtual void OnNavigationError(INavigationError navigationError)
+        {
+            Console.WriteLine("A Navigation Error was encountered from the Default Error Handler PrismApplication.OnNavigationError");
+            XDocument doc = new XDocument();
+            using (var writer = doc.CreateWriter())
+            {
+                // write xml into the writer
+                var serializer = new DataContractSerializer(navigationError.Parameters.GetType());
+                serializer.WriteObject(writer, navigationError.Parameters);
+            }
+            Container.Resolve<ICrashesService>().Report(navigationError.Exception, ("navigationParameters", doc.ToString()), ("navigationUri", navigationError.NavigationUri));
         }
 
         private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)

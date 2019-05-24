@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Android.Runtime;
 using Java.Lang;
+using Prism.DryIoc.Events;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Xamarin.Forms.Internals;
@@ -26,6 +28,7 @@ namespace Prism.DryIoc
 
             Logger = Container.Resolve<ILogger>();
             Log.Listeners.Add(Container.Resolve<FormsLogListener>());
+            Container.Resolve<IEventAggregator>().GetEvent<NavigationErrorEvent>().Subscribe(OnNavigationError);
         }
 
         private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs args)
