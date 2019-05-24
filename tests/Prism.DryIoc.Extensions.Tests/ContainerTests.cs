@@ -14,7 +14,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void StaticInstanceSameAsNewInstance()
         {
             PrismContainerExtension.Reset();
-            var newInstance = new PrismContainerExtension();
+            var newInstance = PrismContainerExtension.Create();
             Assert.Same(newInstance, PrismContainerExtension.Current);
         }
 
@@ -32,8 +32,8 @@ namespace Prism.DryIoc.Extensions.Tests
             PrismContainerExtension.Reset();
             var listener = new MockListener();
             Trace.Listeners.Add(listener);
-            var newInstance1 = new PrismContainerExtension();
-            var newInstance2 = new PrismContainerExtension();
+            var newInstance1 = PrismContainerExtension.Create();
+            var newInstance2 = PrismContainerExtension.Create();
 
             Assert.Single(listener.Messages);
             Assert.NotSame(newInstance1, PrismContainerExtension.Current);

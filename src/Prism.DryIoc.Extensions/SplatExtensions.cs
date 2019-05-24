@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Prism.DryIoc
 {
-    public partial class PrismContainerExtension : IDependencyResolver
+    public sealed partial class PrismContainerExtension : IDependencyResolver
     {
         object IReadonlyDependencyResolver.GetService(Type serviceType, string contract = null) =>
             string.IsNullOrEmpty(contract)
@@ -68,7 +68,7 @@ namespace Prism.DryIoc
             IsDisposed = true;
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

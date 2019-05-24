@@ -1,15 +1,16 @@
-﻿using DryIoc;
-using Prism.Ioc;
-using System;
-using System.Diagnostics;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using DryIoc;
+using Prism.Ioc;
+using IContainer = DryIoc.IContainer;
 
 [assembly: InternalsVisibleTo("Prism.DryIoc.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 namespace Prism.DryIoc
 {
-    public partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
+    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -31,38 +32,47 @@ namespace Prism.DryIoc
             {
                 ext.Instance.Dispose();
             }
-            
+
             _current = null;
         }
 
+        public static IContainerExtension Create() =>
+            Create(CreateContainerRules());
+
         public static IContainerExtension Create(Rules rules) =>
-            new PrismContainerExtension(rules);
+            Create(new global::DryIoc.Container(rules));
 
-        public static IContainerExtension Create(IContainer container) => 
-            new PrismContainerExtension(container);
+        public static IContainerExtension Create(IContainer container)
+        {
+            if(_current != null)
+            {
+                throw new NotSupportedException($"An instance of {nameof(PrismContainerExtension)} has already been created.");
+            }
 
-        private static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
+            return new PrismContainerExtension(container);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
                                                                     .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
                                                                     .WithoutThrowOnRegisteringDisposableTransient()
+#if __IOS__
+                                                                    .WithoutFastExpressionCompiler()
+#endif
                                                                     .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
-        public PrismContainerExtension() 
+        private PrismContainerExtension() 
             : this(CreateContainerRules())
         {
         }
 
-        public PrismContainerExtension(Rules rules) 
+        private PrismContainerExtension(Rules rules) 
             : this(new global::DryIoc.Container(rules))
         {
         }
 
-        public PrismContainerExtension(IContainer container)
+        private PrismContainerExtension(IContainer container)
         {
-            if(_current != null)
-            {
-                Trace.WriteLine($"{nameof(PrismContainerExtension)} has already been initialized. Note that you may lose any service registrations that have already been made");
-            }
-
             _current = this;
             Instance = container;
             Instance.UseInstance<IContainerProvider>(this);
@@ -176,7 +186,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IServiceProvider>()));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r));
             return this;
         }
 
@@ -194,7 +204,16 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IServiceProvider>()), Reuse.Singleton);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Singleton);
+            return this;
+        }
+
+        public IContainerRegistry RegisterScoped(Type serviceType) =>
+            RegisterScoped(serviceType, serviceType);
+
+        public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
+        {
+            Instance.Register(serviceType, implementationType, Reuse.Scoped);
             return this;
         }
 

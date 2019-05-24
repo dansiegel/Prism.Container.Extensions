@@ -12,7 +12,7 @@ namespace Prism.DryIoc.Extensions.Tests
         {
             var services = new ServiceCollection();
             services.AddTransient<IFoo, Foo>();
-            var container = new PrismContainerExtension();
+            var container = PrismContainerExtension.Create();
             var serviceProvider = container.CreateServiceProvider(services);
 
             object service = null;
@@ -31,7 +31,7 @@ namespace Prism.DryIoc.Extensions.Tests
         {
             var services = new ServiceCollection();
             services.AddSingleton<IFoo, Foo>();
-            var container = new PrismContainerExtension();
+            var container = PrismContainerExtension.Create();
             var serviceProvider = container.CreateServiceProvider(services);
 
             object service = null;
@@ -49,7 +49,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void SingletonInstanceIsResolved()
         {
             var foo = new Foo();
-            var services = new ServiceCollection();services.AddSingleton<IFoo>(foo); var container = new PrismContainerExtension();
+            var services = new ServiceCollection();services.AddSingleton<IFoo>(foo); var container = PrismContainerExtension.Create();
             var serviceProvider = container.CreateServiceProvider(services);
 
             object service = null;
@@ -68,7 +68,7 @@ namespace Prism.DryIoc.Extensions.Tests
         {
             var services = new ServiceCollection();
             services.AddScoped<IFoo, Foo>();
-            var container = new PrismContainerExtension();
+            var container = PrismContainerExtension.Create();
             IServiceProvider serviceProvider = null;
 
             var ex = Record.Exception(() => serviceProvider = container.CreateServiceProvider(services));

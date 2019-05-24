@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Prism.Behaviors;
 using Prism.DryIoc.Forms.Extended.ViewModels;
+using Prism.DryIoc.Ioc;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -40,19 +41,19 @@ namespace Prism.DryIoc
 
         protected override sealed void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterManySingleton<ConsoleLoggingService>();
-            base.RegisterRequiredTypes(containerRegistry);
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, ExtendedPageBehaviorFactory>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactoryOptions, DefaultPageBehaviorFactoryOptions>();
-
+            containerRegistry.RegisterRequiredTypes();
             ViewModelLocationProvider.Register<TabbedPage, DefaultViewModel>();
         }
 
-        protected override void InitializeModules()
+        protected sealed override void InitializeModules()
         {
-            if(ModuleCatalog is null)
+            if (ModuleCatalog is null)
             {
                 ModuleCatalog = Container.Resolve<IModuleCatalog>();
+            }
+            else
+            {
+                ((IContainerExtension)Container).RegisterInstance<IModuleCatalog>(ModuleCatalog);
             }
 
             if(ModuleCatalog.Modules.Any())
