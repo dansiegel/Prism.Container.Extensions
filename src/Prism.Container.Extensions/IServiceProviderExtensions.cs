@@ -40,8 +40,12 @@ namespace Prism.Ioc
                             containerRegistry.RegisterDelegate(service.ServiceType, service.ImplementationFactory);
                         // Transient Lifetime cannot occur with an Instance
                         break;
-                    default:
-                        throw new NotSupportedException($"We do not currently support Scoped Lifetimes from IServiceCollection '{service.ServiceType.FullName}'");
+                    case ServiceLifetime.Scoped:
+                        if (service.ImplementationType is null)
+                            containerRegistry.RegisterScoped(service.ServiceType);
+                        else
+                            containerRegistry.RegisterScoped(service.ServiceType, service.ImplementationType);
+                        break;
                 }
             }
         }

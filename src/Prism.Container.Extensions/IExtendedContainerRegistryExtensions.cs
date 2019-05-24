@@ -135,5 +135,27 @@ namespace Prism.Ioc
                 throw new NotImplementedException();
             }
         }
+
+        public static IContainerRegistry RegisterScoped<T>(this IContainerRegistry containerRegistry) =>
+            containerRegistry.RegisterScoped(typeof(T));
+
+        public static IContainerRegistry RegisterScoped(this IContainerRegistry containerRegistry, Type serviceType) =>
+            containerRegistry.RegisterScoped(serviceType, serviceType);
+
+        public static IContainerRegistry RegisterScoped<TService, TImplementation>(IContainerRegistry containerRegistry) =>
+            containerRegistry.RegisterScoped(typeof(TService), typeof(TImplementation));
+
+        public static IContainerRegistry RegisterScoped(this IContainerRegistry containerRegistry, Type serviceType, Type implementationType)
+        {
+            if (containerRegistry is IExtendedContainerRegistry ecr)
+            {
+                ecr.RegisterScoped(serviceType, implementationType);
+                return ecr;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

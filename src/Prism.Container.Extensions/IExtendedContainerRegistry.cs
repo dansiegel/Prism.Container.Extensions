@@ -19,5 +19,9 @@ namespace Prism.Ioc
         IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod);
 
         IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod);
+
+        IContainerRegistry RegisterScoped(Type serviceType);
+
+        IContainerRegistry RegisterScoped(Type serviceType, Type implementationType);
     }
 }
