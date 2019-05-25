@@ -110,7 +110,6 @@ stages:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
-    dependsOn: ProcessDeployment
     condition: and(succeeded(), or(eq(variables['IS_PREVIEW'], true), eq(variables['IS_RELEASE'], true)))
     strategy:
       runOnce:
