@@ -15,8 +15,12 @@ $nupkg.Name -match '^(.*?)\.((?:\.?[0-9]+){3,}(?:[-a-z]+)?)\.nupkg$'
 
 $VersionName = $Matches[2]
 $IsPreview = $VersionName -match '-pre$'
-$DeployToNuGet = !($VersionName -match '-ci$')
 $ReleaseDisplayName = $VersionName
+
+if($env:IS_PREVIEW -eq $null)
+{
+    Write-Output ("##vso[task.setvariable variable=IS_PREVIEW;]$IsPreview")
+}
 
 if($IsPreview -eq $true)
 {
@@ -24,11 +28,7 @@ if($IsPreview -eq $true)
 }
 
 Write-Host "Version Name" $VersionName
-Write-Host "IsPreview $IsPreview"
-Write-Host "Deploy to NuGet: $DeployToNuGet"
 Write-Host "Release Display Name: $ReleaseDisplayName"
 
-Write-Output ("##vso[task.setvariable variable=DeployToNuGet;]$DeployToNuGet")
 Write-Output ("##vso[task.setvariable variable=VersionName;]$VersionName")
-Write-Output ("##vso[task.setvariable variable=IsPreview;]$IsPreview")
 Write-Output ("##vso[task.setvariable variable=ReleaseDisplayName;]$ReleaseDisplayName")
