@@ -16,11 +16,14 @@
   </ItemGroup>
   
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
     <None Remove="**/Platform/Droid/**/*.cs" />
     <Compile Include="**/Platform/Droid/**/*.cs" />
   </ItemGroup>
   
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <Reference Include="System.Xml.Linq" />
     <None Remove="**/Platform/iOSMac/**/*.cs" />
     <Compile Include="**/Platform/iOSMac/**/*.cs" />
   </ItemGroup>
