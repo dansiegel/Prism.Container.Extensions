@@ -27,17 +27,16 @@ namespace Prism.DryIoc.Extensions.Tests
         }
 
         [Fact]
-        public void WarningGeneratedFromMultipleInstances()
+        public void CreateCanOnlyBeCalledOnce()
         {
             PrismContainerExtension.Reset();
-            var listener = new MockListener();
-            Trace.Listeners.Add(listener);
-            var newInstance1 = PrismContainerExtension.Create();
-            var newInstance2 = PrismContainerExtension.Create();
 
-            Assert.Single(listener.Messages);
-            Assert.NotSame(newInstance1, PrismContainerExtension.Current);
-            Assert.Same(newInstance2, PrismContainerExtension.Current);
+            var newInstance1 = PrismContainerExtension.Create();
+            Assert.Same(newInstance1, PrismContainerExtension.Current);
+
+            var ex = Record.Exception(() => PrismContainerExtension.Create());
+            Assert.NotNull(ex);
+            Assert.IsType<NotSupportedException>(ex);
         }
 
         [Fact]

@@ -29,6 +29,8 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void SingletonServiceIsRegistered()
         {
+            PrismContainerExtension.Reset();
+
             var services = new ServiceCollection();
             services.AddSingleton<IFoo, Foo>();
             var container = PrismContainerExtension.Create();
@@ -48,6 +50,8 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void SingletonInstanceIsResolved()
         {
+            PrismContainerExtension.Reset();
+
             var foo = new Foo();
             var services = new ServiceCollection();services.AddSingleton<IFoo>(foo); var container = PrismContainerExtension.Create();
             var serviceProvider = container.CreateServiceProvider(services);
@@ -66,6 +70,8 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void ScopedServiceNotSupported()
         {
+            PrismContainerExtension.Reset();
+
             var services = new ServiceCollection();
             services.AddScoped<IFoo, Foo>();
             var container = PrismContainerExtension.Create();
@@ -73,8 +79,9 @@ namespace Prism.DryIoc.Extensions.Tests
 
             var ex = Record.Exception(() => serviceProvider = container.CreateServiceProvider(services));
 
-            Assert.NotNull(ex);
-            Assert.IsType<NotSupportedException>(ex);
+            Assert.Null(ex);
+
+            Assert.True(container.IsRegistered<IFoo>());
         }
     }
 }
