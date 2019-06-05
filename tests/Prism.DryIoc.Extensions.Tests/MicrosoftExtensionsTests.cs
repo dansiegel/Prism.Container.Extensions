@@ -10,6 +10,9 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void TransientServiceIsRegistered()
         {
+            PrismContainerExtension.Reset();
+            GC.Collect();
+
             var services = new ServiceCollection();
             services.AddTransient<IFoo, Foo>();
             var container = PrismContainerExtension.Create();
@@ -30,6 +33,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void SingletonServiceIsRegistered()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
 
             var services = new ServiceCollection();
             services.AddSingleton<IFoo, Foo>();
@@ -51,6 +55,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void SingletonInstanceIsResolved()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
 
             var foo = new Foo();
             var services = new ServiceCollection();services.AddSingleton<IFoo>(foo); var container = PrismContainerExtension.Create();
@@ -68,9 +73,10 @@ namespace Prism.DryIoc.Extensions.Tests
         }
 
         [Fact]
-        public void ScopedServiceNotSupported()
+        public void ScopedServiceIsSupported()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
 
             var services = new ServiceCollection();
             services.AddScoped<IFoo, Foo>();

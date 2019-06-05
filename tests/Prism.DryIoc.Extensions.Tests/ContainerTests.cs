@@ -5,15 +5,22 @@ using DryIoc;
 using Prism.DryIoc.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Prism.DryIoc.Extensions.Tests
 {
     public class ContainerTests
     {
+        private ITestOutputHelper _testOutputHelper;
+
+        public ContainerTests(ITestOutputHelper testOutputHelper) =>
+            _testOutputHelper = testOutputHelper;
+
         [Fact]
         public void StaticInstanceSameAsNewInstance()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
             var newInstance = PrismContainerExtension.Create();
             Assert.Same(newInstance, PrismContainerExtension.Current);
         }
@@ -22,6 +29,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void StaticInstanceSameAsCreateInstance()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
             var created = PrismContainerExtension.Create(new Container());
             Assert.Same(created, PrismContainerExtension.Current);
         }
@@ -29,9 +37,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void CreateCanOnlyBeCalledOnce()
         {
-            PrismContainerExtension.Reset();
-
-            var newInstance1 = PrismContainerExtension.Create();
+            var newInstance1 = CreateContainer();
             Assert.Same(newInstance1, PrismContainerExtension.Current);
 
             var ex = Record.Exception(() => PrismContainerExtension.Create());
@@ -43,6 +49,7 @@ namespace Prism.DryIoc.Extensions.Tests
         public void IServiceProviderIsRegistered()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
             Assert.True(PrismContainerExtension.Current.IsRegistered<IServiceProvider>());
         }
 
@@ -50,14 +57,14 @@ namespace Prism.DryIoc.Extensions.Tests
         public void IContainerProviderIsRegistered()
         {
             PrismContainerExtension.Reset();
+            GC.Collect();
             Assert.True(PrismContainerExtension.Current.IsRegistered<IContainerProvider>());
         }
 
         [Fact]
         public void RegisterManyHasSameTypeAcrossServices()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.RegisterMany<FooBarImpl>();
 
             IFoo foo = null;
@@ -80,8 +87,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterManyHasSameInstanceAcrossServices()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.RegisterManySingleton<FooBarImpl>();
 
             IFoo foo = null;
@@ -104,8 +110,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterTransientService()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.Register<IFoo, Foo>();
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -118,8 +123,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterTransientNamedService()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.Register<IFoo, Foo>("fooBar");
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -137,8 +141,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterSingletonService()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.RegisterSingleton<IFoo, Foo>();
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -153,8 +156,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterInstanceResolveSameInstance()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var foo = new Foo();
 
             c.RegisterInstance<IFoo>(foo);
@@ -166,8 +168,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterInstanceResolveSameNamedInstance()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var foo = new Foo();
 
             c.RegisterInstance<IFoo>(foo, "test");
@@ -179,8 +180,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void RegisterSingletonNamedService()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.RegisterSingleton<IFoo, Foo>("fooBar");
             IFoo foo = null;
             var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -200,8 +200,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithoutContainerProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var message = "expected";
             c.RegisterDelegate<IFoo>(FooFactory);
 
@@ -217,8 +216,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithoutContainerProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var message = "expected";
             c.RegisterSingletonFromDelegate<IFoo>(FooFactory);
 
@@ -234,8 +232,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithServiceProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var expectedMessage = "constructed with IServiceProvider";
             c.RegisterDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
             c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
@@ -253,8 +250,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithServiceProviderFromGeneric()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var expectedMessage = "constructed with IServiceProvider";
             c.RegisterDelegate<IBar>(BarFactoryWithIServiceProvider);
             c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
@@ -272,8 +268,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithServiceProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             var expectedMessage = "constructed with IServiceProvider";
             c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
             c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
@@ -291,27 +286,35 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithServiceProviderFromGeneric()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
-            var expectedMessage = "constructed with IServiceProvider";
-            c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIServiceProvider);
-            c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
+            try
+            {
+                var c = CreateContainer();
+                Assert.NotNull(c);
+                var expectedMessage = "constructed with IServiceProvider";
+                c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIServiceProvider);
+                c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
-            IBar bar = null;
-            var ex = Record.Exception(() => bar = c.Resolve<IBar>());
+                IBar bar = null;
+                var ex = Record.Exception(() => bar = c.Resolve<IBar>());
 
-            Assert.Null(ex);
-            Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
-            Assert.Equal(expectedMessage, bar.Foo.Message);
+                Assert.Null(ex);
+                Assert.False(string.IsNullOrWhiteSpace(bar.Foo.Message));
+                Assert.Equal(expectedMessage, bar.Foo.Message);
 
-            Assert.Same(bar, c.Resolve<IBar>());
+                Assert.Same(bar, c.Resolve<IBar>());
+            }
+            catch (Exception ex)
+            {
+                _testOutputHelper.WriteLine(ex.ToString());
+                throw;
+            }
+            
         }
 
         [Fact]
         public void FactoryCreatesTransientTypeWithContainerProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
 
             var expectedMessage = "constructed with IContainerProvider";
             c.RegisterDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
@@ -331,8 +334,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithContainerProviderWithGeneric()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
 
             var expectedMessage = "constructed with IContainerProvider";
             c.RegisterDelegate<IBar>(BarFactoryWithIContainerProvider);
@@ -352,8 +354,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithContainerProvider()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
 
             var expectedMessage = "constructed with IContainerProvider";
             c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
@@ -373,8 +374,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithContainerProviderWithGeneric()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
 
             var expectedMessage = "constructed with IContainerProvider";
             c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIContainerProvider);
@@ -394,8 +394,7 @@ namespace Prism.DryIoc.Extensions.Tests
         [Fact]
         public void ResolveWithSpecifiedTypeOverridesRegistration()
         {
-            PrismContainerExtension.Reset();
-            var c = PrismContainerExtension.Current;
+            var c = CreateContainer();
             c.Register<IBar, Bar>();
             var foo = new Foo { Message = "This shouldn't be resolved" };
             c.RegisterInstance<IFoo>(foo);
@@ -418,6 +417,13 @@ namespace Prism.DryIoc.Extensions.Tests
 
         public static IBar BarFactoryWithIServiceProvider(IServiceProvider serviceProvider) =>
             new Bar((IFoo)serviceProvider.GetService(typeof(IFoo)));
+
+        private static IContainerExtension CreateContainer()
+        {
+            PrismContainerExtension.Reset();
+            GC.Collect();
+            return PrismContainerExtension.Current;
+        }
     }
 
     internal class MockListener : TraceListener

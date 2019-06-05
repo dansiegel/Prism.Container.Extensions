@@ -19,7 +19,7 @@ namespace Prism.DryIoc
             {
                 if(_current is null)
                 {
-                    _current = new PrismContainerExtension();
+                    Create();
                 }
 
                 return _current;
@@ -28,12 +28,8 @@ namespace Prism.DryIoc
 
         internal static void Reset()
         {
-            if(_current != null && _current is PrismContainerExtension ext && !(ext.Instance?.IsDisposed ?? true))
-            {
-                ext.Instance.Dispose();
-            }
-
             _current = null;
+            GC.Collect();
         }
 
         public static IContainerExtension Create() =>
