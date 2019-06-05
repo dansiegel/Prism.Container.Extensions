@@ -7,87 +7,102 @@ namespace Prism.DryIoc.Extensions.Tests
 {
     public class MicrosoftExtensionsTests
     {
+        private readonly object testLock = new object();
+
         [Fact]
         public void TransientServiceIsRegistered()
         {
-            PrismContainerExtension.Reset();
-            GC.Collect();
+            lock (testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
 
-            var services = new ServiceCollection();
-            services.AddTransient<IFoo, Foo>();
-            var container = PrismContainerExtension.Create();
-            var serviceProvider = container.CreateServiceProvider(services);
+                var services = new ServiceCollection();
+                services.AddTransient<IFoo, Foo>();
+                var container = PrismContainerExtension.Create();
+                var serviceProvider = container.CreateServiceProvider(services);
 
-            object service = null;
-            var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
+                object service = null;
+                var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
 
-            Assert.Null(ex);
-            Assert.NotNull(service);
-            Assert.IsAssignableFrom<IFoo>(service);
-            Assert.IsType<Foo>(service);
+                Assert.Null(ex);
+                Assert.NotNull(service);
+                Assert.IsAssignableFrom<IFoo>(service);
+                Assert.IsType<Foo>(service);
 
-            Assert.NotSame(service, serviceProvider.GetService(typeof(IFoo)));
+                Assert.NotSame(service, serviceProvider.GetService(typeof(IFoo)));
+            }
         }
 
         [Fact]
         public void SingletonServiceIsRegistered()
         {
-            PrismContainerExtension.Reset();
-            GC.Collect();
+            lock(testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
 
-            var services = new ServiceCollection();
-            services.AddSingleton<IFoo, Foo>();
-            var container = PrismContainerExtension.Create();
-            var serviceProvider = container.CreateServiceProvider(services);
+                var services = new ServiceCollection();
+                services.AddSingleton<IFoo, Foo>();
+                var container = PrismContainerExtension.Create();
+                var serviceProvider = container.CreateServiceProvider(services);
 
-            object service = null;
-            var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
+                object service = null;
+                var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
 
-            Assert.Null(ex);
-            Assert.NotNull(service);
-            Assert.IsAssignableFrom<IFoo>(service);
-            Assert.IsType<Foo>(service);
+                Assert.Null(ex);
+                Assert.NotNull(service);
+                Assert.IsAssignableFrom<IFoo>(service);
+                Assert.IsType<Foo>(service);
 
-            Assert.Same(service, serviceProvider.GetService(typeof(IFoo)));
+                Assert.Same(service, serviceProvider.GetService(typeof(IFoo)));
+            }
         }
 
         [Fact]
         public void SingletonInstanceIsResolved()
         {
-            PrismContainerExtension.Reset();
-            GC.Collect();
+            lock(testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
 
-            var foo = new Foo();
-            var services = new ServiceCollection();services.AddSingleton<IFoo>(foo); var container = PrismContainerExtension.Create();
-            var serviceProvider = container.CreateServiceProvider(services);
+                var foo = new Foo();
+                var services = new ServiceCollection(); services.AddSingleton<IFoo>(foo); var container = PrismContainerExtension.Create();
+                var serviceProvider = container.CreateServiceProvider(services);
 
-            object service = null;
-            var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
+                object service = null;
+                var ex = Record.Exception(() => service = serviceProvider.GetService(typeof(IFoo)));
 
-            Assert.Null(ex);
-            Assert.NotNull(service);
-            Assert.IsAssignableFrom<IFoo>(service);
-            Assert.IsType<Foo>(service);
+                Assert.Null(ex);
+                Assert.NotNull(service);
+                Assert.IsAssignableFrom<IFoo>(service);
+                Assert.IsType<Foo>(service);
 
-            Assert.Same(foo, service);
+                Assert.Same(foo, service);
+            }
         }
 
         [Fact]
         public void ScopedServiceIsSupported()
         {
-            PrismContainerExtension.Reset();
-            GC.Collect();
+            lock(testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
 
-            var services = new ServiceCollection();
-            services.AddScoped<IFoo, Foo>();
-            var container = PrismContainerExtension.Create();
-            IServiceProvider serviceProvider = null;
+                var services = new ServiceCollection();
+                services.AddScoped<IFoo, Foo>();
 
-            var ex = Record.Exception(() => serviceProvider = container.CreateServiceProvider(services));
+                var container = PrismContainerExtension.Current;
+                IServiceProvider serviceProvider = null;
 
-            Assert.Null(ex);
+                var ex = Record.Exception(() => serviceProvider = container.CreateServiceProvider(services));
 
-            Assert.True(container.IsRegistered<IFoo>());
+                Assert.Null(ex);
+
+                Assert.True(container.IsRegistered<IFoo>());
+            }
         }
     }
 }
