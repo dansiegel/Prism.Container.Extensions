@@ -65,11 +65,11 @@ stages:
 
       displayName: Run Unit Tests
 
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: VSTest
-        testResultsFiles: '**/*.trx'
-        buildConfiguration: $(BuildConfiguration)
+    # - task: PublishTestResults@2
+    #   inputs:
+    #     testResultsFormat: VSTest
+    #     testResultsFiles: '**/*.trx'
+    #     buildConfiguration: $(BuildConfiguration)
 
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build
