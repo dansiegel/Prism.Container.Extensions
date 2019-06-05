@@ -6,11 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shiny.Core" Version="1.0.0.8-beta" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.195-beta" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Prism.DryIoc.Forms.Extended\Prism.DryIoc.Forms.Extended.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19270-01" />
   </ItemGroup>
 
 </Project>
