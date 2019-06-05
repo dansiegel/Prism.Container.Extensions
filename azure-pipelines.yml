@@ -59,11 +59,11 @@ stages:
         configuration: $(BuildConfiguration)
         msbuildArguments: '/p:DebugType=portable'
 
-    - powershell: |
-       dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-       dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
+    # - powershell: |
+    #    dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
+    #    dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
 
-      displayName: Run Unit Tests
+    #   displayName: Run Unit Tests
 
     # - task: PublishTestResults@2
     #   inputs:
