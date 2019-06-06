@@ -87,6 +87,11 @@ stages:
       inputs:
         artifactName: NuGet
         targetPath: $(Build.ArtifactStagingDirectory)
+    - task: PublishPipelineArtifact@0
+      displayName: Publish Release Script
+      inputs:
+        artifactName: build
+        targetPath: build/Process-Release.ps1
 
 - stage: deploy
   displayName: Deploy NuGets
@@ -118,7 +123,7 @@ stages:
           - powershell: ./Process-Release.ps1
             name: processName
             displayName: Process Artifacts for Release
-            workingDirectory: build
+            workingDirectory: $(Pipeline.Workspace)/build
 
           - task: GithubRelease@0 
             displayName: 'Create GitHub Release'
