@@ -118,7 +118,7 @@ stages:
           - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
             name: processName
             displayName: Process Artifacts for Release
-            workingDirectory: $env:PIPELINE_WORKSPACE
+            workingDirectory: $(Pipeline.Workspace)
 
           - task: GithubRelease@0 
             displayName: 'Create GitHub Release'
