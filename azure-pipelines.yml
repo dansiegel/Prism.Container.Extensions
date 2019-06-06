@@ -115,10 +115,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - powershell: $(System.DefaultWorkingDirectory)/build/Process-Release.ps1
+          - powershell: ./Process-Release.ps1
             name: processName
             displayName: Process Artifacts for Release
-            workingDirectory: $(Pipeline.Workspace)
+            workingDirectory: build
 
           - task: GithubRelease@0 
             displayName: 'Create GitHub Release'
