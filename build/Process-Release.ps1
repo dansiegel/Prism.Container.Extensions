@@ -1,5 +1,5 @@
 try {
-    $artifactDirectory = $env:Pipeline_Workspace
+    $artifactDirectory = $env:searchDirectory
 
     Write-Host "Currect working directory: $artifactDirectory"
 

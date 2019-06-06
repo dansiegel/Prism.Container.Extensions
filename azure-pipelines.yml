@@ -124,6 +124,8 @@ stages:
             name: processName
             displayName: Process Artifacts for Release
             workingDirectory: $(Pipeline.Workspace)/build
+            env:
+              searchDirectory: $(Pipeline.Workspace)/NuGet
 
           - task: GithubRelease@0 
             displayName: 'Create GitHub Release'
