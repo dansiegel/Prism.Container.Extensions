@@ -65,6 +65,7 @@
 *.pyc binary
 *.pdf binary
 *.otf binary
+*.md text
 
 ###############################################################################
 # diff behavior for common document formats
