@@ -132,6 +132,7 @@ stages:
             inputs:
               gitHubConnection: GitHub
               title: '$(ReleaseDisplayName)'
+              tagSource: manual
               tag: 'v$(VersionName)'
               isPreRelease: $(IS_PREVIEW)
               assets: '$(Pipeline.Workspace)/**/*.nupkg'
@@ -142,6 +143,6 @@ stages:
             displayName: NuGet Push
             inputs:
               command: push
-              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;$(Pipeline.Workspace)/**/*.symbols.nupkg'
+              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
               nuGetFeedType: external
               publishFeedCredentials: 'NuGet'
