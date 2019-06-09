@@ -130,7 +130,7 @@ stages:
           - task: GithubRelease@0 
             displayName: 'Create GitHub Release'
             inputs:
-              githubConnection: GitHub
+              gitHubConnection: GitHub
               title: '$(ReleaseDisplayName)'
               tag: 'v$(VersionName)'
               isPreRelease: $(IS_PREVIEW)
