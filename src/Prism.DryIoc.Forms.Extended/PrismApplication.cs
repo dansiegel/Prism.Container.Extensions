@@ -15,6 +15,9 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using System.Runtime.Serialization.Json;
+using System.IO;
+using System.Text;
 
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 [assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
@@ -89,14 +92,9 @@ namespace Prism.DryIoc
         protected virtual void OnNavigationError(INavigationError navigationError)
         {
             Console.WriteLine("A Navigation Error was encountered from the Default Error Handler PrismApplication.OnNavigationError");
-            XDocument doc = new XDocument();
-            using (var writer = doc.CreateWriter())
-            {
-                // write xml into the writer
-                var serializer = new DataContractSerializer(navigationError.Parameters.GetType());
-                serializer.WriteObject(writer, navigationError.Parameters);
-            }
-            Container.Resolve<ICrashesService>().Report(navigationError.Exception, ("navigationParameters", doc.ToString()), ("navigationUri", navigationError.NavigationUri));
+
+            var parameters = navigationError.Parameters is null ? string.Empty : Serialize(navigationError.Parameters);
+            Container.Resolve<ICrashesService>().Report(navigationError.Exception, ("navigationParameters", parameters), ("navigationUri", navigationError.NavigationUri));
         }
 
         private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
@@ -123,6 +121,16 @@ namespace Prism.DryIoc
             {
                 System.Diagnostics.Trace.WriteLine(ex);
                 Logger.Report(ex, new Dictionary<string, string> { { "fromUnobservedEvent", fromEvent } });
+            }
+        }
+
+        private static string Serialize<T>(T instance)
+        {
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            using (var stream = new MemoryStream())
+            {
+                serializer.WriteObject(stream, instance);
+                return Encoding.Default.GetString(stream.ToArray());
             }
         }
 
