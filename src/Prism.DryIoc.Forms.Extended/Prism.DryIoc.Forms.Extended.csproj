@@ -27,6 +27,10 @@
     <None Remove="**/Platform/iOSMac/**/*.cs" />
     <Compile Include="**/Platform/iOSMac/**/*.cs" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="Platform\PlatformSpecifics.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Prism.Forms" Version="7.2.0.1233-pre" />

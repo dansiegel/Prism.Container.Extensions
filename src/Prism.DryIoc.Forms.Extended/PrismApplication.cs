@@ -21,6 +21,7 @@ using System.Text;
 
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 [assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
+[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.Platform")]
 namespace Prism.DryIoc
 {
     public abstract partial class PrismApplication : PrismApplicationBase

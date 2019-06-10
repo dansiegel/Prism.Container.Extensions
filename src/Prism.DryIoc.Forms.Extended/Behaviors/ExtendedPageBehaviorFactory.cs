@@ -4,6 +4,7 @@ using TabbedPage = Xamarin.Forms.TabbedPage;
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
 using Prism.DryIoc.Forms.Extended.ViewModels;
+using Prism.Platform;
 
 namespace Prism.Behaviors
 {
@@ -25,7 +26,7 @@ namespace Prism.Behaviors
                 page.SetBinding(Page.TitleProperty, new Binding { Path = "Title" });
             }
 
-            if (_options.UseBottomTabs)
+            if (_options.UseBottomTabs && !PlatformSpecifics.GetUseExplicit(page))
             {
                 AndroidTabbedPage.SetToolbarPlacement(page, Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
             }
@@ -40,14 +41,20 @@ namespace Prism.Behaviors
         {
             base.ApplyPageBehaviors(page);
 
-            iOSPage.SetUseSafeArea(page, _options.UseSafeArea);
+            if (!PlatformSpecifics.GetUseExplicit(page))
+            {
+                iOSPage.SetUseSafeArea(page, _options.UseSafeArea);
+            }
         }
 
         public override void ApplyNavigationPageBehaviors(NavigationPage page)
         {
             base.ApplyNavigationPageBehaviors(page);
 
-            iOSNavPage.SetPrefersLargeTitles(page, _options.PreferLargeTitles);
+            if (!PlatformSpecifics.GetUseExplicit(page))
+            {
+                iOSNavPage.SetPrefersLargeTitles(page, _options.PreferLargeTitles);
+            }
         }
     }
 }
