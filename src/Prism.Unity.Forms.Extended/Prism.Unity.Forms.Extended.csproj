@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Provides an extended PrismApplication with additional helpers. This can assist with capturing errors and debugging. Additional helpers exist to provide better use of Platform Specifics and styling.</Description>
   </PropertyGroup>
 
   <ItemGroup>

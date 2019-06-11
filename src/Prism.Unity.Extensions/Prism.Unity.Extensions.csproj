@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Prism Container Extensions for DryIoc</Description>
+    <Description>Provides an extended PrismApplication with additional helpers. This can assist with capturing errors and debugging. Additional helpers exist to provide better use of Platform Specifics and styling.</Description>
   </PropertyGroup>
 
   <ItemGroup>
