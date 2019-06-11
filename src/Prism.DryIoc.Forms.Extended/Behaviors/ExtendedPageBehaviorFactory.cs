@@ -1,10 +1,10 @@
-using Xamarin.Forms;
-using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage;
-using TabbedPage = Xamarin.Forms.TabbedPage;
-using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
-using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
 using Prism.DryIoc.Forms.Extended.ViewModels;
 using Prism.Platform;
+using Xamarin.Forms;
+using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage;
+using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
+using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
+using TabbedPage = Xamarin.Forms.TabbedPage;
 
 namespace Prism.Behaviors
 {

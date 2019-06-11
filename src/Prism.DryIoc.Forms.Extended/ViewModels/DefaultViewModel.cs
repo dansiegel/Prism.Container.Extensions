@@ -1,5 +1,5 @@
-﻿using Prism.Mvvm;
-using Prism.Navigation;
+﻿using Prism.AppModel;
+using Prism.Mvvm;
 
 namespace Prism.DryIoc.Forms.Extended.ViewModels
 {

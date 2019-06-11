@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ObjCRuntime;
 using Prism.DryIoc.Events;
+using Prism.DryIoc.Forms.Extended.Styles;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
@@ -11,8 +12,9 @@ namespace Prism.DryIoc
 {
     public abstract partial class PrismApplication
     {
-        public override void Initialize()
+        protected override void Initialize()
         {
+            Resources = new DefaultResources();
             Logger = new ConsoleLoggingService();
 
             Runtime.MarshalObjectiveCException += Runtime_MarshalObjectiveCException;

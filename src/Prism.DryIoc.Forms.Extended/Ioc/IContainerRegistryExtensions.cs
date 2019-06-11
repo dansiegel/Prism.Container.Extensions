@@ -8,6 +8,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Services.Dialogs;
 
 namespace Prism.DryIoc.Ioc
 {
@@ -27,6 +28,7 @@ namespace Prism.DryIoc.Ioc
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
         }
     }
