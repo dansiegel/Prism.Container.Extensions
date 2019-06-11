@@ -9,21 +9,26 @@
     <Compile Remove="Platform/**/*.cs" />
     <None Include="Platform/**/*.cs" />
   </ItemGroup>
-  
+
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
     <None Remove="**/Platform/NetStandard/**/*.cs" />
     <Compile Include="**/Platform/NetStandard/**/*.cs" />
   </ItemGroup>
-  
+
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Reference Include="System.Runtime.Serialization" />
     <None Remove="**/Platform/Droid/**/*.cs" />
     <Compile Include="**/Platform/Droid/**/*.cs" />
   </ItemGroup>
-  
+
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <Reference Include="System.Runtime.Serialization" />
     <None Remove="**/Platform/iOSMac/**/*.cs" />
     <Compile Include="**/Platform/iOSMac/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Platform\PlatformSpecifics.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,8 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
-    <ProjectReference Include="..\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
+    <ProjectReference Include="..\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

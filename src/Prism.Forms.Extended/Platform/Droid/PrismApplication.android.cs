@@ -2,16 +2,15 @@ using System;
 using System.Threading.Tasks;
 using Android.Runtime;
 using Java.Lang;
-using Prism.DryIoc.Events;
-using Prism.DryIoc.Forms.Extended.Styles;
 using Prism.Events;
+using Prism.Forms.Extended.Styles;
 using Prism.Ioc;
 using Prism.Logging;
 using Xamarin.Forms.Internals;
 
-namespace Prism.DryIoc
+namespace Prism
 {
-    public abstract partial class PrismApplication
+    public abstract partial class PrismApplicationBaseExtended
     {
         protected override void Initialize()
         {

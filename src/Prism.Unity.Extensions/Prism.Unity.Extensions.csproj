@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Prism Container Extensions for DryIoc</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Splat" Version="7.2.1" />
+    <PackageReference Include="Unity.Container" Version="5.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19270-01" />
+  </ItemGroup>
+
+</Project>

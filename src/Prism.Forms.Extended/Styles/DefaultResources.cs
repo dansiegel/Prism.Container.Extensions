@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Prism.DryIoc.Forms.Extended.Styles
+namespace Prism.Forms.Extended.Styles
 {
     internal sealed class DefaultResources : ResourceDictionary
     {

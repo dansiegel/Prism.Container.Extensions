@@ -1,4 +1,4 @@
-using Prism.DryIoc.Forms.Extended.ViewModels;
+using Prism.Forms.Extended.ViewModels;
 using Prism.Platform;
 using Xamarin.Forms;
 using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage;

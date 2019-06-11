@@ -2,7 +2,7 @@
 using Prism.Events;
 using Prism.Navigation;
 
-namespace Prism.DryIoc.Events
+namespace Prism.Events
 {
     public class NavigationErrorEvent : PubSubEvent<INavigationError>
     {

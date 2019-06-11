@@ -1,16 +1,14 @@
 ﻿using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
-using Prism.DryIoc.Navigation;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 using Prism.Services;
 using Prism.Services.Dialogs;
 
-namespace Prism.DryIoc.Ioc
+namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {

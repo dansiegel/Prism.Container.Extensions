@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Prism.Behaviors;
+﻿using Prism.Behaviors;
 using Prism.Common;
-using Prism.DryIoc.Events;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
-using Prism.Navigation;
+using System;
+using System.Threading.Tasks;
 
-namespace Prism.DryIoc.Navigation
+namespace Prism.Navigation
 {
     public class ErrorReportingNavigationService : PageNavigationService
     {

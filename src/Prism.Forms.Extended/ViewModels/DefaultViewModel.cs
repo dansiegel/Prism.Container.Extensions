@@ -1,7 +1,7 @@
 ﻿using Prism.AppModel;
 using Prism.Mvvm;
 
-namespace Prism.DryIoc.Forms.Extended.ViewModels
+namespace Prism.Forms.Extended.ViewModels
 {
     internal class DefaultViewModel : BindableBase, IAutoInitialize
     {

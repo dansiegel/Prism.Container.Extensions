@@ -1,10 +1,11 @@
 ﻿using Prism.Ioc;
+using Prism.Unity.Extensions;
+using System;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-[assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
-[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
-namespace Prism.DryIoc
+[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]
+namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBaseExtended
     {
@@ -12,12 +13,12 @@ namespace Prism.DryIoc
         {
         }
 
-        public PrismApplication(IPlatformInitializer platformInitializer) 
+        public PrismApplication(IPlatformInitializer platformInitializer)
             : base(platformInitializer)
         {
         }
 
-        public PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) 
+        public PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
             : base(platformInitializer, setFormsDependencyResolver)
         {
         }

@@ -5,7 +5,7 @@ using Prism.DryIoc.Forms.Extended.Mocks;
 using Xunit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using Prism.DryIoc.Forms.Extended.ViewModels;
+using Prism.Forms.Extended.ViewModels;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using NavigationPage = Xamarin.Forms.NavigationPage;

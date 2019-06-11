@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace Prism.DryIoc.Forms.Extended.Mocks
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    [AutoRegisterForNavigation(Automatic = true)]
+    [AutoRegisterForNavigation]
     public partial class AppMock
     {
         public AppMock()
