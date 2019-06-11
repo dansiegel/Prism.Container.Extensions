@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C32B325F
 		build\Sign-Packages.ps1 = build\Sign-Packages.ps1
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shiny.Prism.DryIoc", "src\Shiny.Prism.DryIoc\Shiny.Prism.DryIoc.csproj", "{FD30086E-FA39-408E-935F-8921B454D282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shiny.Prism", "src\Shiny.Prism\Shiny.Prism.csproj", "{FD30086E-FA39-408E-935F-8921B454D282}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms.Extended", "src\Prism.DryIoc.Forms.Extended\Prism.DryIoc.Forms.Extended.csproj", "{725EF7C0-C218-4A4C-A604-67A94AA3C2D7}"
 EndProject

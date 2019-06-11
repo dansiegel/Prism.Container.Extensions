@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Provides a seemless wrapper for Prism DryIoc apps using Shiny</Description>
+    <Description>Provides a seemless wrapper for Prism apps using Shiny</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.DryIoc.Forms.Extended\Prism.DryIoc.Forms.Extended.csproj" />
+    <ProjectReference Include="..\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
