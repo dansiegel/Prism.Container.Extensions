@@ -38,6 +38,9 @@ stages:
       vmImage: $(VMImage)
       demands:
       - MSBuild
+      - Xamarin.Android
+      - JDK
+      - AndroidSDK
     steps:
     - task: DotNetCoreInstaller@0
       inputs:
