@@ -14,20 +14,19 @@ namespace Prism.Ioc
     {
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<IContainerExtension>(containerRegistry as IContainerExtension);
-            containerRegistry.RegisterManySingleton<ConsoleLoggingService>();
-            containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
-            containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
-            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
-            containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, ExtendedPageBehaviorFactory>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactoryOptions, DefaultPageBehaviorFactoryOptions>();
-            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
-            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
+            containerRegistry.RegisterManySingletonOnce<ConsoleLoggingService>();
+            containerRegistry.RegisterSingletonOnce<IApplicationProvider, ApplicationProvider>();
+            containerRegistry.RegisterSingletonOnce<IApplicationStore, ApplicationStore>();
+            containerRegistry.RegisterSingletonOnce<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingletonOnce<IPageDialogService, PageDialogService>();
+            containerRegistry.RegisterSingletonOnce<IDeviceService, DeviceService>();
+            containerRegistry.RegisterSingletonOnce<IPageBehaviorFactory, ExtendedPageBehaviorFactory>();
+            containerRegistry.RegisterSingletonOnce<IPageBehaviorFactoryOptions, DefaultPageBehaviorFactoryOptions>();
+            containerRegistry.RegisterSingletonOnce<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.RegisterSingletonOnce<IModuleManager, ModuleManager>();
+            containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
+            containerRegistry.RegisterOnce<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
         }
     }
 }

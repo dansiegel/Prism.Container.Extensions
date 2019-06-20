@@ -71,6 +71,8 @@ namespace Prism.DryIoc
         {
             _current = this;
             Instance = container;
+            Instance.UseInstance<IContainerExtension>(this);
+            Instance.UseInstance<IContainerRegistry>(this);
             Instance.UseInstance<IContainerProvider>(this);
             Instance.UseInstance<IServiceProvider>(this);
             Splat.Locator.SetLocator(this);

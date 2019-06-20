@@ -50,6 +50,8 @@ namespace Prism.Unity.Extensions
             _current = this;
             Instance = container;
             Instance.RegisterInstance<IContainerProvider>(this);
+            Instance.RegisterInstance<IContainerExtension>(this);
+            Instance.RegisterInstance<IContainerRegistry>(this);
             Instance.RegisterInstance<IServiceProvider>(this);
             Splat.Locator.SetLocator(this);
         }
