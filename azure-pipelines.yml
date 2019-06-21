@@ -60,7 +60,7 @@ stages:
       displayName: Build Projects
       inputs:
         configuration: $(BuildConfiguration)
-        msbuildArguments: '/p:DebugType=portable'
+        msbuildArguments: '/p:DebugType=portable /p:JavaSdkDirectory="$(JAVA_HOME)"'
 
     # - powershell: |
     #    dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
