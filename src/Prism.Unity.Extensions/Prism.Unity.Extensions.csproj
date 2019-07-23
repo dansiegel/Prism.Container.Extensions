@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Splat" Version="7.3.6" />
-    <PackageReference Include="Unity.Container" Version="5.10.3" />
+    <PackageReference Include="Unity.Container" Version="5.11.1" />
   </ItemGroup>
 
   <ItemGroup>
