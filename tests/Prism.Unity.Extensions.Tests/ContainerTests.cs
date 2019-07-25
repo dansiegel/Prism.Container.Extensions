@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using DryIoc;
+using Unity;
 using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Prism.DryIoc.Extensions.Tests
+namespace Prism.Unity.Extensions.Tests
 {
     public class ContainerTests
     {
@@ -36,7 +36,7 @@ namespace Prism.DryIoc.Extensions.Tests
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
-                var created = PrismContainerExtension.Create(new global::DryIoc.Container());
+                var created = PrismContainerExtension.Create(new UnityContainer());
                 Assert.Same(created, PrismContainerExtension.Current);
             }
         }
@@ -124,6 +124,9 @@ namespace Prism.DryIoc.Extensions.Tests
                 Assert.Null(ex);
                 Assert.NotNull(bar);
                 Assert.IsType<FooBarImpl>(bar);
+
+                var fooHash = foo.GetHashCode();
+                var barHash = bar.GetHashCode();
 
                 Assert.Same(foo, bar);
             }

@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace Prism.DryIoc.Forms.Extended.Mocks.Views
+namespace Prism.Forms.Extended.Mocks.Views
 {
     public class ViewB : ContentPage
     {

@@ -4,18 +4,18 @@ using System.Text;
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace Prism.DryIoc.Forms.Extended.Mocks
+namespace Prism.Forms.Extended.Mocks
 {
-    public class BadModule : IModule
+    public class ModuleB : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            throw new NotImplementedException();
+
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
+using System;
 using Xunit;
 
-namespace Prism.DryIoc.Extensions.Tests
+namespace Prism.Unity.Extensions.Tests
 {
     public class MicrosoftExtensionsTests
     {
@@ -69,8 +69,7 @@ namespace Prism.DryIoc.Extensions.Tests
                 GC.Collect();
 
                 var foo = new Foo();
-                var services = new ServiceCollection();
-                services.AddSingleton<IFoo>(foo);
+                var services = new ServiceCollection(); services.AddSingleton<IFoo>(foo);
                 var container = PrismContainerExtension.Create();
                 var serviceProvider = container.CreateServiceProvider(services);
 
@@ -83,64 +82,6 @@ namespace Prism.DryIoc.Extensions.Tests
                 Assert.IsType<Foo>(service);
 
                 Assert.Same(foo, service);
-            }
-        }
-
-        [Fact]
-        public void SingletonFactoryIsResolved()
-        {
-            lock(testLock)
-            {
-                PrismContainerExtension.Reset();
-                GC.Collect();
-
-                int counter = 0;
-                var services = new ServiceCollection();
-                services.AddSingleton<IFoo>(sp => new Foo { Message = $"Foo has been resolved {++counter} time(s)." });
-                PrismContainerExtension.Current.CreateServiceProvider(services);
-
-                IFoo foo = null;
-                var ex = Record.Exception(() => foo = PrismContainerExtension.Current.Resolve<IFoo>());
-
-                Assert.Null(ex);
-                Assert.NotNull(foo);
-                Assert.Equal(1, counter);
-                Assert.Equal("Foo has been resolved 1 time(s).", foo.Message);
-
-                var foo2 = PrismContainerExtension.Current.Resolve<IFoo>();
-
-                Assert.Equal(1, counter);
-                Assert.Same(foo, foo2);
-                Assert.Equal("Foo has been resolved 1 time(s).", foo2.Message);
-            }
-        }
-
-        [Fact]
-        public void TransientFactoryIsResolved()
-        {
-            lock (testLock)
-            {
-                PrismContainerExtension.Reset();
-                GC.Collect();
-
-                int counter = 0;
-                var services = new ServiceCollection();
-                services.AddTransient<IFoo>(sp => new Foo { Message = $"Foo has been resolved {++counter} time(s)." });
-                PrismContainerExtension.Current.CreateServiceProvider(services);
-
-                IFoo foo = null;
-                var ex = Record.Exception(() => foo = PrismContainerExtension.Current.Resolve<IFoo>());
-
-                Assert.Null(ex);
-                Assert.NotNull(foo);
-                Assert.Equal(1, counter);
-                Assert.Equal("Foo has been resolved 1 time(s).", foo.Message);
-
-                var foo2 = PrismContainerExtension.Current.Resolve<IFoo>();
-
-                Assert.Equal(2, counter);
-                Assert.NotSame(foo, foo2);
-                Assert.Equal("Foo has been resolved 2 time(s).", foo2.Message);
             }
         }
 

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -17,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
-    <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\Prism.Unity.Extensions\Prism.Unity.Extensions.csproj" />
     <ProjectReference Include="..\Prism.Container.Extensions.Mocks\Prism.Container.Extensions.Mocks.csproj" />
   </ItemGroup>
 

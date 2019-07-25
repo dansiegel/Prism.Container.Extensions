@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
+    <ProjectReference Include="..\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
   </ItemGroup>
 
   <ItemGroup>

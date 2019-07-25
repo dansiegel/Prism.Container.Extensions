@@ -2,12 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Shiny.Prism</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Shiny.Testing" Version="1.0.0.280-beta" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -18,7 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
-    <ProjectReference Include="..\Prism.Container.Extensions.Mocks\Prism.Container.Extensions.Mocks.csproj" />
+    <ProjectReference Include="..\..\src\Shiny.Prism\Shiny.Prism.csproj" />
   </ItemGroup>
 
 </Project>

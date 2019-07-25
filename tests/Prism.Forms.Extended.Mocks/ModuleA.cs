@@ -4,9 +4,9 @@ using System.Text;
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace Prism.DryIoc.Forms.Extended.Mocks
+namespace Prism.Forms.Extended.Mocks
 {
-    public class ModuleB : IModule
+    public class ModuleA : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {

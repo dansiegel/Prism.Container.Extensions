@@ -1,4 +1,7 @@
-﻿using Prism.AppModel;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
@@ -27,6 +30,33 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
             containerRegistry.RegisterOnce<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
+        }
+
+        public static void RegisterPrismCoreServices(this IServiceCollection services)
+        {
+            services.RegisterSingletonIfNotRegistered<ILogger, ConsoleLoggingService>();
+            services.RegisterSingletonIfNotRegistered<ILoggerFacade>(sp => (ILogger)sp.GetService(typeof(ILogger)));
+            services.RegisterSingletonIfNotRegistered<IAnalyticsService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
+            services.RegisterSingletonIfNotRegistered<ICrashesService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
+            services.RegisterSingletonIfNotRegistered<IEventAggregator, EventAggregator>();
+            services.RegisterSingletonIfNotRegistered<IModuleCatalog, ModuleCatalog>();
+            services.RegisterSingletonIfNotRegistered<IModuleManager, ModuleManager>();
+            services.RegisterSingletonIfNotRegistered<IModuleInitializer, ModuleInitializer>();
+        }
+
+        private static void RegisterSingletonIfNotRegistered<T, TImpl>(this IServiceCollection services)
+            where T : class
+            where TImpl : class, T
+        {
+            if (!services.Any(s => s.ServiceType == typeof(T)))
+                services.AddSingleton<T, TImpl>();
+        }
+
+        private static void RegisterSingletonIfNotRegistered<T>(this IServiceCollection services, Func<IServiceProvider, T> implementationFactory)
+            where T : class
+        {
+            if (!services.Any(s => s.ServiceType == typeof(T)))
+                services.AddSingleton<T>(implementationFactory);
         }
     }
 }
