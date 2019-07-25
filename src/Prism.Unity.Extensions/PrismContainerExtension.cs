@@ -130,12 +130,32 @@ namespace Prism.Unity.Extensions
 
         public IContainerRegistry RegisterMany(Type implementingType, params Type[] serviceTypes)
         {
-            throw new NotImplementedException();
+            if (serviceTypes.Length == 0) 
+            {
+                serviceTypes = implementingType.GetInterfaces();
+            }
+
+            foreach (var serviceType in serviceTypes)
+            {
+                this.Instance.RegisterType(serviceType, implementingType);
+            }
+
+            return this;        
         }
 
         public IContainerRegistry RegisterManySingleton(Type implementingType, params Type[] serviceTypes)
         {
-            throw new NotImplementedException();
+            if (serviceTypes.Length == 0) 
+            {
+                serviceTypes = implementingType.GetInterfaces();
+            }
+
+            foreach (var serviceType in serviceTypes)
+            {
+                this.Instance.RegisterSingleton(serviceType, implementingType);
+            }
+
+            return this;        
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
