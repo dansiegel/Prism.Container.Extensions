@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a seemless wrapper for Prism apps using Shiny</Description>
+    <!-- TODO: Remove this Conditional Suffix when Shiny goes stable -->
+    <VersionSuffix Condition=" $(IS_RELEASE) ">pre</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
