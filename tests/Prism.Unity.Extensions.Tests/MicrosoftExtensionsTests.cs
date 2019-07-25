@@ -86,6 +86,64 @@ namespace Prism.Unity.Extensions.Tests
         }
 
         [Fact]
+        public void SingletonFactoryIsResolved()
+        {
+            lock (testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
+
+                int counter = 0;
+                var services = new ServiceCollection();
+                services.AddSingleton<IFoo>(sp => new Foo { Message = $"Foo has been resolved {++counter} time(s)." });
+                PrismContainerExtension.Current.CreateServiceProvider(services);
+
+                IFoo foo = null;
+                var ex = Record.Exception(() => foo = PrismContainerExtension.Current.Resolve<IFoo>());
+
+                Assert.Null(ex);
+                Assert.NotNull(foo);
+                Assert.Equal(1, counter);
+                Assert.Equal("Foo has been resolved 1 time(s).", foo.Message);
+
+                var foo2 = PrismContainerExtension.Current.Resolve<IFoo>();
+
+                Assert.Equal(1, counter);
+                Assert.Same(foo, foo2);
+                Assert.Equal("Foo has been resolved 1 time(s).", foo2.Message);
+            }
+        }
+
+        [Fact]
+        public void TransientFactoryIsResolved()
+        {
+            lock (testLock)
+            {
+                PrismContainerExtension.Reset();
+                GC.Collect();
+
+                int counter = 0;
+                var services = new ServiceCollection();
+                services.AddTransient<IFoo>(sp => new Foo { Message = $"Foo has been resolved {++counter} time(s)." });
+                PrismContainerExtension.Current.CreateServiceProvider(services);
+
+                IFoo foo = null;
+                var ex = Record.Exception(() => foo = PrismContainerExtension.Current.Resolve<IFoo>());
+
+                Assert.Null(ex);
+                Assert.NotNull(foo);
+                Assert.Equal(1, counter);
+                Assert.Equal("Foo has been resolved 1 time(s).", foo.Message);
+
+                var foo2 = PrismContainerExtension.Current.Resolve<IFoo>();
+
+                Assert.Equal(2, counter);
+                Assert.NotSame(foo, foo2);
+                Assert.Equal("Foo has been resolved 2 time(s).", foo2.Message);
+            }
+        }
+
+        [Fact]
         public void ScopedServiceIsSupported()
         {
             lock(testLock)
