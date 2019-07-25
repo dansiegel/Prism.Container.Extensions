@@ -8,7 +8,7 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Prism.DryIoc.Forms.Extended.Mocks
+namespace Prism.Forms.Extended.Mocks
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     [AutoRegisterForNavigation]

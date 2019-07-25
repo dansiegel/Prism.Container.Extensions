@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DryIoc;
-using Prism.DryIoc.Extensions.Tests.Mocks;
+using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
 using Xunit.Abstractions;
@@ -36,7 +36,7 @@ namespace Prism.DryIoc.Extensions.Tests
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
-                var created = PrismContainerExtension.Create(new Container());
+                var created = PrismContainerExtension.Create(new global::DryIoc.Container());
                 Assert.Same(created, PrismContainerExtension.Current);
             }
         }

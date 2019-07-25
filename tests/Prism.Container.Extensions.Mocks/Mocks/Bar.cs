@@ -1,4 +1,4 @@
-﻿namespace Prism.DryIoc.Extensions.Tests
+﻿namespace Prism.Container.Extensions.Tests.Mocks
 {
     public class Bar : IBar
     {

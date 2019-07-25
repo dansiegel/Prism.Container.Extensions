@@ -6,6 +6,9 @@ namespace Prism.Ioc
     {
         private IContainerProvider _container { get; }
 
+        public PrismServiceProvider(IContainerExtension container)
+            : this((IContainerProvider)container) { }
+
         public PrismServiceProvider(IContainerRegistry container)
             : this(container as IContainerProvider) { }
 

@@ -1,9 +1,14 @@
 ﻿using Prism.Ioc;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 using Unity.Resolution;
 
+[assembly: InternalsVisibleTo("Prism.Unity.Extensions.Tests")]
+[assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
 namespace Prism.Unity.Extensions
 {
     public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry
@@ -130,17 +135,35 @@ namespace Prism.Unity.Extensions
 
         public IContainerRegistry RegisterMany(Type implementingType, params Type[] serviceTypes)
         {
-            throw new NotImplementedException();
+            Instance.RegisterType(implementingType);
+            return RegisterManyInternal(implementingType, serviceTypes);
         }
 
         public IContainerRegistry RegisterManySingleton(Type implementingType, params Type[] serviceTypes)
         {
-            throw new NotImplementedException();
+            Instance.RegisterSingleton(implementingType);
+            return RegisterManyInternal(implementingType, serviceTypes);
+        }
+
+        private IContainerRegistry RegisterManyInternal(Type implementingType, Type[] serviceTypes)
+        {
+            if(serviceTypes is null || serviceTypes.Length == 0)
+            {
+                serviceTypes = implementingType.GetInterfaces().Where(x => x != typeof(IDisposable)).ToArray();
+            }
+
+            foreach(var service in serviceTypes)
+            {
+                Instance.RegisterFactory(service, c => c.Resolve(implementingType));
+            }
+
+            return this;
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            throw new NotImplementedException();
+            Instance.RegisterFactory(serviceType, _ => factoryMethod());
+            return this;
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
@@ -157,27 +180,32 @@ namespace Prism.Unity.Extensions
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            throw new NotImplementedException();
+            Instance.RegisterFactory(serviceType, _ => factoryMethod(), new ContainerControlledLifetimeManager());
+            return this;
         }
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            throw new NotImplementedException();
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
+            return this;
         }
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            throw new NotImplementedException();
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new ContainerControlledLifetimeManager());
+            return this;
         }
 
         public IContainerRegistry RegisterScoped(Type serviceType)
         {
-            throw new NotImplementedException();
+            Instance.RegisterType(serviceType, new ExternallyControlledLifetimeManager());
+            return this;
         }
 
         public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
         {
-            throw new NotImplementedException();
+            Instance.RegisterType(serviceType, implementationType, new ExternallyControlledLifetimeManager());
+            return this;
         }
 
         public object GetService(Type serviceType)

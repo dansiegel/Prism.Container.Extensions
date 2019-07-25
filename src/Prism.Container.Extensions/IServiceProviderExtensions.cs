@@ -5,7 +5,7 @@ namespace Prism.Ioc
 {
     public static class IServiceProviderExtensions
     {
-        public static IServiceProvider CreateServiceProvider(this IContainerProvider container, IServiceCollection services)
+        public static IServiceProvider CreateServiceProvider(this IContainerExtension container, IServiceCollection services)
         {
             var containerRegistry = container as IContainerRegistry;
             RegisterTypesWithPrismContainer(containerRegistry, services);
@@ -16,7 +16,7 @@ namespace Prism.Ioc
                 containerRegistry.RegisterInstance<IServiceProvider>(serviceProvider);
             }
 
-            return serviceProvider;
+            return container.Resolve<IServiceProvider>();
         }
 
         private static void RegisterTypesWithPrismContainer(IContainerRegistry containerRegistry, IServiceCollection services)
@@ -31,7 +31,7 @@ namespace Prism.Ioc
                         else if (service.ImplementationInstance != null)
                             containerRegistry.RegisterInstance(service.ServiceType, service.ImplementationInstance);
                         else if (service.ImplementationFactory != null)
-                            containerRegistry.RegisterInstance(service.ServiceType, service.ImplementationFactory(containerRegistry as IServiceProvider));
+                            containerRegistry.RegisterSingletonFromDelegate(service.ServiceType, service.ImplementationFactory);
                         break;
                     case ServiceLifetime.Transient:
                         if (service.ImplementationType != null)
@@ -41,10 +41,11 @@ namespace Prism.Ioc
                         // Transient Lifetime cannot occur with an Instance
                         break;
                     case ServiceLifetime.Scoped:
-                        if (service.ImplementationType is null)
-                            containerRegistry.RegisterScoped(service.ServiceType);
-                        else
+                        if (service.ImplementationType != null)
                             containerRegistry.RegisterScoped(service.ServiceType, service.ImplementationType);
+                        else if (service.ImplementationType is null)
+                            containerRegistry.RegisterScoped(service.ServiceType);
+                        // Everything else is currently unsupported...
                         break;
                 }
             }

@@ -1,7 +1,7 @@
 using System;
 using Prism.Behaviors;
 using Prism.Ioc;
-using Prism.DryIoc.Forms.Extended.Mocks;
+using Prism.Forms.Extended.Mocks;
 using Xunit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ using TabbedPage = Xamarin.Forms.TabbedPage;
 using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage;
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
-using Prism.DryIoc.Forms.Extended.Mocks.Views;
+using Prism.Forms.Extended.Mocks.Views;
 
 namespace Prism.DryIoc.Forms.Extended.Tests
 {

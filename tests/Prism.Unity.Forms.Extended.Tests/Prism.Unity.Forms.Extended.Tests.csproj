@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.618606" />
+    <PackageReference Include="Xamarin.Forms.Mocks" Version="3.5.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
+    <ProjectReference Include="..\..\src\Prism.Unity.Extensions\Prism.Unity.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\Prism.Unity.Forms.Extended\Prism.Unity.Forms.Extended.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems" Label="Shared" />
+
+</Project>

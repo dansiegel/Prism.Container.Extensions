@@ -2,8 +2,8 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:prism="http://prismlibrary.com"
-                        xmlns:local="clr-namespace:Prism.DryIoc.Forms.Extended.Mocks"
-                        x:Class="Prism.DryIoc.Forms.Extended.Mocks.AppMock">
+                        xmlns:local="clr-namespace:Prism.Forms.Extended.Mocks"
+                        x:Class="Prism.Forms.Extended.Mocks.AppMock">
     <!--<prism:PrismApplication.ModuleCatalog>
         <prism:ModuleCatalog>
             <prism:XamlModuleInfo ModuleName="ModuleA"
