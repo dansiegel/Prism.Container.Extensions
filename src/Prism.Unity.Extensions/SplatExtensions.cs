@@ -1,4 +1,4 @@
-using Splat;
+﻿using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +70,11 @@ namespace Prism.Unity.Extensions
                 _childContainer?.Dispose();
                 _childContainer = null;
             }
+        }
+
+        bool IMutableDependencyResolver.HasRegistration(Type serviceType)
+        {
+            return Instance.IsRegistered(serviceType);
         }
     }
 }

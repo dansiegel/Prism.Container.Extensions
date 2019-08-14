@@ -1,4 +1,4 @@
-using DryIoc;
+﻿using DryIoc;
 using Prism.Ioc;
 using Splat;
 using System;
@@ -78,6 +78,11 @@ namespace Prism.DryIoc
                 _currentScope?.Dispose();
                 _currentScope = null;
             }
+        }
+
+        bool IMutableDependencyResolver.HasRegistration(Type serviceType)
+        {
+            return Instance.IsRegistered(serviceType);
         }
     }
 }
