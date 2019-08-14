@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,7 +11,7 @@ using IContainer = DryIoc.IContainer;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.DryIoc
 {
-    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
+    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -78,6 +78,8 @@ namespace Prism.DryIoc
             Instance.UseInstance<IServiceProvider>(this);
             Splat.Locator.SetLocator(this);
         }
+
+        private IDisposable _currentScope;
 
         public IContainer Instance { get; private set; }
 
@@ -216,6 +218,12 @@ namespace Prism.DryIoc
             return this;
         }
 
-        public object GetService(Type serviceType) => Instance.Resolve(serviceType);
+        void IScopeProvider.CreateScope()
+        {
+            _currentScope?.Dispose();
+            _currentScope = Instance.OpenScope();
+        }
+
+        public object GetService(Type serviceType) => Resolve(serviceType);
     }
 }

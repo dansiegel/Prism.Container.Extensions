@@ -1,4 +1,4 @@
-﻿using Splat;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +67,8 @@ namespace Prism.Unity.Extensions
             {
                 Instance?.Dispose();
                 Instance = null;
+                _childContainer?.Dispose();
+                _childContainer = null;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using DryIoc;
+using DryIoc;
+using Prism.Ioc;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,8 @@ namespace Prism.DryIoc
             {
                 Instance?.Dispose();
                 Instance = null;
+                _currentScope?.Dispose();
+                _currentScope = null;
             }
         }
     }

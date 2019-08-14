@@ -1,4 +1,4 @@
-﻿using Prism.Ioc;
+using Prism.Ioc;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,7 +11,7 @@ using Unity.Resolution;
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
 namespace Prism.Unity.Extensions
 {
-    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry
+    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider
     {
         private static IContainerExtension<IUnityContainer> _current;
         public static IContainerExtension<IUnityContainer> Current
@@ -60,6 +60,8 @@ namespace Prism.Unity.Extensions
             Instance.RegisterInstance<IServiceProvider>(this);
             Splat.Locator.SetLocator(this);
         }
+
+        private IUnityContainer _childContainer;
 
         public IUnityContainer Instance { get; private set; }
 
@@ -206,6 +208,16 @@ namespace Prism.Unity.Extensions
         {
             Instance.RegisterType(serviceType, implementationType, new ExternallyControlledLifetimeManager());
             return this;
+        }
+        void IScopeProvider.CreateScope()
+        {
+            if(_childContainer != null)
+            {
+                _childContainer.Dispose();
+                _childContainer = null;
+            }
+
+            _childContainer = Instance.CreateChildContainer();
         }
 
         public object GetService(Type serviceType)
