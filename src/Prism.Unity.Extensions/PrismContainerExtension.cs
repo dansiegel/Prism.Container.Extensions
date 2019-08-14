@@ -1,4 +1,4 @@
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -103,28 +103,6 @@ namespace Prism.Unity.Extensions
             return this;
         }
 
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
-
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, name);
-        }
-
-        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
-        {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, overrides);
-        }
-
-        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
-        {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, name, overrides);
-        }
-
         public bool IsRegistered(Type type)
         {
             return Instance.IsRegistered(type);
@@ -220,9 +198,40 @@ namespace Prism.Unity.Extensions
             _childContainer = Instance.CreateChildContainer();
         }
 
-        public object GetService(Type serviceType)
+        public object Resolve(Type type) =>
+            Resolve(type, new (Type, object)[0]);
+
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, new (Type, object)[0]);
+
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(serviceType);
+            try
+            {
+                var c = _childContainer ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
+
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            try
+            {
+                var c = _childContainer ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, name, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
+        }
+
+        public object GetService(Type serviceType) => Resolve(serviceType);
     }
 }
