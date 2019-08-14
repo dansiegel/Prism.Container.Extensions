@@ -67,7 +67,14 @@ namespace Prism.Unity.Extensions
             {
                 Instance?.Dispose();
                 Instance = null;
+                _childContainer?.Dispose();
+                _childContainer = null;
             }
+        }
+
+        bool IMutableDependencyResolver.HasRegistration(Type serviceType)
+        {
+            return Instance.IsRegistered(serviceType);
         }
     }
 }

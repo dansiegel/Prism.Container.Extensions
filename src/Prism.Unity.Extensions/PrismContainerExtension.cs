@@ -11,7 +11,7 @@ using Unity.Resolution;
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
 namespace Prism.Unity.Extensions
 {
-    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry
+    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider
     {
         private static IContainerExtension<IUnityContainer> _current;
         public static IContainerExtension<IUnityContainer> Current
@@ -61,6 +61,8 @@ namespace Prism.Unity.Extensions
             Splat.Locator.SetLocator(this);
         }
 
+        private IUnityContainer _childContainer;
+
         public IUnityContainer Instance { get; private set; }
 
         public void FinalizeExtension() { }
@@ -99,28 +101,6 @@ namespace Prism.Unity.Extensions
         {
             Instance.RegisterType(from, to, name);
             return this;
-        }
-
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
-
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, name);
-        }
-
-        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
-        {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, overrides);
-        }
-
-        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
-        {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, name, overrides);
         }
 
         public bool IsRegistered(Type type)
@@ -207,10 +187,51 @@ namespace Prism.Unity.Extensions
             Instance.RegisterType(serviceType, implementationType, new ExternallyControlledLifetimeManager());
             return this;
         }
-
-        public object GetService(Type serviceType)
+        void IScopeProvider.CreateScope()
         {
-            return Instance.Resolve(serviceType);
+            if(_childContainer != null)
+            {
+                _childContainer.Dispose();
+                _childContainer = null;
+            }
+
+            _childContainer = Instance.CreateChildContainer();
         }
+
+        public object Resolve(Type type) =>
+            Resolve(type, new (Type, object)[0]);
+
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, new (Type, object)[0]);
+
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
+        {
+            try
+            {
+                var c = _childContainer ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
+        }
+
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            try
+            {
+                var c = _childContainer ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, name, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
+        }
+
+        public object GetService(Type serviceType) => Resolve(serviceType);
     }
 }

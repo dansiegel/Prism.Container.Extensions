@@ -44,23 +44,18 @@ stages:
     steps:
     - task: DotNetCoreInstaller@0
       inputs:
-        version: '3.0.100-preview5-011568'
+        version: '3.0.100-preview8-013656'
 
     - task: NuGetToolInstaller@0
       displayName: Install Latest NuGet
       inputs:
-        versionSpec: 4.9.4
-
-    - task: NuGetCommand@2
-      displayName: NuGet Restore
-      inputs:
-        noCache: true
+        versionSpec: 5.1.0
 
     - task: MSBuild@1
       displayName: Build Projects
       inputs:
         configuration: $(BuildConfiguration)
-        msbuildArguments: '/p:DebugType=portable /p:JavaSdkDirectory="$(JAVA_HOME)"'
+        msbuildArguments: '/p:DebugType=portable /p:JavaSdkDirectory="$(JAVA_HOME)" /restore'
 
     # - powershell: |
     #    dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"

@@ -25,6 +25,7 @@ namespace Shiny.Prism.Mocks
 
         protected override void ConfigureServices(IServiceCollection services)
         {
+            Log.Loggers.Clear();
             Log.AddLogger(this);
 
             services.UseBeacons<MockBeaconDelegate>();

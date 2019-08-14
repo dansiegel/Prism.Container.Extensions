@@ -3,11 +3,20 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny.Beacons;
 using Shiny.BluetoothLE;
+using Shiny.IO;
+using Shiny.Jobs;
 using Shiny.Locations;
+using Shiny.Net;
+using Shiny.Power;
 using Shiny.Prism.Mocks;
 using Shiny.Prism.Mocks.Delegates;
 using Shiny.Prism.Mocks.Modularity;
+using Shiny.Settings;
 using Shiny.Testing;
+using Shiny.Testing.Jobs;
+using Shiny.Testing.Net;
+using Shiny.Testing.Power;
+using Shiny.Testing.Settings;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -31,9 +40,12 @@ namespace Shiny.Prism.Tests
         }
 
         [Theory]
-        //[InlineData(typeof(IGpsDelegate), typeof(MockGpsDelegate))]
-        [InlineData(typeof(IGeofenceDelegate), typeof(MockGeofenceDelegate))]
-        //[InlineData(typeof(IBeaconDelegate), typeof(MockBeaconDelegate))]
+        [InlineData(typeof(IJobManager), typeof(TestJobManager))]
+        [InlineData(typeof(IConnectivity), typeof(TestConnectivity))]
+        [InlineData(typeof(IPowerManager), typeof(TestPowerManager))]
+        [InlineData(typeof(IFileSystem), typeof(FileSystemImpl))]
+        [InlineData(typeof(ISettings), typeof(TestSettings))]
+        [InlineData(typeof(IEnvironment), typeof(TestEnvironment))]
         [InlineData(typeof(IBleAdapterDelegate), typeof(MockBleAdapterDelegate))]
         public void ExpectedTypesAreRegisteredAndResolve(Type serviceType, Type implementingType)
         {
@@ -44,21 +56,5 @@ namespace Shiny.Prism.Tests
             Assert.IsType(implementingType, fromShiny);
             Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(serviceType));
         }
-
-        //[Fact]
-        //public void GpsManagerIsRegistered()
-        //{
-        //    ShinyPrismTestHost.Init(_testOutputHelper);
-
-        //    Assert.True(PrismContainerExtension.Current.IsRegistered<IGpsManager>());
-
-        //    IGpsManager gpsManager = null;
-        //    var ex = Record.Exception(() => gpsManager = PrismContainerExtension.Current.Resolve<IGpsManager>());
-
-        //    Assert.Null(ex);
-        //    Assert.NotNull(gpsManager);
-        //}
-
-        
     }
 }

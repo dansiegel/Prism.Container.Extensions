@@ -11,7 +11,7 @@ using IContainer = DryIoc.IContainer;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.DryIoc
 {
-    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry
+    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -79,6 +79,8 @@ namespace Prism.DryIoc
             Splat.Locator.SetLocator(this);
         }
 
+        private IDisposable _currentScope;
+
         public IContainer Instance { get; private set; }
 
         public void FinalizeExtension() { }
@@ -141,26 +143,6 @@ namespace Prism.DryIoc
             return this;
         }
 
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
-
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, serviceKey: name);
-        }
-
-        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
-        {
-            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
-        }
-
-        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
-        {
-            return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
-        }
-
         public bool IsRegistered(Type type)
         {
             return Instance.IsRegistered(type);
@@ -216,6 +198,43 @@ namespace Prism.DryIoc
             return this;
         }
 
-        public object GetService(Type serviceType) => Instance.Resolve(serviceType);
+        void IScopeProvider.CreateScope()
+        {
+            _currentScope?.Dispose();
+            _currentScope = Instance.OpenScope();
+        }
+
+        public object Resolve(Type type) => 
+            Resolve(type, new (Type, object)[0]);
+
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, new (Type, object)[0]);
+
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
+        {
+            try
+            {
+                return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
+        }
+
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            try
+            {
+                return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch(Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
+        }
+
+        public object GetService(Type serviceType) => Resolve(serviceType);
+
     }
 }
