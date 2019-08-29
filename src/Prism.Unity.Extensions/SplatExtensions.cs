@@ -6,6 +6,7 @@ using Unity;
 
 namespace Prism.Unity.Extensions
 {
+#pragma warning disable 1066
     public partial class PrismContainerExtension : IDependencyResolver
     {
         object IReadonlyDependencyResolver.GetService(Type serviceType, string contract = null) =>
@@ -77,4 +78,5 @@ namespace Prism.Unity.Extensions
             return Instance.IsRegistered(serviceType);
         }
     }
+#pragma warning restore 1066
 }

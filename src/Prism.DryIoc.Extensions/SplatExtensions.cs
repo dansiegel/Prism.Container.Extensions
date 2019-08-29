@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Prism.DryIoc
 {
+#pragma warning disable 1066
     public sealed partial class PrismContainerExtension : IDependencyResolver
     {
         object IReadonlyDependencyResolver.GetService(Type serviceType, string contract = null) =>
@@ -85,4 +86,5 @@ namespace Prism.DryIoc
             return Instance.IsRegistered(serviceType);
         }
     }
+#pragma warning restore 1066
 }

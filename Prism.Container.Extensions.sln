@@ -43,15 +43,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms.Extended", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Forms.Extended", "src\Prism.Unity.Forms.Extended\Prism.Unity.Forms.Extended.csproj", "{A8375AC9-FFAA-4FC6-BEBC-9E3BD6662056}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Extensions.Tests", "tests\Prism.Unity.Extensions.Tests\Prism.Unity.Extensions.Tests.csproj", "{626759D0-9075-434F-A239-E3C8AC180C44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Extensions.Tests", "tests\Prism.Unity.Extensions.Tests\Prism.Unity.Extensions.Tests.csproj", "{626759D0-9075-434F-A239-E3C8AC180C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Forms.Extended.Tests", "tests\Prism.Unity.Forms.Extended.Tests\Prism.Unity.Forms.Extended.Tests.csproj", "{9D2C6E7D-4C6E-4606-A3FA-43B18ED56F32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Forms.Extended.Tests", "tests\Prism.Unity.Forms.Extended.Tests\Prism.Unity.Forms.Extended.Tests.csproj", "{9D2C6E7D-4C6E-4606-A3FA-43B18ED56F32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Container.Extensions.Mocks", "tests\Prism.Container.Extensions.Mocks\Prism.Container.Extensions.Mocks.csproj", "{D73AC015-C294-4EEE-9E71-D8A9CEA3DC41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Container.Extensions.Mocks", "tests\Prism.Container.Extensions.Mocks\Prism.Container.Extensions.Mocks.csproj", "{D73AC015-C294-4EEE-9E71-D8A9CEA3DC41}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Forms.Extended.Mocks", "tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.shproj", "{E13E43D5-6A03-401C-B7E6-298E829E5A2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shiny.Prism.Tests", "tests\Shiny.Prism.Tests\Shiny.Prism.Tests.csproj", "{4656E5BB-1C43-4F55-BA09-E0FB10042FAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shiny.Prism.Tests", "tests\Shiny.Prism.Tests\Shiny.Prism.Tests.csproj", "{4656E5BB-1C43-4F55-BA09-E0FB10042FAC}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

@@ -264,6 +264,5 @@ __pycache__/
 secrets.json
 appsettings.json
 
-# Training Images
-**/TrendStates/*.jpg
-**/JWForex.MPPrep/Images/*.png
+# MFractor
+.mfractor/
