@@ -123,7 +123,7 @@ public class PrismStartup : ShinyStartup
 }
 ```
 
-### Shiny.Prism.DryIoc
+### Shiny.Prism
 
 With your App using the PrismApplication from Prism.DryIoc.Forms.Extended you now only need to reference the PrismStartup as the base class for your Startup class like:
 
@@ -169,6 +169,36 @@ public partial class AppDelegate : FormsApplicationDelegate
     // if you are using jobs, you need this
     public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         => JobManager.OnBackgroundFetch(completionHandler);
+}
+```
+
+#### Navigation from Shiny Services
+
+While this is generally not a great idea, there could potentially be times in which you need to navigate from a background service. For these times you will need to use the INavigationServiceDelegate.
+
+```cs
+public class MyStartup : PrismStartup
+{
+    public override void ConfigureServices(IServiceCollection services)
+    {
+        services.UseNavigationDelegate();
+    }
+}
+
+public class MyJob : IJob
+{
+    private INavigationServiceDelegate NavigationService { get; }
+
+    public MyJob(INavigationServiceDelegate navigationServiceDelegate)
+    {
+        NavigationService = navigationServiceDelegate;
+    }
+
+    public async Task<bool> Run(JobInfo jobInfo, CancellationToken cancelToken)
+    {
+        // Your logic
+        await NavigationService.NavigateAsync("SomePage?useModal=true");
+    }
 }
 ```
 
