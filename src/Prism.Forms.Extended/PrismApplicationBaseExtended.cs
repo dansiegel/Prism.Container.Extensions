@@ -38,8 +38,6 @@ namespace Prism
 
         protected IModuleCatalog ModuleCatalog { get; private set; }
 
-
-
         protected override sealed void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterRequiredTypes();
