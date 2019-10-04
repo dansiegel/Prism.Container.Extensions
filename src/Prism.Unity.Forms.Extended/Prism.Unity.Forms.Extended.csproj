@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Prism.Unity.Extensions\Prism.Unity.Extensions.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -76,7 +76,6 @@ namespace Prism.DryIoc
             Instance.UseInstance<IContainerRegistry>(this);
             Instance.UseInstance<IContainerProvider>(this);
             Instance.UseInstance<IServiceProvider>(this);
-            Splat.Locator.SetLocator(this);
         }
 
         private IDisposable _currentScope;

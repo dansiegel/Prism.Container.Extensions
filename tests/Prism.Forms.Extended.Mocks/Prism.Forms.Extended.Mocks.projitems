@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppMock.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>%(Filename)</DependentUpon>
+      <DependentUpon>AppMock.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BadModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleA.cs" />

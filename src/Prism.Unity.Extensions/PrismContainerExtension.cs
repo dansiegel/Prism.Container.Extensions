@@ -1,4 +1,4 @@
-﻿using Prism.Ioc;
+using Prism.Ioc;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -58,7 +58,6 @@ namespace Prism.Unity.Extensions
             Instance.RegisterInstance<IContainerExtension>(this);
             Instance.RegisterInstance<IContainerRegistry>(this);
             Instance.RegisterInstance<IServiceProvider>(this);
-            Splat.Locator.SetLocator(this);
         }
 
         private IUnityContainer _childContainer;
