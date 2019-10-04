@@ -46,7 +46,7 @@ namespace Shiny.Prism.Tests
         [InlineData(typeof(IFileSystem), typeof(FileSystemImpl))]
         [InlineData(typeof(ISettings), typeof(TestSettings))]
         [InlineData(typeof(IEnvironment), typeof(TestEnvironment))]
-        [InlineData(typeof(IBleAdapterDelegate), typeof(MockBleAdapterDelegate))]
+        //[InlineData(typeof(IBleAdapterDelegate), typeof(MockBleAdapterDelegate))]
         public void ExpectedTypesAreRegisteredAndResolve(Type serviceType, Type implementingType)
         {
             ShinyPrismTestHost.Init(_testOutputHelper);

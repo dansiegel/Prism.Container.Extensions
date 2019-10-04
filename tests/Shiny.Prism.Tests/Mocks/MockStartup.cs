@@ -31,7 +31,7 @@ namespace Shiny.Prism.Mocks
             services.UseBeacons<MockBeaconDelegate>();
             services.UseGps<MockGpsDelegate>();
             services.UseGeofencing<MockGeofenceDelegate>();
-            services.RegisterBleAdapterState<MockBleAdapterDelegate>();
+            //services.RegisterBleAdapterState<MockBleAdapterDelegate>();
         }
 
         // For Testing Only...
