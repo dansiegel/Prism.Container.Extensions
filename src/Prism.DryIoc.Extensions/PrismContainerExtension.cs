@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -233,7 +233,11 @@ namespace Prism.DryIoc
             }
         }
 
-        public object GetService(Type serviceType) => Resolve(serviceType);
+        public object GetService(Type serviceType)
+        {
+            if (!IsRegistered(serviceType)) return null;
 
+            return Resolve(serviceType);
+        }
     }
 }

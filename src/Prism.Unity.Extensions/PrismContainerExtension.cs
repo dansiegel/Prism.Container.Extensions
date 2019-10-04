@@ -1,4 +1,4 @@
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -231,6 +231,11 @@ namespace Prism.Unity.Extensions
             }
         }
 
-        public object GetService(Type serviceType) => Resolve(serviceType);
+        public object GetService(Type serviceType)
+        {
+            if (!IsRegistered(serviceType)) return null;
+
+            return Resolve(serviceType);
+        }
     }
 }
