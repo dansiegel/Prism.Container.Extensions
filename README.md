@@ -1,4 +1,4 @@
-﻿# Prism.Container.Extensions
+# Prism.Container.Extensions
 
 The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with Splat, IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
 
@@ -23,6 +23,12 @@ You can add the MyGet CI feed to nuget by adding it as a source in Visual Studio
 | Prism.Unity.Extensions | [![UnityExtensionsShield]][UnityExtensionsNuGet] | [![UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
 | Prism.Unity.Forms.Extended | [![UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
 | Shiny.Prism | [![ShinyPrismShield]][ShinyPrismNuGet] | [![ShinyPrismMyGetShield]][ShinyPrismMyGet] |
+
+## Support
+
+If this project helped you reduce time to develop and made your app better, please be sure to star the project help support Dan.
+
+[![GitHub Sponsors](https://github.blog/wp-content/uploads/2019/05/mona-heart-featured.png?fit=600%2C315)](https://xam.dev/sponsor-container-extensions)
 
 ## Initialization
 
