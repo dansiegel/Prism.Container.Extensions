@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <!-- TODO: This needs to be in preview until it has some usage -->
+    <VersionSuffix Condition=" $(IS_RELEASE) ">pre</VersionSuffix>
+    <PackageTags>prism di iserviceprovider iservicecollection microsoft-dependencyinjection</PackageTags>
+    <Authors>dansiegel</Authors>
+    <Description>Prism Container Extensions for the Microsoft.Extensions.DependencyInjection implementations of IServiceCollection / IServiceProvider</Description>
   </PropertyGroup>
 
   <ItemGroup>

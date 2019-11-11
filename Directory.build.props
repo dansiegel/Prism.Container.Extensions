@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Authors>Dan Siegel</Authors>
+    <Authors>dansiegel</Authors>
     <Copyright>© Dan Siegel. All rights reserved.</Copyright>
     <VersionPrefix>7.2.0</VersionPrefix>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/dansiegel/Prism.Container.Extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dansiegel/Prism.Container.Extensions.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseUrl>https://github.com/dansiegel/Prism.Container.Extensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>prism di dryioc</PackageTags>
   </PropertyGroup>
 
