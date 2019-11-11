@@ -23,7 +23,7 @@ name: $(Build.BuildId)
 
 variables:
 - name: VMImage
-  value: 'windows-2019'
+  value: 'windows-latest'
 - name: BuildConfiguration
   value: Release
 - group: 'Code Signing'
@@ -125,7 +125,7 @@ stages:
             env:
               searchDirectory: $(Pipeline.Workspace)/NuGet
 
-          - task: GithubRelease@0 
+          - task: GithubRelease@0
             displayName: 'Create GitHub Release'
             inputs:
               gitHubConnection: GitHub
