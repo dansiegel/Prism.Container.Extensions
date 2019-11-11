@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Prism.Modularity;
-using Shiny.Logging;
 using Shiny.Prism.Modularity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shiny.Prism
 {
@@ -23,6 +20,8 @@ namespace Shiny.Prism
             _container = container;
         }
 
+        protected virtual void ConfigureApp(IServiceProvider provider) { }
+
         protected abstract void ConfigureServices(IServiceCollection services);
 
         void IShinyStartup.ConfigureServices(IServiceCollection services)
@@ -33,7 +32,7 @@ namespace Shiny.Prism
             services.AddSingleton<IModuleInitializer, ShinyPrismModuleInitializer>();
         }
 
-        void IShinyStartup.ConfigureApp(IServiceProvider provider) { }
+        void IShinyStartup.ConfigureApp(IServiceProvider provider) => ConfigureApp(provider);
 
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {

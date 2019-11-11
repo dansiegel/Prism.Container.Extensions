@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
+    <ProjectReference Include="..\Prism.Microsoft.DependencyInjection.Extensions\Prism.Microsoft.DependencyInjection.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>
