@@ -1,4 +1,4 @@
-# Prism.Container.Extensions
+﻿# Prism.Container.Extensions
 
 The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with Splat, IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
 
@@ -118,7 +118,7 @@ public class PrismStartup : ShinyStartup
 {
     public override void ConfigureServices(IServiceCollection services)
     {
-        // Register services with Shiny like: 
+        // Register services with Shiny like:
         services.UseGpsBackground<MyDelegate>();
     }
 
@@ -138,7 +138,7 @@ public class MyStartup : PrismStartup
 {
     public override void ConfigureServices(IServiceCollection services)
     {
-        // Register services with Shiny like: 
+        // Register services with Shiny like:
         services.UseGps<MyDelegate>();
     }
 }
