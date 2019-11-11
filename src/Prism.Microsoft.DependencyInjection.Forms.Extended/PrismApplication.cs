@@ -1,6 +1,7 @@
-﻿using Prism;
-using Prism.Ioc;
+﻿using Prism.Ioc;
+using Xamarin.Forms;
 
+[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.Microsoft.DependencyInjection")]
 namespace Prism.Microsoft.DependencyInjection
 {
     public abstract class PrismApplication : PrismApplicationBaseExtended
