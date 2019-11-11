@@ -20,6 +20,8 @@ You can add the MyGet CI feed to nuget by adding it as a source in Visual Studio
 | Prism.Forms.Extended | [![PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
 | Prism.DryIoc.Extensions | [![DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
 | Prism.DryIoc.Forms.Extended | [![DryIocFormsExtendedShield]][DryIocFormsExtendedNuGet] | [![DryIocFormsExtendedMyGetShield]][DryIocFormsExtendedMyGet] |
+| Prism.Microsoft.DependencyInjection.Extensions | [![MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
+| Prism.Microsoft.DependencyInjection.Forms.Extended | [![MsftDependencyInjectionFormsExtendedShield]][MsftDependencyInjectionFormsExtendedNuGet] | [![MsftDependencyInjectionFormsExtendedMyGetShield]][MsftDependencyInjectionFormsExtendedMyGet] |
 | Prism.Unity.Extensions | [![UnityExtensionsShield]][UnityExtensionsNuGet] | [![UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
 | Prism.Unity.Forms.Extended | [![UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
 | Shiny.Prism | [![ShinyPrismShield]][ShinyPrismNuGet] | [![ShinyPrismMyGetShield]][ShinyPrismMyGet] |
@@ -223,15 +225,25 @@ public class MyJob : IJob
 [DryIocFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.DryIoc.Forms.Extended
 [DryIocFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.DryIoc.Forms.Extended.svg
 
-[ShinyPrismNuGet]: https://www.nuget.org/packages/Shiny.Prism
-[ShinyPrismShield]: https://img.shields.io/nuget/vpre/Shiny.Prism.svg
-[ShinyPrismMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Shiny.Prism
-[ShinyPrismMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Shiny.Prism.svg
+[MsftDependencyInjectionExtensionsNuGet]: https://www.nuget.org/packages/Prism.Microsoft.DependencyInjection.Extensions
+[MsftDependencyInjectionExtensionsShield]: https://img.shields.io/nuget/vpre/Prism.Microsoft.DependencyInjection.Extensions.svg
+[MsftDependencyInjectionExtensionsMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Microsoft.DependencyInjection.Extensions
+[MsftDependencyInjectionExtensionsMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Microsoft.DependencyInjection.Extensions.svg
+
+[MsftDependencyInjectionFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.Microsoft.DependencyInjection.Forms.Extended
+[MsftDependencyInjectionFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.Microsoft.DependencyInjection.Forms.Extended.svg
+[MsftDependencyInjectionFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Microsoft.DependencyInjection.Forms.Extended
+[MsftDependencyInjectionFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Microsoft.DependencyInjection.Forms.Extended.svg
 
 [PrismFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.Forms.Extended
 [PrismFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Extended.svg
 [PrismFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Forms.Extended
 [PrismFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Forms.Extended.svg
+
+[ShinyPrismNuGet]: https://www.nuget.org/packages/Shiny.Prism
+[ShinyPrismShield]: https://img.shields.io/nuget/vpre/Shiny.Prism.svg
+[ShinyPrismMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Shiny.Prism
+[ShinyPrismMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Shiny.Prism.svg
 
 [UnityExtensionsNuGet]: https://www.nuget.org/packages/Prism.Unity.Extensions
 [UnityExtensionsShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Extensions.svg
