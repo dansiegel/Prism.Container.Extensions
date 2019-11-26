@@ -1,38 +1,40 @@
-﻿# Prism.Container.Extensions
+# Prism.Container.Extensions
 
 The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with Splat, IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
 
-For more information be sure to check out the docs at [prismplugins.com](https://prismplugins.com)
+## Support
 
-| Stage | Status |
-|:-----:|--------|
-| Build Extensions | [![Build Status](https://dev.azure.com/dansiegel/Prism.Plugins/_apis/build/status/dansiegel.Prism.Container.Extensions?branchName=master&stageName=Build%20NuGet%20Packages&jobName=Build%20Container%20Extensions)](https://dev.azure.com/dansiegel/Prism.Plugins/_build/latest?definitionId=41&branchName=master) |
-| MyGet Deploy | [![Build Status](https://dev.azure.com/dansiegel/Prism.Plugins/_apis/build/status/dansiegel.Prism.Container.Extensions?branchName=master&stageName=Deploy%20NuGets&jobName=MyGet.org)](https://dev.azure.com/dansiegel/Prism.Plugins/_build/latest?definitionId=41&branchName=master) |
-| NuGet Deploy | [![Build Status](https://dev.azure.com/dansiegel/Prism.Plugins/_apis/build/status/dansiegel.Prism.Container.Extensions?branchName=master&stageName=Deploy%20NuGets&jobName=NuGet.org)](https://dev.azure.com/dansiegel/Prism.Plugins/_build/latest?definitionId=41&branchName=master) |
+This project is maintained by Dan Siegel. If this project or others maintained by Dan have helped you please help support the project by [sponsoring Dan](https://xam.dev/sponsor-prism-logging) on GitHub!
+
+[![GitHub Sponsors](https://github.blog/wp-content/uploads/2019/05/mona-heart-featured.png?fit=600%2C315)](https://xam.dev/sponsor-prism-logging)
 
 ## NuGet
 
-You can add the MyGet CI feed to nuget by adding it as a source in Visual Studio:
-
-`https://www.myget.org/F/prism-plugins/api/v3/index.json`
-
 | Package | NuGet | MyGet |
 |-------|:-----:|:------:|
-| Prism.Container.Extensions | [![ContainerExtensionsShield]][ContainerExtensionsNuGet] | [![ContainerExtensionsMyGetShield]][ContainerExtensionsMyGet] |
-| Prism.Forms.Extended | [![PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
-| Prism.DryIoc.Extensions | [![DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
-| Prism.DryIoc.Forms.Extended | [![DryIocFormsExtendedShield]][DryIocFormsExtendedNuGet] | [![DryIocFormsExtendedMyGetShield]][DryIocFormsExtendedMyGet] |
-| Prism.Microsoft.DependencyInjection.Extensions | [![MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
-| Prism.Microsoft.DependencyInjection.Forms.Extended | [![MsftDependencyInjectionFormsExtendedShield]][MsftDependencyInjectionFormsExtendedNuGet] | [![MsftDependencyInjectionFormsExtendedMyGetShield]][MsftDependencyInjectionFormsExtendedMyGet] |
-| Prism.Unity.Extensions | [![UnityExtensionsShield]][UnityExtensionsNuGet] | [![UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
-| Prism.Unity.Forms.Extended | [![UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
-| Shiny.Prism | [![ShinyPrismShield]][ShinyPrismNuGet] | [![ShinyPrismMyGetShield]][ShinyPrismMyGet] |
+| Prism.Container.Extensions | [![Latest NuGet][ContainerExtensionsShield]][ContainerExtensionsNuGet] | [![Latest CI Package][ContainerExtensionsMyGetShield]][ContainerExtensionsMyGet] |
+| Prism.Forms.Extended | [![Latest NuGet][PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![Latest CI Package][PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
+| Prism.DryIoc.Extensions | [![Latest NuGet][DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![Latest CI Package][DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
+| Prism.DryIoc.Forms.Extended | [![Latest NuGet][DryIocFormsExtendedShield]][DryIocFormsExtendedNuGet] | [![Latest CI Package][DryIocFormsExtendedMyGetShield]][DryIocFormsExtendedMyGet] |
+| Prism.Microsoft.DependencyInjection.Extensions | [![Latest NuGet][MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![Latest CI Package][MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
+| Prism.Microsoft.DependencyInjection.Forms.Extended | [![Latest NuGet][MsftDependencyInjectionFormsExtendedShield]][MsftDependencyInjectionFormsExtendedNuGet] | [![Latest CI Package][MsftDependencyInjectionFormsExtendedMyGetShield]][MsftDependencyInjectionFormsExtendedMyGet] |
+| Prism.Unity.Extensions | [![Latest NuGet][UnityExtensionsShield]][UnityExtensionsNuGet] | [![Latest CI Package][UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
+| Prism.Unity.Forms.Extended | [![Latest NuGet][UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![Latest CI Package][UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
+| Shiny.Prism | [![Latest NuGet][ShinyPrismShield]][ShinyPrismNuGet] | [![Latest CI Package][ShinyPrismMyGetShield]][ShinyPrismMyGet] |
 
-## Support
+### CI NuGet Feed
 
-If this project helped you reduce time to develop and made your app better, please be sure to star the project help support Dan.
+Want to consume the CI packages? You can add this as a NuGet.config in your project root and Visual Studio will automatically pick up the configuration to provide packages from the CI Feed. Note that packages from this feed have passed all of the tests, but may have code that is still unstable.
 
-[![GitHub Sponsors](https://github.blog/wp-content/uploads/2019/05/mona-heart-featured.png?fit=600%2C315)](https://xam.dev/sponsor-container-extensions)
+```xml
+<configuration>
+  <packageSources>
+    <clear />
+    <add key="PrismPlugins-MyGet" value="https://www.myget.org/F/prism-plugins/api/v3/index.json" />
+    <add key="NuGet.org" value="https://api.nuget.org/v3/index.json" />
+  </packageSources>
+</configuration>
+```
 
 [ContainerExtensionsNuGet]: https://www.nuget.org/packages/Prism.Container.Extensions
 [ContainerExtensionsShield]: https://img.shields.io/nuget/vpre/Prism.Container.Extensions.svg

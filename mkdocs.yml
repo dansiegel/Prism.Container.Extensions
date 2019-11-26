@@ -1,0 +1,64 @@
+# Project Information
+site_name: Prism.Container.Extensions
+site_description: Documentation for the Prism Container Extensions
+site_author: Dan Siegel
+site_url: https://prismplugins.com
+
+# Repository
+repo_name: dansiegel/Prism.Container.Extensions
+repo_url: https://github.com/dansiegel/Prism.Container.Extensions
+edit_uri: ''
+
+# Copyright
+copyright: 'Copyright &copy; 2016 - 2019 Dan Siegel'
+
+# Configuration
+theme:
+  name: 'material'
+  custom_dir: 'theme'
+  logo: assets/prism-logo.png
+  favicon: assets/favicon.ico
+  language: en
+  feature:
+    tabs: false
+  palette:
+    primary: 'white'
+    accent: 'cyan'
+
+# Social
+extra:
+  social:
+    - type: globe
+      link: https://dansiegel.net
+    - type: github
+      link: https://github.com/dansiegel
+    - type: twitch
+      link: https://twitch.tv/dansiegel
+    - type: twitter
+      link: https://twitter.com/DanJSiegel
+    - type: youtube
+      link: https://www.youtube.com/channel/UC0kcuQoK6odp-4UAlI8FeqA
+    - type: linkedin
+      link: https://linkedin.com/in/DanSiegel
+
+# Extensions
+markdown_extensions:
+  - admonition:
+  - codehilite:
+      linenums: false
+  - toc:
+      permalink: true
+
+nav:
+  - Getting Started: index.md
+  - Containers:
+    - Basics: containers/index.md
+    - DryIoc: containers/dryioc.md
+    - Microsoft D.I. Extensions: containers/microsoft-extensions-dependencyinjection.md
+    - Unity: containers/unity.md
+  - Prism.Forms Extended:
+    - Intro: forms/index.md
+  - Shiny Support:
+    - Intro: shiny/index.md
+    - Modularity: shiny/modularity.md
+    - Navigation: shiny/navigation.md
