@@ -26,7 +26,7 @@ namespace Prism.Microsoft.DependencyInjection
         {
             if (serviceType.IsClass && !serviceType.IsAbstract)
             {
-                var constructorInfos = serviceType.GetConstructors(BindingFlags.Public).OrderByDescending(x => x.GetParameters().Count());
+                var constructorInfos = serviceType.GetConstructors().OrderByDescending(x => x.GetParameters().Count());
                 if (constructorInfos.Any())
                 {
                     var constructorInfo = constructorInfos.First();
