@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyInjection.Extensions.Tests", "tests\Prism.Microsoft.DependencyInjection.Extensions.Tests\Prism.Microsoft.DependencyInjection.Extensions.Tests.csproj", "{D1367051-9F5C-4F7B-9135-6095541C47B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Microsoft.DependencyInjection.Forms.Extended", "src\Prism.Microsoft.DependencyInjection.Forms.Extended\Prism.Microsoft.DependencyInjection.Forms.Extended.csproj", "{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyInjection.Forms.Extended", "src\Prism.Microsoft.DependencyInjection.Forms.Extended\Prism.Microsoft.DependencyInjection.Forms.Extended.csproj", "{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyInjection.Forms.Extended.Tests", "tests\Prism.Microsoft.DependencyInjection.Extensions.Forms.Tests\Prism.Microsoft.DependencyInjection.Forms.Extended.Tests.csproj", "{407F4E72-CC87-4A58-841B-B75CD914F8B1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -132,6 +134,10 @@ Global
 		{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{407F4E72-CC87-4A58-841B-B75CD914F8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{407F4E72-CC87-4A58-841B-B75CD914F8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{407F4E72-CC87-4A58-841B-B75CD914F8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{407F4E72-CC87-4A58-841B-B75CD914F8B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{A225C244-5C70-402E-BA8F-ED55E27A10CD} = {46FA7A81-EA94-407D-B1A9-4E06E414F6D6}
 		{D1367051-9F5C-4F7B-9135-6095541C47B2} = {0C701AD0-75AE-447C-9BDF-9048A3E41280}
 		{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2} = {46FA7A81-EA94-407D-B1A9-4E06E414F6D6}
+		{407F4E72-CC87-4A58-841B-B75CD914F8B1} = {0C701AD0-75AE-447C-9BDF-9048A3E41280}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {204FA081-78C1-4570-A906-AFABE7FAB3E3}

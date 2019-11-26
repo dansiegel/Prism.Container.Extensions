@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BadModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\PrismApplicationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ViewA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ViewB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ViewC.cs" />

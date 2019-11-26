@@ -14,9 +14,15 @@ using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.Ta
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
 using Prism.Forms.Extended.Mocks.Views;
-using Prism.Unity.Extensions;
+#if DRYIOC
+using Prism.DryIoc;
+#elif UNITY
+using Prism.Unity;
+#elif MICROSOFT_DI
+using Prism.Microsoft.DependencyInjection;
+#endif
 
-namespace Prism.Unity.Forms.Extended.Tests
+namespace Prism.Forms.Extended.Tests
 {
     public class PrismApplicationTests
     {

@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>Prism.DryIoc.Forms.Extended</RootNamespace>
+    <DefineConstants>$(DefineConstants);DRYIOC</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

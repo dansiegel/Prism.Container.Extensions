@@ -12,7 +12,7 @@ namespace Prism.Forms.Extended.Mocks
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     [AutoRegisterForNavigation]
-    public partial class AppMock
+    public partial class AppMock : PrismApplication
     {
         public AppMock()
         {
