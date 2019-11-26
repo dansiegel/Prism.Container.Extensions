@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Prism.Container.Extensions;
 using Prism.Ioc;
+using Prism.Microsoft.DependencyInjection;
 
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]
@@ -298,7 +300,9 @@ namespace Prism.Microsoft.DependencyInjection
                 services.AddSingleton(param.Type, param.Instance);
             }
 
-            return services.BuildServiceProvider();
+            var rootSP = services.BuildServiceProvider();
+
+            return new ConcreteAwareServiceProvider(rootSP);
         }
     }
 }
