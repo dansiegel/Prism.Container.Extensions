@@ -1,12 +1,8 @@
-﻿using Prism.Ioc;
-using Prism.Unity.Extensions;
-using System;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
+﻿using System;
 
-[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]
 namespace Prism.Unity
 {
+    [Obsolete("PrismApplication is now implemented directly in Prism.Forms.Extended. Please uninstall the Prism.Unity.Forms.Extended NuGet, install the Prism.Unity.Extensions and update your reference to use PrismApplication in Prism.Forms.Extended", error: true)]
     public abstract class PrismApplication : PrismApplicationBaseExtended
     {
         public PrismApplication()
@@ -22,7 +18,5 @@ namespace Prism.Unity
             : base(platformInitializer, setFormsDependencyResolver)
         {
         }
-
-        protected override IContainerExtension CreateContainerExtension() => PrismContainerExtension.Current;
     }
 }

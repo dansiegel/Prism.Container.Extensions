@@ -17,10 +17,15 @@ namespace Shiny.Prism.Mocks
     {
         private ITestOutputHelper _testOutputHelper { get; }
 
-        public MockStartup(ITestOutputHelper testOutputHelper)
-            : base(RegenerateContainer())
+        public MockStartup(ITestOutputHelper testOutputHelper, bool setContainer = true)
+            : base(setContainer ? RegenerateContainer() : null)
         {
             _testOutputHelper = testOutputHelper;
+
+            if(!setContainer)
+            {
+                RegenerateContainer();
+            }
         }
 
         protected override void ConfigureServices(IServiceCollection services)

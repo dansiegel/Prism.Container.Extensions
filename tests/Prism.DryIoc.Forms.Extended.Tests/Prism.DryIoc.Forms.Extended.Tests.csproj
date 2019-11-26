@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
-    <ProjectReference Include="..\..\src\Prism.DryIoc.Forms.Extended\Prism.DryIoc.Forms.Extended.csproj" />
     <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
   </ItemGroup>
 

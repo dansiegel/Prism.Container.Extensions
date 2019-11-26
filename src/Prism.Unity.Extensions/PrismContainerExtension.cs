@@ -1,15 +1,17 @@
-﻿using Prism.Ioc;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Prism.Container.Extensions;
+using Prism.Ioc;
+using Prism.Unity;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 using Unity.Resolution;
 
+[assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.Unity.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
-namespace Prism.Unity.Extensions
+namespace Prism.Unity
 {
     public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider
     {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Modularity;
 using Shiny.Prism.Modularity;
@@ -55,9 +57,10 @@ namespace Shiny.Prism
             return sp;
         }
 
-        protected virtual IContainerExtension CreateContainerExtension() =>
-            _container ??
-            throw new NotImplementedException("You must implement PrismStartup.CreateContainerExtension() or Supply the PrismStartup with an instance of IContainerExtension");
+        protected virtual IContainerExtension CreateContainerExtension()
+        {
+            return _container ?? ContainerLocator.Locate();
+        }
 
         public IShinyStartup WithContainer(IContainerExtension container)
         {

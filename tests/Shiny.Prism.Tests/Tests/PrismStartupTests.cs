@@ -56,5 +56,14 @@ namespace Shiny.Prism.Tests
             Assert.IsType(implementingType, fromShiny);
             Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(serviceType));
         }
+
+        [Fact]
+        public void PrismStartupLocatesContainerExtension()
+        {
+            var ex = Record.Exception(() => ShinyPrismTestHost.Init(new MockStartup(_testOutputHelper, false)));
+
+            Assert.Null(ex);
+            Assert.NotNull(PrismContainerExtension.Current.Resolve<IConnectivity>());
+        }
     }
 }

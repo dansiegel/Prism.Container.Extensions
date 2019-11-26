@@ -3,9 +3,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DryIoc;
+using Prism.Container.Extensions;
+using Prism.DryIoc;
 using Prism.Ioc;
 using IContainer = DryIoc.IContainer;
 
+[assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]

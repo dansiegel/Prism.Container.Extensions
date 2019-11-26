@@ -1,9 +1,10 @@
-﻿using Prism.Ioc;
+﻿using System;
+using Prism.Ioc;
 using Xamarin.Forms;
 
-[assembly: XmlnsDefinition("http://prismlibrary.com", "Prism.Microsoft.DependencyInjection")]
 namespace Prism.Microsoft.DependencyInjection
 {
+    [Obsolete("PrismApplication is now implemented directly in Prism.Forms.Extended. Please uninstall the Prism.Microsoft.DependencyInjection.Forms.Extended NuGet, install the Prism.Microsoft.DependencyInjection.Extensions NuGet and update your reference to use PrismApplication in Prism.Forms.Extended", error: true)]
     public abstract class PrismApplication : PrismApplicationBaseExtended
     {
         protected PrismApplication()
@@ -19,8 +20,5 @@ namespace Prism.Microsoft.DependencyInjection
             : base(platformInitializer, setFormsDependencyResolver)
         {
         }
-
-        protected override IContainerExtension CreateContainerExtension() =>
-            PrismContainerExtension.Current;
     }
 }

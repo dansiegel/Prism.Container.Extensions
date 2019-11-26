@@ -8,33 +8,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Platform/**/*.cs" />
-    <None Include="Platform/**/*.cs" />
+    <Compile Remove="**/*.android.cs;**/*.iosmac.cs;**/*.netstandard.cs" />
+    <None Include="**/*.android.cs;**/*.iosmac.cs;**/*.netstandard.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-    <None Remove="**/Platform/NetStandard/**/*.cs" />
-    <Compile Include="**/Platform/NetStandard/**/*.cs" />
+    <None Remove="**/*.netstandard.cs" />
+    <Compile Include="**/*.netstandard.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Reference Include="System.Runtime.Serialization" />
-    <None Remove="**/Platform/Droid/**/*.cs" />
-    <Compile Include="**/Platform/Droid/**/*.cs" />
+    <None Remove="**/*.android.cs" />
+    <Compile Include="**/*.android.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Reference Include="System.Runtime.Serialization" />
-    <None Remove="**/Platform/iOSMac/**/*.cs" />
-    <Compile Include="**/Platform/iOSMac/**/*.cs" />
+    <None Remove="**/*.iosmac.cs" />
+    <Compile Include="**/*.iosmac.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Platform\PlatformSpecifics.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Prism.Forms" Version="7.2.0.1367" />
+    <PackageReference Include="Prism.Forms" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Plugin.Logging.Abstractions" Version="7.2.0.700" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using Prism.Ioc;
 
@@ -22,8 +23,15 @@ namespace Prism.Container.Extensions
 
         private IContainerExtension GetContainerExtension()
         {
-            var current = containerExtensionType.GetProperty("Current", BindingFlags.Public | BindingFlags.Static);
-            return (IContainerExtension)current.GetValue(null);
+            var containerExtensionProperty = containerExtensionType.GetProperty("Current", BindingFlags.Public | BindingFlags.Static);
+
+            if(containerExtensionProperty is null)
+            {
+                containerExtensionProperty = containerExtensionType.GetProperties(BindingFlags.Public | BindingFlags.Static)
+                                                                   .FirstOrDefault(p => p.PropertyType.IsAssignableFrom(typeof(IContainerExtension)));
+            }
+
+            return (IContainerExtension)containerExtensionProperty?.GetValue(null);
         }
     }
 }

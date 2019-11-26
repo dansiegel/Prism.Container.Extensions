@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -8,6 +8,7 @@ using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Microsoft.DependencyInjection;
 
+[assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]

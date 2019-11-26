@@ -10,7 +10,7 @@ using Xamarin.Forms.Internals;
 
 namespace Prism
 {
-    public abstract partial class PrismApplicationBaseExtended
+    public abstract partial class PrismApplication
     {
         protected override void Initialize()
         {

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -21,7 +21,6 @@
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
     <ProjectReference Include="..\..\src\Prism.Unity.Extensions\Prism.Unity.Extensions.csproj" />
-    <ProjectReference Include="..\..\src\Prism.Unity.Forms.Extended\Prism.Unity.Forms.Extended.csproj" />
   </ItemGroup>
 
   <Import Project="..\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems" Label="Shared" />
