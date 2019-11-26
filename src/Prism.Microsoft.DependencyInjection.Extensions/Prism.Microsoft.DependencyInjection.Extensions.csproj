@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <!-- TODO: This needs to be in preview until it has some usage -->
     <VersionSuffix Condition=" $(IS_RELEASE) ">pre</VersionSuffix>
     <PackageTags>prism di iserviceprovider iservicecollection microsoft-dependencyinjection</PackageTags>
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
