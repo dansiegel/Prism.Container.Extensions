@@ -104,7 +104,7 @@ namespace Prism
             Console.WriteLine("A Navigation Error was encountered from the Default Error Handler PrismApplication.OnNavigationError");
 
             var parameters = navigationError.Parameters is null ? string.Empty : Serialize(navigationError.Parameters);
-            Container.Resolve<ICrashesService>().Report(navigationError.Exception, ("navigationParameters", parameters), ("navigationUri", navigationError.NavigationUri));
+            Container.Resolve<ILogger>().Report(navigationError.Exception, ("navigationParameters", parameters), ("navigationUri", navigationError.NavigationUri));
         }
 
         private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
