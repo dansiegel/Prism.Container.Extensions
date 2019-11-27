@@ -69,9 +69,12 @@ nav:
     - Prism.Forms Extended:
       - Intro: forms/index.md
       - Page Behavior Factory: forms/pagebehaviorfactory.md
-      - Global Navigation Error: forms/navigationerrors.md
+      - Global Navigation Errors: forms/navigationerrors.md
+      - Fluent Navigation: forms/fluent-navigation.md
+      - ExecutionAwareCommand: forms/executionawarecommand.md
     - Shiny Support:
       - Intro: shiny/index.md
+      - Startup: shiny/startup.md
       - Modularity: shiny/modularity.md
       - Navigation: shiny/navigation.md
   - Mobile.BuildTools:

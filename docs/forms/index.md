@@ -34,25 +34,30 @@ public partial class App
 
 The extended PrismApplication is cross compiled for Xamarin.iOS and Xamarin.Android and provides several out of the box improvements over the normal PrismApplication.
 
+- It provides you all of the container extensions found here that help make advanced registration scenarios much easier.
 - It includes the `ILogger` from [Prism.Plugin.Logging](http://logging.prismplugins.com)
-  - By default the Console Logger is registered and is available.
+    - By default the [`AggregateLogger`](http://logging.prismplugins.com/aggregate-logger/) is registered and is available.
 - It has pre-wired support for logging XAML errors and other issues directly from Xamarin.Forms (It will use your ILogger to log things like Bindings that cannot be resolved)
 - Becase it is cross compiled, it has global Exception Handling built in for:
-  - AndroidEnvironment
-  - ObjectiveC.Runtime
-  - AppDomain
-  - TaskScheduler
-- It provides you all of the container extensions found here that help make advanced registration scenarios much easier.
 
-```xml
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
-                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                        xmlns:prism="http://prismlibrary.com"
-                        x:Class="Contoso.Awesome.App">
-  <prism:PrismApplication.ModuleCatalog>
-    <prism:ModuleCatalog>
-      <prism:ModuleInfo />
-    </prism.ModuleCatalog>
-  </prism:PrismApplication.ModuleCatalog>
-</prism:PrismApplication>
+| Environment | Platform |
+|-------------|----------|
+| AndroidEnvironment | Android |
+| ObjectiveC.Runtime | iOS |
+| AppDomain | All |
+| TaskScheduler | All |
+
+#### Setting up the Aggregate Logger
+
+By default the AggregateLogger will have the ConsoleLogger added ensuring that any logging output will always be written to the Console. This is generally exactly what you want for development, and in Production this is often helpful as well as you can still view the log on your device with a build from the Google Play / App Store. Chances are though that you will want to add additional loggers. To do you this you will want to do the following:
+
+```c#
+protected override void OnInitialized()
+{
+    var logger = Container.Resolve<IAggregateLogger>();
+
+    // Add another logging implementation from the Logging Plugin
+    // or that you have implemented
+    logger.AddLogger(Container.Resolve<SyslogLogger>());
+}
 ```

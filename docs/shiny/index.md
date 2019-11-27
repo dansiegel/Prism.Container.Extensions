@@ -1,13 +1,11 @@
 # Working With Shiny
 
-[Shiny](https://github.com/shinyorg/shiny) uses the Microsoft.Extensions.DependencyInjection pattern found in ASP.NET Core applications with a Startup class. This in particular is a use case in which you will need to initialize a container prior to Forms.Init being called on the native platform. To work with Shiny you simply need to do something like the following:
-
-
-
+[Shiny](https://github.com/shinyorg/shiny) uses the Microsoft.Extensions.DependencyInjection pattern of service registration found in ASP.NET Core applications with a Startup class. This in particular is a use case in which you will need to initialize a container prior to Forms.Init being called on the native platform. To work with Shiny you simply need to do something like the following:
 
 
 ```c#
 // Android
+[Application]
 public class App : Android.App.Application
 {
     public override void OnCreate()
