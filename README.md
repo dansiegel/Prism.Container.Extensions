@@ -1,6 +1,6 @@
 ﻿# Prism.Container.Extensions
 
-The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with Splat, IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
+The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
 
 For more information be sure to check out the docs at [prismplugins.com](https://prismplugins.com)
 
@@ -18,15 +18,12 @@ You can add the MyGet CI feed to nuget by adding it as a source in Visual Studio
 
 | Package | NuGet | MyGet |
 |-------|:-----:|:------:|
-| Prism.Container.Extensions | [![ContainerExtensionsShield]][ContainerExtensionsNuGet] | [![ContainerExtensionsMyGetShield]][ContainerExtensionsMyGet] |
-| Prism.Forms.Extended | [![PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
-| Prism.DryIoc.Extensions | [![DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
-| Prism.DryIoc.Forms.Extended | [![DryIocFormsExtendedShield]][DryIocFormsExtendedNuGet] | [![DryIocFormsExtendedMyGetShield]][DryIocFormsExtendedMyGet] |
-| Prism.Microsoft.DependencyInjection.Extensions | [![MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
-| Prism.Microsoft.DependencyInjection.Forms.Extended | [![MsftDependencyInjectionFormsExtendedShield]][MsftDependencyInjectionFormsExtendedNuGet] | [![MsftDependencyInjectionFormsExtendedMyGetShield]][MsftDependencyInjectionFormsExtendedMyGet] |
-| Prism.Unity.Extensions | [![UnityExtensionsShield]][UnityExtensionsNuGet] | [![UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
-| Prism.Unity.Forms.Extended | [![UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
-| Shiny.Prism | [![ShinyPrismShield]][ShinyPrismNuGet] | [![ShinyPrismMyGetShield]][ShinyPrismMyGet] |
+| Prism.Container.Extensions | [![Latest NuGet][ContainerExtensionsShield]][ContainerExtensionsNuGet] | [![Latest CI Package][ContainerExtensionsMyGetShield]][ContainerExtensionsMyGet] |
+| Prism.Forms.Extended | [![Latest NuGet][PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![Latest CI Package][PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
+| Prism.DryIoc.Extensions | [![Latest NuGet][DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![Latest CI Package][DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
+| Prism.Microsoft.DependencyInjection.Extensions | [![Latest NuGet][MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![Latest CI Package][MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
+| Prism.Unity.Extensions | [![Latest NuGet][UnityExtensionsShield]][UnityExtensionsNuGet] | [![Latest CI Package][UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
+| Shiny.Prism | [![Latest NuGet][ShinyPrismShield]][ShinyPrismNuGet] | [![Latest CI Package][ShinyPrismMyGetShield]][ShinyPrismMyGet] |
 
 ## Support
 

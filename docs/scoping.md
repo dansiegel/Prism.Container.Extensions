@@ -1,0 +1,3 @@
+# Scoping
+
+TODO

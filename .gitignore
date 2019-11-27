@@ -266,3 +266,6 @@ appsettings.json
 
 # MFractor
 .mfractor/
+
+# MkDocs Generated Site
+site/

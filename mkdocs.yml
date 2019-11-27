@@ -20,7 +20,7 @@ theme:
   favicon: assets/favicon.ico
   language: en
   feature:
-    tabs: false
+    tabs: true
   palette:
     primary: 'white'
     accent: 'cyan'
@@ -50,15 +50,31 @@ markdown_extensions:
       permalink: true
 
 nav:
-  - Getting Started: index.md
-  - Containers:
-    - Basics: containers/index.md
-    - DryIoc: containers/dryioc.md
-    - Microsoft D.I. Extensions: containers/microsoft-extensions-dependencyinjection.md
-    - Unity: containers/unity.md
-  - Prism.Forms Extended:
-    - Intro: forms/index.md
-  - Shiny Support:
-    - Intro: shiny/index.md
-    - Modularity: shiny/modularity.md
-    - Navigation: shiny/navigation.md
+  - Prism:
+    - Prism Library: http://prismlibrary.github.io/docs
+  - Logging:
+    - Logging: http://logging.prismplugins.com
+  - Popups:
+    - Popups: http://popups.prismplugins.com
+  - Container Extensions:
+    - Getting Started: index.md
+    - RegisterMany: registermany.md
+    - Delegate Registration: registerdelegates.md
+    - Scoped Services: scoping.md
+    - Containers:
+      - Basics: containers/index.md
+      - DryIoc: containers/dryioc.md
+      - Microsoft D.I. Extensions: containers/microsoft-extensions-dependencyinjection.md
+      - Unity: containers/unity.md
+    - Prism.Forms Extended:
+      - Intro: forms/index.md
+      - Page Behavior Factory: forms/pagebehaviorfactory.md
+      - Global Navigation Error: forms/navigationerrors.md
+    - Shiny Support:
+      - Intro: shiny/index.md
+      - Modularity: shiny/modularity.md
+      - Navigation: shiny/navigation.md
+  - Mobile.BuildTools:
+    - Mobile.BuildTools: http://mobilebuildtools.com
+
+google_analytics: ['UA-153405647-1', 'Prism.Container.Extensions']

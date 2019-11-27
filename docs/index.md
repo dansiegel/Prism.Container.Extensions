@@ -1,12 +1,16 @@
 # Prism.Container.Extensions
 
-The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with Splat, IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
+The Prism Container Extensions provide various additional extensions making the Prism Container easier to use with IServiceCollection/IServiceProvider and in scenarios where you may require a Singleton container that may need to be initialized from Platform specific code prior to PrismApplication being created. Note that both the Prism.Container.Extensions and Prism.DryIoc.Extensions are platform agnostic meaning you can use them on WPF or Xamarin Forms.
 
 ## Support
 
-This project is maintained by Dan Siegel. If this project or others maintained by Dan have helped you please help support the project by [sponsoring Dan](https://xam.dev/sponsor-prism-logging) on GitHub!
+This project is maintained by Dan Siegel. If this project or others maintained by Dan have helped you please help support the project by [sponsoring Dan](https://xam.dev/sponsor-container-extensions) on GitHub!
 
-[![GitHub Sponsors](https://github.blog/wp-content/uploads/2019/05/mona-heart-featured.png?fit=600%2C315)](https://xam.dev/sponsor-prism-logging)
+[![GitHub Sponsors](https://github.blog/wp-content/uploads/2019/05/mona-heart-featured.png?fit=600%2C315)](https://xam.dev/sponsor-container-extensions)
+
+## Why use the Container Extensions?
+
+While the Container abstractions provided by `IContainerRegistry` will give you what you need at least 95% of the time, there are still a number of times that you need to be able to do some more advanced registrations for your services. While adding these additional methods may confuse the average developer who is still struggling to understand "What is a Transient, what is a Singleton, when do I use each?". The extensions give you exactly what you need in order to write extremely loosely coupled code that can be reused from one project to another regardless of whether you are developing for Prism for WPF, Prism for Xamarin.Forms or just doing your own thing with Prism.Core.
 
 ## NuGet
 
@@ -15,11 +19,8 @@ This project is maintained by Dan Siegel. If this project or others maintained b
 | Prism.Container.Extensions | [![Latest NuGet][ContainerExtensionsShield]][ContainerExtensionsNuGet] | [![Latest CI Package][ContainerExtensionsMyGetShield]][ContainerExtensionsMyGet] |
 | Prism.Forms.Extended | [![Latest NuGet][PrismFormsExtendedShield]][PrismFormsExtendedNuGet] | [![Latest CI Package][PrismFormsExtendedMyGetShield]][PrismFormsExtendedMyGet] |
 | Prism.DryIoc.Extensions | [![Latest NuGet][DryIocExtensionsShield]][DryIocExtensionsNuGet] | [![Latest CI Package][DryIocExtensionsMyGetShield]][DryIocExtensionsMyGet] |
-| Prism.DryIoc.Forms.Extended | [![Latest NuGet][DryIocFormsExtendedShield]][DryIocFormsExtendedNuGet] | [![Latest CI Package][DryIocFormsExtendedMyGetShield]][DryIocFormsExtendedMyGet] |
 | Prism.Microsoft.DependencyInjection.Extensions | [![Latest NuGet][MsftDependencyInjectionExtensionsShield]][MsftDependencyInjectionExtensionsNuGet] | [![Latest CI Package][MsftDependencyInjectionExtensionsMyGetShield]][MsftDependencyInjectionExtensionsMyGet] |
-| Prism.Microsoft.DependencyInjection.Forms.Extended | [![Latest NuGet][MsftDependencyInjectionFormsExtendedShield]][MsftDependencyInjectionFormsExtendedNuGet] | [![Latest CI Package][MsftDependencyInjectionFormsExtendedMyGetShield]][MsftDependencyInjectionFormsExtendedMyGet] |
 | Prism.Unity.Extensions | [![Latest NuGet][UnityExtensionsShield]][UnityExtensionsNuGet] | [![Latest CI Package][UnityExtensionsMyGetShield]][UnityExtensionsMyGet] |
-| Prism.Unity.Forms.Extended | [![Latest NuGet][UnityFormsExtendedShield]][UnityFormsExtendedNuGet] | [![Latest CI Package][UnityFormsExtendedMyGetShield]][UnityFormsExtendedMyGet] |
 | Shiny.Prism | [![Latest NuGet][ShinyPrismShield]][ShinyPrismNuGet] | [![Latest CI Package][ShinyPrismMyGetShield]][ShinyPrismMyGet] |
 
 ### CI NuGet Feed
