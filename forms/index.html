@@ -116,7 +116,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#using-the-prismdryiocformsextended" tabindex="1" class="md-skip">
+      <a href="#using-the-prismformsextended" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -623,16 +623,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#using-the-prismdryiocformsextended" class="md-nav__link">
-    Using the Prism.DryIoc.Forms.Extended
+  <a href="#using-the-prismformsextended" class="md-nav__link">
+    Using the Prism.Forms.Extended
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#why-use-prismdryiocformsextended" class="md-nav__link">
-    Why use Prism.DryIoc.Forms.Extended
+  <a href="#why-use-prismformsextended" class="md-nav__link">
+    Why use Prism.Forms.Extended
   </a>
   
 </li>
@@ -650,6 +650,54 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="pagebehaviorfactory/" title="Page Behavior Factory" class="md-nav__link">
+      Page Behavior Factory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="navigationerrors/" title="Global Navigation Errors" class="md-nav__link">
+      Global Navigation Errors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="fluent-navigation/" title="Fluent Navigation" class="md-nav__link">
+      Fluent Navigation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="executionawarecommand/" title="ExecutionAwareCommand" class="md-nav__link">
+      ExecutionAwareCommand
+    </a>
   </li>
 
         
@@ -685,6 +733,18 @@
   <li class="md-nav__item">
     <a href="../shiny/" title="Intro" class="md-nav__link">
       Intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../shiny/startup/" title="Startup" class="md-nav__link">
+      Startup
     </a>
   </li>
 
@@ -778,16 +838,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#using-the-prismdryiocformsextended" class="md-nav__link">
-    Using the Prism.DryIoc.Forms.Extended
+  <a href="#using-the-prismformsextended" class="md-nav__link">
+    Using the Prism.Forms.Extended
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#why-use-prismdryiocformsextended" class="md-nav__link">
-    Why use Prism.DryIoc.Forms.Extended
+  <a href="#why-use-prismformsextended" class="md-nav__link">
+    Why use Prism.Forms.Extended
   </a>
   
 </li>
@@ -816,8 +876,8 @@
                 
                   <h1>Intro</h1>
                 
-                <h2 id="using-the-prismdryiocformsextended">Using the Prism.DryIoc.Forms.Extended<a class="headerlink" href="#using-the-prismdryiocformsextended" title="Permanent link">&para;</a></h2>
-<p>The Prism.DryIoc.Forms.Extended package is designed to make it even easier for you to integrate these fantastic packages. As you'll see using it is identical in every way to creating a typical Prism Application. The only difference is that you are installing the Prism.DryIoc.Forms.Extended package instead of Prism.DryIoc.Forms.</p>
+                <h2 id="using-the-prismformsextended">Using the Prism.Forms.Extended<a class="headerlink" href="#using-the-prismformsextended" title="Permanent link">&para;</a></h2>
+<p>The Prism.Forms.Extended package is designed to make it even easier for you to integrate these fantastic packages. As you'll see using it is identical in every way to creating a typical Prism Application. The only difference is that you are installing the Prism.Forms.Extended package instead of Prism.Forms, Prism.DryIoc.Forms or Prism.Unity.Forms.</p>
 <div class="codehilite"><pre><span></span><span class="nt">&lt;prism:PrismApplication</span> <span class="na">xmlns=</span><span class="s">&quot;http://xamarin.com/schemas/2014/forms&quot;</span>
                         <span class="na">xmlns:x=</span><span class="s">&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;</span>
                         <span class="na">xmlns:prism=</span><span class="s">&quot;http://prismlibrary.com&quot;</span>
@@ -843,11 +903,16 @@
 </pre></div>
 
 
-<h3 id="why-use-prismdryiocformsextended">Why use Prism.DryIoc.Forms.Extended<a class="headerlink" href="#why-use-prismdryiocformsextended" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Critical Notice</p>
+<p>The Prism Application in <code>Prism.Forms.Extended</code> requires the use of a container implementation from the Prism.Container.Extensions project. It will automatically wire in any reference without any changes to code. You simple need to ensure that Prism.DryIoc.Extensions, Prism.Microsoft.DependencyInjection.Extensions, or Prism.Unity.Extensions is installed.</p>
+</div>
+<h3 id="why-use-prismformsextended">Why use Prism.Forms.Extended<a class="headerlink" href="#why-use-prismformsextended" title="Permanent link">&para;</a></h3>
 <p>The extended PrismApplication is cross compiled for Xamarin.iOS and Xamarin.Android and provides several out of the box improvements over the normal PrismApplication.</p>
 <ul>
-<li>It includes the <code>ILogger</code> from <a href="https://github.com/dansiegel/Prism.Plugin.Logging">Prism.Plugin.Logging</a></li>
-<li>It has pre-wired support for logging XAML errors and other issues directly from Xamarin.Forms</li>
+<li>It includes the <code>ILogger</code> from <a href="http://logging.prismplugins.com">Prism.Plugin.Logging</a></li>
+<li>By default the Console Logger is registered and is available.</li>
+<li>It has pre-wired support for logging XAML errors and other issues directly from Xamarin.Forms (It will use your ILogger to log things like Bindings that cannot be resolved)</li>
 <li>Becase it is cross compiled, it has global Exception Handling built in for:</li>
 <li>AndroidEnvironment</li>
 <li>ObjectiveC.Runtime</li>

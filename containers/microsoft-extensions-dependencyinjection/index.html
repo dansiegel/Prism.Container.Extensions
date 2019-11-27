@@ -651,6 +651,54 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../forms/pagebehaviorfactory/" title="Page Behavior Factory" class="md-nav__link">
+      Page Behavior Factory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../forms/navigationerrors/" title="Global Navigation Errors" class="md-nav__link">
+      Global Navigation Errors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../forms/fluent-navigation/" title="Fluent Navigation" class="md-nav__link">
+      Fluent Navigation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../forms/executionawarecommand/" title="ExecutionAwareCommand" class="md-nav__link">
+      ExecutionAwareCommand
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -683,6 +731,18 @@
   <li class="md-nav__item">
     <a href="../../shiny/" title="Intro" class="md-nav__link">
       Intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../shiny/startup/" title="Startup" class="md-nav__link">
+      Startup
     </a>
   </li>
 
@@ -811,15 +871,11 @@
                 <h1 id="microsoftextensionsdependencyinjection">Microsoft.Extensions.DependencyInjection<a class="headerlink" href="#microsoftextensionsdependencyinjection" title="Permanent link">&para;</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning!!!</p>
-<p>Support for this container is purely proof of concept. This may still have a number of bugs.</p>
+<p>Support for this container is proof of concept. This may still have a number of bugs. It is not advised to use this for production code at this time.</p>
 </div>
 <p>For a number of developers, the Service Provider in Microsoft.Extensions.DependencyInjection is a great lightweight D.I. container. Traditionally this has never been seriously considered for Prism support since Prism has a hard requirement on named services in order to resolve your Views. Prism also has a bit of a requirement that it be able to resolve a service that was never registered.</p>
 <h2 id="what-makes-this-different">What makes this different?<a class="headerlink" href="#what-makes-this-different" title="Permanent link">&para;</a></h2>
 <p>The requirement for named services never went away, nor did the requirement that we can resolve types like your ViewModels which are never directly registered. This package provides some additions though that allow us to track mapping between keys and types as well as to resolve concrete types even if they haven't been registered. With these two enhancements built on top of Microsoft's DI Extensions we are able to support Prism with the container.</p>
-<div class="admonition note">
-<p class="admonition-title">Backstory</p>
-<p>While on the train Dan and Allan had a call and Allan said there was no way Microsoft.Extensions.DependencyInjection could work with Prism because of the requirement for named services... Dan had around 24 hours of flight time ahead of him and so he said "Challenge Accepted!"</p>
-</div>
 <h2 id="using-the-container">Using the Container<a class="headerlink" href="#using-the-container" title="Permanent link">&para;</a></h2>
 <p>This container is most likely to be used any time that you're using Shiny, but this can be used completely independently from Shiny or even Prism.</p>
                 

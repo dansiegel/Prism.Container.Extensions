@@ -13,7 +13,7 @@
         <meta name="description" content="Documentation for the Prism Container Extensions">
       
       
-        <link rel="canonical" href="https://prismplugins.com/containers/dryioc/">
+        <link rel="canonical" href="https://prismplugins.com/forms/pagebehaviorfactory/">
       
       
         <meta name="author" content="Dan Siegel">
@@ -42,7 +42,7 @@
     
     
       
-        <title>DryIoc - Prism.Container.Extensions</title>
+        <title>Page Behavior Factory - Prism.Container.Extensions</title>
       
     
     
@@ -138,7 +138,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                DryIoc
+                Page Behavior Factory
               
             </span>
           
@@ -501,12 +501,10 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
     
     <label class="md-nav__link" for="nav-4-5">
       Containers
@@ -524,7 +522,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../" title="Basics" class="md-nav__link">
+    <a href="../../containers/" title="Basics" class="md-nav__link">
       Basics
     </a>
   </li>
@@ -534,18 +532,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" title="DryIoc" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../containers/dryioc/" title="DryIoc" class="md-nav__link">
       DryIoc
     </a>
-    
   </li>
 
         
@@ -555,7 +546,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../microsoft-extensions-dependencyinjection/" title="Microsoft D.I. Extensions" class="md-nav__link">
+    <a href="../../containers/microsoft-extensions-dependencyinjection/" title="Microsoft D.I. Extensions" class="md-nav__link">
       Microsoft D.I. Extensions
     </a>
   </li>
@@ -567,7 +558,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../unity/" title="Unity" class="md-nav__link">
+    <a href="../../containers/unity/" title="Unity" class="md-nav__link">
       Unity
     </a>
   </li>
@@ -582,10 +573,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6" checked>
     
     <label class="md-nav__link" for="nav-4-6">
       Prism.Forms Extended
@@ -603,7 +596,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../forms/" title="Intro" class="md-nav__link">
+    <a href="../" title="Intro" class="md-nav__link">
       Intro
     </a>
   </li>
@@ -613,11 +606,18 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../forms/pagebehaviorfactory/" title="Page Behavior Factory" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="./" title="Page Behavior Factory" class="md-nav__link md-nav__link--active">
       Page Behavior Factory
     </a>
+    
   </li>
 
         
@@ -627,7 +627,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../forms/navigationerrors/" title="Global Navigation Errors" class="md-nav__link">
+    <a href="../navigationerrors/" title="Global Navigation Errors" class="md-nav__link">
       Global Navigation Errors
     </a>
   </li>
@@ -639,7 +639,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../forms/fluent-navigation/" title="Fluent Navigation" class="md-nav__link">
+    <a href="../fluent-navigation/" title="Fluent Navigation" class="md-nav__link">
       Fluent Navigation
     </a>
   </li>
@@ -651,7 +651,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../forms/executionawarecommand/" title="ExecutionAwareCommand" class="md-nav__link">
+    <a href="../executionawarecommand/" title="ExecutionAwareCommand" class="md-nav__link">
       ExecutionAwareCommand
     </a>
   </li>
@@ -788,9 +788,32 @@
               
                 
                 
-                  <h1>DryIoc</h1>
+                  <h1>Page Behavior Factory</h1>
                 
-                
+                <p>Prism's IPageBehaviorFactory is a great way to apply some custom behaviors on to pages either globally or with a little business logic. The Extended Prism.Forms package uses a custom PageBehaviorFactory. In addition to the normal behaviors that Prism applies to your Pages behind the scenes, the Extended version provides support for the following:</p>
+<ul>
+<li>Globally adding Platform Specifics on:</li>
+<li>SetToolbarPlacement on Android TabbedPage</li>
+<li>Use Safe Area on iOS</li>
+<li>PreferLargeTitles on iOS</li>
+<li>A custom behavior that changes the Title of a TabbedPage to always match the actively selected Tab</li>
+</ul>
+<p>To control these features you simply need to register an implementation of <code>IPageBehaviorFactoryOptions</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A default instance is provided automatically that enables all of these features.</p>
+</div>
+<div class="codehilite"><pre><span></span><span class="k">internal</span> <span class="k">class</span> <span class="nc">MyPageBehaviorFactoryOptions</span> <span class="p">:</span> <span class="n">IPageBehaviorFactoryOptions</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">UseBottomTabs</span> <span class="p">=&gt;</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">UseSafeArea</span> <span class="p">=&gt;</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">UseChildTitle</span> <span class="p">=&gt;</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">PreferLargeTitles</span> <span class="p">=&gt;</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
                 
                   
                 
