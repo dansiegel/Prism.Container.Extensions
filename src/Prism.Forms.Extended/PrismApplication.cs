@@ -53,6 +53,14 @@ namespace Prism
             return ContainerLocator.Locate();
         }
 
+        protected virtual void ConfigureAggregateLogger(IAggregateLogger aggregateLogger, IContainerProvider container)
+        {
+            if(!aggregateLogger.Loggers.Any())
+            {
+                aggregateLogger.AddLogger(container.Resolve<ConsoleLoggingService>());
+            }
+        }
+
         protected sealed override void InitializeModules()
         {
             if (ModuleCatalog is null)

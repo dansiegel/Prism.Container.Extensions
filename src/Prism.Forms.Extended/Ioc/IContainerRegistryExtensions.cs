@@ -17,7 +17,7 @@ namespace Prism.Ioc
     {
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterManySingletonOnce<ConsoleLoggingService>();
+            containerRegistry.RegisterManySingletonOnce<AggregateLogger>();
             containerRegistry.RegisterSingletonOnce<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingletonOnce<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingletonOnce<IEventAggregator, EventAggregator>();

@@ -27,6 +27,7 @@ namespace Prism
             Logger = Container.Resolve<ILogger>();
             Log.Listeners.Add(Container.Resolve<FormsLogListener>());
             Container.Resolve<IEventAggregator>().GetEvent<NavigationErrorEvent>().Subscribe(OnNavigationError);
+            ConfigureAggregateLogger(Container.Resolve<IAggregateLogger>(), Container);
         }
 
         private void Runtime_MarshalObjectiveCException(object sender, MarshalObjectiveCExceptionEventArgs args)
