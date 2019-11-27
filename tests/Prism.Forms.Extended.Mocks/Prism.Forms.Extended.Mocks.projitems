@@ -9,20 +9,23 @@
     <Import_RootNamespace>Prism.Forms.Extended</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AppMock.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\AppMock.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>AppMock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)BadModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModuleA.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModuleB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\BadModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ModuleA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ModuleB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Navigation\MockNavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ExecutionAwareCommandTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\FluentNavigationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\PrismApplicationTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewA.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewB.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewC.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)AppMock.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\AppMock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
