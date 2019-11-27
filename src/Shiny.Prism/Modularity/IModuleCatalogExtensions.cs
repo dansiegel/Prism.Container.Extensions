@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Prism.Modularity;
 
 namespace Shiny.Prism.Modularity
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class IModuleCatalogExtensions
     {
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool HasStartupModules(this IModuleCatalog moduleCatalog, out IEnumerable<IModuleInfo> startupModules)
         {
             startupModules = FilterForStartup(moduleCatalog.Modules);
