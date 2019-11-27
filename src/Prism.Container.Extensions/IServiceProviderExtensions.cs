@@ -44,8 +44,13 @@ namespace Prism.Ioc
                         if (service.ImplementationType != null)
                             containerRegistry.RegisterScoped(service.ServiceType, service.ImplementationType);
                         else if (service.ImplementationType is null)
+                            containerRegistry.RegisterScopedFromDelegate(service.ServiceType, service.ImplementationFactory);
+                        else if (service.ServiceType.IsAbstract)
+                            throw new NotSupportedException($"Cannot register the service {service.ServiceType.FullName} as it is an abstract type");
+                        else if (service.ServiceType.IsInterface)
+                            throw new NotSupportedException($"Cannot register the service {service.ServiceType.FullName} as it is an interface. You must provide a concrete implementation");
+                        else
                             containerRegistry.RegisterScoped(service.ServiceType);
-                        // Everything else is currently unsupported...
                         break;
                 }
             }

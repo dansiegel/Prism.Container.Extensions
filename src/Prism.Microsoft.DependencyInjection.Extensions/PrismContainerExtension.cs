@@ -14,7 +14,7 @@ using Prism.Microsoft.DependencyInjection;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
     {
         private static IContainerExtension<IServiceProvider> _current;
         public static IContainerExtension<IServiceProvider> Current
@@ -273,6 +273,27 @@ namespace Prism.Microsoft.DependencyInjection
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, implementationType);
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
+        {
+            requiresRebuild = true;
+            Services.AddScoped(serviceType, s => factoryMethod());
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        {
+            requiresRebuild = true;
+            Services.AddScoped(serviceType, s => factoryMethod(s.GetService<IContainerProvider>()));
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        {
+            requiresRebuild = true;
+            Services.AddScoped(serviceType, factoryMethod);
             return this;
         }
 

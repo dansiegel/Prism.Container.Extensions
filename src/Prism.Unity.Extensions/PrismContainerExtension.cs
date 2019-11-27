@@ -13,7 +13,7 @@ using Unity.Resolution;
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
 namespace Prism.Unity
 {
-    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider
+    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
     {
         private static IContainerExtension<IUnityContainer> _current;
         public static IContainerExtension<IUnityContainer> Current
@@ -188,6 +188,25 @@ namespace Prism.Unity
             Instance.RegisterType(serviceType, implementationType, new ExternallyControlledLifetimeManager());
             return this;
         }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
+        {
+            Instance.RegisterFactory(serviceType, c => factoryMethod(), new ExternallyControlledLifetimeManager());
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new ExternallyControlledLifetimeManager());
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        {
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new ExternallyControlledLifetimeManager());
+            return this;
+        }
+
         void IScopeProvider.CreateScope()
         {
             if(_childContainer != null)
@@ -200,10 +219,10 @@ namespace Prism.Unity
         }
 
         public object Resolve(Type type) =>
-            Resolve(type, new (Type, object)[0]);
+            Resolve(type, Array.Empty<(Type, object)>());
 
         public object Resolve(Type type, string name) =>
-            Resolve(type, name, new (Type, object)[0]);
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {

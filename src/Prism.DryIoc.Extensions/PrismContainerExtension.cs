@@ -14,7 +14,7 @@ using IContainer = DryIoc.IContainer;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.DryIoc
 {
-    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider
+    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -56,6 +56,7 @@ namespace Prism.DryIoc
         public static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
                                                                     .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
                                                                     .WithoutThrowOnRegisteringDisposableTransient()
+            .WithFuncAndLazyWithoutRegistration()
 #if __IOS__
                                                                     .WithoutFastExpressionCompiler()
 #endif
@@ -197,6 +198,24 @@ namespace Prism.DryIoc
         public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
         {
             Instance.Register(serviceType, implementationType, Reuse.Scoped);
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
+        {
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(), Reuse.Scoped);
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()));
+            return this;
+        }
+
+        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        {
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Scoped);
             return this;
         }
 
