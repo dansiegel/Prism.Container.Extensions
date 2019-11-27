@@ -635,6 +635,19 @@
     Why use Prism.Forms.Extended
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-the-aggregate-logger" class="md-nav__link">
+    Setting up the Aggregate Logger
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -850,6 +863,19 @@
     Why use Prism.Forms.Extended
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-the-aggregate-logger" class="md-nav__link">
+    Setting up the Aggregate Logger
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -910,26 +936,50 @@
 <h3 id="why-use-prismformsextended">Why use Prism.Forms.Extended<a class="headerlink" href="#why-use-prismformsextended" title="Permanent link">&para;</a></h3>
 <p>The extended PrismApplication is cross compiled for Xamarin.iOS and Xamarin.Android and provides several out of the box improvements over the normal PrismApplication.</p>
 <ul>
-<li>It includes the <code>ILogger</code> from <a href="http://logging.prismplugins.com">Prism.Plugin.Logging</a></li>
-<li>By default the Console Logger is registered and is available.</li>
+<li>It provides you all of the container extensions found here that help make advanced registration scenarios much easier.</li>
+<li>It includes the <code>ILogger</code> from <a href="http://logging.prismplugins.com">Prism.Plugin.Logging</a><ul>
+<li>By default the <a href="http://logging.prismplugins.com/aggregate-logger/"><code>AggregateLogger</code></a> is registered and is available.</li>
+</ul>
+</li>
 <li>It has pre-wired support for logging XAML errors and other issues directly from Xamarin.Forms (It will use your ILogger to log things like Bindings that cannot be resolved)</li>
 <li>Becase it is cross compiled, it has global Exception Handling built in for:</li>
-<li>AndroidEnvironment</li>
-<li>ObjectiveC.Runtime</li>
-<li>AppDomain</li>
-<li>TaskScheduler</li>
-<li>It provides you all of the container extensions found here that help make advanced registration scenarios much easier.</li>
 </ul>
-<div class="codehilite"><pre><span></span><span class="nt">&lt;prism:PrismApplication</span> <span class="na">xmlns=</span><span class="s">&quot;http://xamarin.com/schemas/2014/forms&quot;</span>
-                        <span class="na">xmlns:x=</span><span class="s">&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;</span>
-                        <span class="na">xmlns:prism=</span><span class="s">&quot;http://prismlibrary.com&quot;</span>
-                        <span class="na">x:Class=</span><span class="s">&quot;Contoso.Awesome.App&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;prism:PrismApplication.ModuleCatalog&gt;</span>
-    <span class="nt">&lt;prism:ModuleCatalog&gt;</span>
-      <span class="nt">&lt;prism:ModuleInfo</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/prism.ModuleCatalog&gt;</span>
-  <span class="nt">&lt;/prism:PrismApplication.ModuleCatalog&gt;</span>
-<span class="nt">&lt;/prism:PrismApplication&gt;</span>
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AndroidEnvironment</td>
+<td>Android</td>
+</tr>
+<tr>
+<td>ObjectiveC.Runtime</td>
+<td>iOS</td>
+</tr>
+<tr>
+<td>AppDomain</td>
+<td>All</td>
+</tr>
+<tr>
+<td>TaskScheduler</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h4 id="setting-up-the-aggregate-logger">Setting up the Aggregate Logger<a class="headerlink" href="#setting-up-the-aggregate-logger" title="Permanent link">&para;</a></h4>
+<p>By default the AggregateLogger will have the ConsoleLogger added ensuring that any logging output will always be written to the Console. This is generally exactly what you want for development, and in Production this is often helpful as well as you can still view the log on your device with a build from the Google Play / App Store. Chances are though that you will want to add additional loggers. To do you this you will want to do the following:</p>
+<div class="codehilite"><pre><span></span><span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">OnInitialized</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">logger</span> <span class="p">=</span> <span class="n">Container</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">IAggregateLogger</span><span class="p">&gt;();</span>
+
+    <span class="c1">// Add another logging implementation from the Logging Plugin</span>
+    <span class="c1">// or that you have implemented</span>
+    <span class="n">logger</span><span class="p">.</span><span class="n">AddLogger</span><span class="p">(</span><span class="n">Container</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">SyslogLogger</span><span class="p">&gt;());</span>
+<span class="p">}</span>
 </pre></div>
                 
                   

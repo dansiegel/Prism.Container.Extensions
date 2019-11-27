@@ -592,6 +592,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#customizing-the-underlying-container" class="md-nav__link">
+    Customizing the underlying container
+  </a>
+  
+</li>
+      
       
       
       
@@ -851,6 +858,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#customizing-the-underlying-container" class="md-nav__link">
+    Customizing the underlying container
+  </a>
+  
+</li>
+      
       
       
       
@@ -878,6 +892,18 @@
 <p>The requirement for named services never went away, nor did the requirement that we can resolve types like your ViewModels which are never directly registered. This package provides some additions though that allow us to track mapping between keys and types as well as to resolve concrete types even if they haven't been registered. With these two enhancements built on top of Microsoft's DI Extensions we are able to support Prism with the container.</p>
 <h2 id="using-the-container">Using the Container<a class="headerlink" href="#using-the-container" title="Permanent link">&para;</a></h2>
 <p>This container is most likely to be used any time that you're using Shiny, but this can be used completely independently from Shiny or even Prism.</p>
+<h2 id="customizing-the-underlying-container">Customizing the underlying container<a class="headerlink" href="#customizing-the-underlying-container" title="Permanent link">&para;</a></h2>
+<p>There are times that you may want to customize some behavior of the container. For these times you may want to access one of the overload Create methods available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is for ADVANCED USERS ONLY!!! If you do not know what you're doing with the D.I. container do not use these methods!</p>
+</div>
+<div class="codehilite"><pre><span></span><span class="k">public</span> <span class="k">void</span> <span class="nf">RegisterServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// DO NOT DO THIS with Shiny.Prism!!!</span>
+    <span class="n">PrismContainerExtensions</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">services</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
                 
                   
                 

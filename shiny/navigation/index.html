@@ -851,7 +851,7 @@
                   <h1>Navigation</h1>
                 
                 <h4 id="navigation-from-shiny-services">Navigation from Shiny Services<a class="headerlink" href="#navigation-from-shiny-services" title="Permanent link">&para;</a></h4>
-<p>While this is generally not a great idea, there could potentially be times in which you need to navigate from a background service. For these times you will need to use the INavigationServiceDelegate.</p>
+<p>While this is generally not a great idea, there could potentially be times in which you need to navigate from a background service. For these times you will need to use the INavigationServiceDelegate. It is important to understand that the NavigationServiceDelegate differs from the NavigationService that you are used to using as it will attempt to determine what the currently displayed page is and Navigate from there. This will do exactly what you want if you are resetting the NavigationStack but may not work as expected if you are doing some sort of relative navigation.</p>
 <div class="codehilite"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">MyStartup</span> <span class="p">:</span> <span class="n">PrismStartup</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
@@ -860,19 +860,29 @@
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">public</span> <span class="k">class</span> <span class="nc">MyJob</span> <span class="p">:</span> <span class="n">IJob</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">NotificationDelegate</span> <span class="p">:</span> <span class="n">INotificationDelegate</span>
 <span class="p">{</span>
     <span class="k">private</span> <span class="n">INavigationServiceDelegate</span> <span class="n">NavigationService</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
 
-    <span class="k">public</span> <span class="nf">MyJob</span><span class="p">(</span><span class="n">INavigationServiceDelegate</span> <span class="n">navigationServiceDelegate</span><span class="p">)</span>
+    <span class="k">public</span> <span class="nf">NotificationDelegate</span><span class="p">(</span><span class="n">INavigationServiceDelegate</span> <span class="n">navigationServiceDelegate</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="n">NavigationService</span> <span class="p">=</span> <span class="n">navigationServiceDelegate</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">Run</span><span class="p">(</span><span class="n">JobInfo</span> <span class="n">jobInfo</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancelToken</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">OnEntry</span><span class="p">(</span><span class="n">NotificationResponse</span> <span class="n">response</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="c1">// Your logic</span>
-        <span class="k">await</span> <span class="n">NavigationService</span><span class="p">.</span><span class="n">NavigateAsync</span><span class="p">(</span><span class="s">&quot;SomePage?useModal=true&quot;</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(!</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">notification</span><span class="p">.</span><span class="n">Payload</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="n">NavigationService</span><span class="p">.</span><span class="n">NavigateAsync</span><span class="p">(</span><span class="n">notification</span><span class="p">.</span><span class="n">Payload</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Task</span> <span class="nf">OnReceived</span><span class="p">(</span><span class="n">Notification</span> <span class="n">notification</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(!</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">notification</span><span class="p">.</span><span class="n">Payload</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="n">NavigationService</span><span class="p">.</span><span class="n">NavigateAsync</span><span class="p">(</span><span class="n">notification</span><span class="p">.</span><span class="n">Payload</span><span class="p">);</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

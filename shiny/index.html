@@ -810,8 +810,9 @@
                 
                 
                 <h1 id="working-with-shiny">Working With Shiny<a class="headerlink" href="#working-with-shiny" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/shinyorg/shiny">Shiny</a> uses the Microsoft.Extensions.DependencyInjection pattern found in ASP.NET Core applications with a Startup class. This in particular is a use case in which you will need to initialize a container prior to Forms.Init being called on the native platform. To work with Shiny you simply need to do something like the following:</p>
+<p><a href="https://github.com/shinyorg/shiny">Shiny</a> uses the Microsoft.Extensions.DependencyInjection pattern of service registration found in ASP.NET Core applications with a Startup class. This in particular is a use case in which you will need to initialize a container prior to Forms.Init being called on the native platform. To work with Shiny you simply need to do something like the following:</p>
 <div class="codehilite"><pre><span></span><span class="c1">// Android</span>
+<span class="na">[Application]</span>
 <span class="k">public</span> <span class="k">class</span> <span class="nc">App</span> <span class="p">:</span> <span class="n">Android</span><span class="p">.</span><span class="n">App</span><span class="p">.</span><span class="n">Application</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">OnCreate</span><span class="p">()</span>

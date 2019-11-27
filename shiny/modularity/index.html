@@ -116,6 +116,10 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
+      <a href="#why-on-earth-would-i-use-this" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -710,9 +714,56 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Modularity
+      </label>
+    
     <a href="./" title="Modularity" class="md-nav__link md-nav__link--active">
       Modularity
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-on-earth-would-i-use-this" class="md-nav__link">
+    Why on earth would I use this
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-modules-with-shiny-and-prism" class="md-nav__link">
+    How to use Modules with Shiny and Prism
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-shiny-module" class="md-nav__link">
+    Creating a Shiny Module
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -782,6 +833,55 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-on-earth-would-i-use-this" class="md-nav__link">
+    Why on earth would I use this
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-modules-with-shiny-and-prism" class="md-nav__link">
+    How to use Modules with Shiny and Prism
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-shiny-module" class="md-nav__link">
+    Creating a Shiny Module
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -790,7 +890,55 @@
                 
                   <h1>Modularity</h1>
                 
-                
+                <p>Modularity support for Shiny is a preview feature and can be used by overriding the <code>ConfigureModuleCatalog</code> method in the <code>PrismStartup</code>, and adding modules just as you would do in the PrismApplication.</p>
+<h2 id="why-on-earth-would-i-use-this">Why on earth would I use this<a class="headerlink" href="#why-on-earth-would-i-use-this" title="Permanent link">&para;</a></h2>
+<p>Ok it's a fair question why should you use this? Let's say that you are trying to build out a Modular application with Prism, but you also need some things from Shiny like you need to register some sort of Background Service. Rather than push the buck to the consuming application to wire everything up this can be taken of in the Module which can now be reused across apps with a more minimalistic configuration.</p>
+<h2 id="how-to-use-modules-with-shiny-and-prism">How to use Modules with Shiny and Prism<a class="headerlink" href="#how-to-use-modules-with-shiny-and-prism" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">AppStartup</span> <span class="p">:</span> <span class="n">PrismStartup</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="nf">MockModuleStartup</span><span class="p">(</span><span class="n">ITestOutputHelper</span> <span class="n">testOutputHelper</span><span class="p">)</span>
+            <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">testOutputHelper</span><span class="p">)</span>
+        <span class="p">{</span>
+        <span class="p">}</span>
+
+        <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Register your services here...</span>
+        <span class="p">}</span>
+
+        <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureModuleCatalog</span><span class="p">(</span><span class="n">IModuleCatalog</span> <span class="n">moduleCatalog</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">moduleCatalog</span><span class="p">.</span><span class="n">AddModule</span><span class="p">&lt;</span><span class="n">MyShinyModule</span><span class="p">&gt;();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If adding modules here do not add the same module in your PrismApplication!</p>
+</div>
+<h3 id="creating-a-shiny-module">Creating a Shiny Module<a class="headerlink" href="#creating-a-shiny-module" title="Permanent link">&para;</a></h3>
+<p>Ok as if Modularity wasn't confusing enough... now we had to go and add a Shiny Module... The Shiny Module lets us continue to work with the <code>ServiceCollection</code> that you may have started with in the Startup class. As you'll see by inheriting from <code>ShinyModule</code> or <code>StartupModule</code> we can add services that we may need to here.</p>
+<div class="codehilite"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">MyShinyModule</span> <span class="p">:</span> <span class="n">ShinyModule</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">services</span><span class="p">.</span><span class="n">AddTransient</span><span class="p">&lt;</span><span class="n">IMockModuleServiceA</span><span class="p">,</span> <span class="n">MockModuleServiceA</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">RegisterTypes</span><span class="p">(</span><span class="n">IContainerRegistry</span> <span class="n">containerRegistry</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">containerRegistry</span><span class="p">.</span><span class="n">Register</span><span class="p">&lt;</span><span class="n">IMockModuleServiceB</span><span class="p">,</span> <span class="n">MockModuleServiceB</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="admonition critical">
+<p class="admonition-title">Critical Note</p>
+<p>Depending on what you are registering you may need to use a <code>StartupModule</code> which forces the registration to be actually at Startup.</p>
+</div>
                 
                   
                 
