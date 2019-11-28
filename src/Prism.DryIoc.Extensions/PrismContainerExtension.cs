@@ -82,7 +82,7 @@ namespace Prism.DryIoc
             Instance.UseInstance<IServiceProvider>(this);
         }
 
-        private IDisposable _currentScope;
+        private IResolverContext _currentScope;
 
         public IContainer Instance { get; private set; }
 
@@ -222,20 +222,23 @@ namespace Prism.DryIoc
         void IScopeProvider.CreateScope()
         {
             _currentScope?.Dispose();
+            _currentScope = null;
+            GC.Collect();
             _currentScope = Instance.OpenScope();
         }
 
         public object Resolve(Type type) => 
-            Resolve(type, new (Type, object)[0]);
+            Resolve(type, Array.Empty<(Type, object)>());
 
         public object Resolve(Type type, string name) =>
-            Resolve(type, name, new (Type, object)[0]);
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
             try
             {
-                return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+                var container = _currentScope ?? Instance;
+                return container.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch (Exception ex)
             {
@@ -247,7 +250,8 @@ namespace Prism.DryIoc
         {
             try
             {
-                return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+                var container = _currentScope ?? Instance;
+                return container.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch(Exception ex)
             {
