@@ -1,6 +1,7 @@
 ﻿using System;
+using Prism.Ioc;
 
-namespace Prism.Ioc
+namespace Prism.Container.Extensions
 {
     public interface IScopedFactoryRegistry
     {

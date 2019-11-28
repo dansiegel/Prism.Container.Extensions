@@ -1,4 +1,5 @@
 ﻿using System;
+using Prism.Container.Extensions;
 
 namespace Prism.Ioc
 {
