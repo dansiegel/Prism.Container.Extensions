@@ -1,8 +1,8 @@
 The Prism.Container.Extensions project currently has support for 3 third party Dependency Injection Containers:
 
-- [DryIoc](https://github.com/dadhi/DryIoc)
-- [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/Extensions)
-- [Unity Container](https://github.com/unitycontainer/unity) - (not to be confused with Unity Game Development...)
+- <a href="https://github.com/dadhi/DryIoc" target="_blank">DryIoc</a>
+- <a href="https://github.com/aspnet/Extensions" target="_blank">Microsoft.Extensions.DependencyInjection</a>
+- <a href="https://github.com/unitycontainer/unity" target="_blank">Unity Container</a> - (not to be confused with Unity Game Development...)
 
 ## Using the Containers
 
