@@ -19,7 +19,7 @@ namespace Prism.Ioc
             return container.Resolve<IServiceProvider>();
         }
 
-        private static void RegisterTypesWithPrismContainer(IContainerRegistry containerRegistry, IServiceCollection services)
+        internal static void RegisterTypesWithPrismContainer(IContainerRegistry containerRegistry, IServiceCollection services)
         {
             foreach (var service in services)
             {

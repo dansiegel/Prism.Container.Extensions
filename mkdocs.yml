@@ -61,6 +61,7 @@ nav:
     - RegisterMany: registermany.md
     - Delegate Registration: registerdelegates.md
     - Scoped Services: scoping.md
+    - Registration with IServiceCollection: registerservices.md
     - Containers:
       - Basics: containers/index.md
       - DryIoc: containers/dryioc.md

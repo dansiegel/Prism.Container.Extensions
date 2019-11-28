@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -14,7 +14,7 @@ using Prism.Microsoft.DependencyInjection;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry, IServiceCollectionAware
     {
         private static IContainerExtension<IServiceProvider> _current;
         public static IContainerExtension<IServiceProvider> Current
@@ -187,6 +187,13 @@ namespace Prism.Microsoft.DependencyInjection
 
         public bool IsRegistered(Type type, string name) =>
             NamedServiceRegistry.IsRegistered(type, name);
+
+        public IContainerRegistry RegisterServices(Action<IServiceCollection> registerServices)
+        {
+            requiresRebuild = true;
+            registerServices(Services);
+            return this;
+        }
 
         public IContainerRegistry RegisterMany(Type implementingType, params Type[] serviceTypes)
         {
