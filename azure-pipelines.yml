@@ -42,9 +42,10 @@ stages:
       - JDK
       - AndroidSDK
     steps:
-    - task: DotNetCoreInstaller@0
+    - task: UseDotNet@2
       inputs:
-        version: '3.0.100-preview8-013656'
+        packageType: 'sdk'
+        useGlobalJson: true
 
     - task: NuGetToolInstaller@0
       displayName: Install Latest NuGet
