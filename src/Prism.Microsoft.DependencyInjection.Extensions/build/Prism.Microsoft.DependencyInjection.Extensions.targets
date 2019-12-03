@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup>
+    <Compile Condition="$(TargetFrameworkIdentifier) == 'Xamarin.iOS'"
+             Include="$(MSBuildThisFileDirectory)PreserveContainerExtension.cs" />
+    <Compile Condition="$(TargetFrameworkIdentifier) == 'Xamarin.Mac'"
+             Include="$(MSBuildThisFileDirectory)PreserveContainerExtension.cs" />
+    <Compile Condition="$(TargetFrameworkIdentifier) == 'Xamarin.TVOS'"
+             Include="$(MSBuildThisFileDirectory)PreserveContainerExtension.cs" />
+    <Compile Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'"
+             Include="$(MSBuildThisFileDirectory)PreserveContainerExtension.cs" />
+  </ItemGroup>
+</Project>

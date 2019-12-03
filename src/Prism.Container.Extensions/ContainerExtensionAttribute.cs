@@ -6,6 +6,7 @@ using Prism.Ioc;
 
 namespace Prism.Container.Extensions
 {
+#pragma warning disable CS1591
     [EditorBrowsable(EditorBrowsableState.Never)]
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
     public class ContainerExtensionAttribute : Attribute
@@ -34,4 +35,5 @@ namespace Prism.Container.Extensions
             return (IContainerExtension)containerExtensionProperty?.GetValue(null);
         }
     }
+#pragma warning restore CS1591
 }

@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="build\**\*.cs" />
+    <None Include="build\**" Pack="true" PackagePath="build" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.1" />
   </ItemGroup>
 
