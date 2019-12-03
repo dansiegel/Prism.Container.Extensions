@@ -61,8 +61,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Microsoft.DependencyInjection.Forms.Extended.Tests", "tests\Prism.Microsoft.DependencyInjection.Extensions.Forms.Tests\Prism.Microsoft.DependencyInjection.Forms.Extended.Tests.csproj", "{407F4E72-CC87-4A58-841B-B75CD914F8B1}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Container.Extensions.Shared.Tests", "tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.shproj", "{A000E151-D04B-4F18-92A9-173E60975FBC}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.projitems*{a000e151-d04b-4f18-92a9-173e60975fbc}*SharedItemsImports = 13
 		tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems*{e13e43d5-6a03-401c-b7e6-298e829e5a2f}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,6 +164,7 @@ Global
 		{D1367051-9F5C-4F7B-9135-6095541C47B2} = {0C701AD0-75AE-447C-9BDF-9048A3E41280}
 		{0AFC4638-0BA7-4CB5-A90A-B1629DB6C1B2} = {46FA7A81-EA94-407D-B1A9-4E06E414F6D6}
 		{407F4E72-CC87-4A58-841B-B75CD914F8B1} = {0C701AD0-75AE-447C-9BDF-9048A3E41280}
+		{A000E151-D04B-4F18-92A9-173E60975FBC} = {0C701AD0-75AE-447C-9BDF-9048A3E41280}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {204FA081-78C1-4570-A906-AFABE7FAB3E3}

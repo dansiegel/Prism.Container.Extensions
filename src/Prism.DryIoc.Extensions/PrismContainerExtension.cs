@@ -197,25 +197,25 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
         {
-            Instance.Register(serviceType, implementationType, Reuse.Scoped);
+            Instance.Register(serviceType, implementationType, Reuse.ScopedOrSingleton);
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(), Reuse.Scoped);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(), Reuse.ScopedOrSingleton);
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()));
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()), Reuse.ScopedOrSingleton);
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Scoped);
+            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.ScopedOrSingleton);
             return this;
         }
 
