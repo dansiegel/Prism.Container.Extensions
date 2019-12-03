@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Prism.Microsoft.DependencyInjection
 {
@@ -15,29 +13,26 @@ namespace Prism.Microsoft.DependencyInjection
 
         public IServiceProvider ServiceProvider { get; }
 
-        public void Dispose()
-        {
-        }
-
         public object GetService(Type serviceType) =>
             ServiceProvider.GetService(serviceType) ?? GetConcreteImplementation(serviceType);
 
         private object GetConcreteImplementation(Type serviceType)
         {
-            if (serviceType.IsClass && !serviceType.IsAbstract)
-            {
-                var constructorInfos = serviceType.GetConstructors().OrderByDescending(x => x.GetParameters().Count());
-                if (constructorInfos.Any())
-                {
-                    var constructorInfo = constructorInfos.First();
-                    var parameters = constructorInfo.GetParameters().Select(x => ServiceProvider.GetService(x.ParameterType) ?? GetConcreteImplementation(x.ParameterType)).ToArray();
-                    return constructorInfo.Invoke(parameters);
-                }
+            if (serviceType.IsInterface || serviceType.IsAbstract) return null;
 
+            if (serviceType.IsClass)
+            {
+                PrismContainerExtension.Current.Register(serviceType, serviceType);
+                var sp = PrismContainerExtension.Current.ServiceCollection().BuildServiceProvider();
+                return sp.GetService(serviceType);
+            }
+
+            if(serviceType.IsValueType)
+            {
                 return Activator.CreateInstance(serviceType);
             }
 
-            return serviceType.IsValueType ? Activator.CreateInstance(serviceType) : null;
+            return null;
         }
     }
 }

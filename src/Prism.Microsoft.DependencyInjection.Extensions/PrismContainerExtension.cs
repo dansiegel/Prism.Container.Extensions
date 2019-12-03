@@ -116,23 +116,21 @@ namespace Prism.Microsoft.DependencyInjection
         public void FinalizeExtension() { }
 
         public object Resolve(Type type) =>
-            Instance.GetService(type) ?? throw NullResolutionException(type);
+            Resolve(type, Array.Empty<(Type, object)>());
+
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            var childProvider = GetChildProvider(parameters);
-            return childProvider.GetService(type) ?? throw NullResolutionException(type);
-        }
-
-        public object Resolve(Type type, string name)
-        {
-            return NamedServiceRegistry.GetService(this, name, type) ?? throw NullResolutionException(type, name);
+            var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
+            return provider.GetService(type) ?? throw NullResolutionException(type);
         }
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            var childProvider = GetChildProvider(parameters);
-            return NamedServiceRegistry.GetService(childProvider, name, type) ?? throw NullResolutionException(type, name);
+            var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
+            return NamedServiceRegistry.GetService(provider, name, type) ?? throw NullResolutionException(type, name);
         }
 
         private Exception NullResolutionException(Type type, string name = null)
@@ -310,6 +308,7 @@ namespace Prism.Microsoft.DependencyInjection
         public void CreateScope()
         {
             _serviceScope?.Dispose();
+            _serviceScope = null;
             _serviceScope = new ConcreteAwareServiceScope(Instance.CreateScope());
         }
 
@@ -321,6 +320,9 @@ namespace Prism.Microsoft.DependencyInjection
             var services = new ServiceCollection();
             foreach (var service in Services)
             {
+                if (parameters.Any(x => x.Type == service.ServiceType))
+                    continue;
+
                 services.Add(service);
             }
 
@@ -331,7 +333,12 @@ namespace Prism.Microsoft.DependencyInjection
 
             var rootSP = services.BuildServiceProvider();
 
-            return new ConcreteAwareServiceProvider(rootSP);
+            if(_serviceScope is null)
+            {
+                return new ConcreteAwareServiceProvider(rootSP);
+            }
+
+            throw new NotSupportedException("We do not currently support using a child container within a ServiceScope");
         }
     }
 }

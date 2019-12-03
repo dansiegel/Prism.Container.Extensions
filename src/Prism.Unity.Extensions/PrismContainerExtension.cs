@@ -179,31 +179,31 @@ namespace Prism.Unity
 
         public IContainerRegistry RegisterScoped(Type serviceType)
         {
-            Instance.RegisterType(serviceType, new ExternallyControlledLifetimeManager());
+            Instance.RegisterType(serviceType, new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
         {
-            Instance.RegisterType(serviceType, implementationType, new ExternallyControlledLifetimeManager());
+            Instance.RegisterType(serviceType, implementationType, new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
-            Instance.RegisterFactory(serviceType, c => factoryMethod(), new ExternallyControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, c => factoryMethod(), new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new ExternallyControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new ExternallyControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new HierarchicalLifetimeManager());
             return this;
         }
 

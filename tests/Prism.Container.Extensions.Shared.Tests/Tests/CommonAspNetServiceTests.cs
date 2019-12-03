@@ -62,8 +62,10 @@ namespace Prism.Container.Extensions.Shared.Tests
         public void ScopingProvidesNewInstance()
         {
             ConfigureServices();
+            var context = PrismContainerExtension.Current.Resolve<MockDbContext>();
             PrismContainerExtension.Current.CreateScope();
             var context1 = PrismContainerExtension.Current.Resolve<MockDbContext>();
+            Assert.NotSame(context, context1);
 
             var context2 = PrismContainerExtension.Current.Resolve<MockDbContext>();
             Assert.Same(context1, context2);
