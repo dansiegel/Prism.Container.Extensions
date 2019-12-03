@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Prism.Ioc;
 
 namespace Prism.Container.Extensions
 {
+#pragma warning disable CS1591
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ContainerLocator
     {
@@ -14,12 +17,32 @@ namespace Prism.Container.Extensions
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static IContainerExtension Locate()
         {
-            if (_locatedExtension != null) return _locatedExtension.Container;
+            if (_locatedExtension != null)
+            {
+                return _locatedExtension.Container;
+            }
+            else if (!LocatedAssembly(AppDomain.CurrentDomain.GetAssemblies(), out _locatedExtension))
+            {
+                throw new DllNotFoundException("No assembly containing a reference to an IContainerExtension implementation could be found. You must have a reference to one of the DI Container Extensions in your final project");
+            }
 
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetCustomAttribute<ContainerExtensionAttribute>() != null);
-            _locatedExtension = assembly?.GetCustomAttribute<ContainerExtensionAttribute>();
+            return _locatedExtension.Container;
+        }
 
-            return _locatedExtension?.Container ?? throw new DllNotFoundException("No assembly containing a reference to an IContainerExtension implementation could be found. You must have a reference to one of the DI Container Extensions in your final project");
+        private static bool LocatedAssembly(IEnumerable<Assembly> assemblies, out ContainerExtensionAttribute attribute)
+        {
+            attribute = null;
+            foreach(var assembly in assemblies)
+            {
+                attribute = assembly.GetCustomAttribute<ContainerExtensionAttribute>();
+                if(attribute != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
+#pragma warning restore CS1591
 }
