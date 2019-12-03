@@ -1,9 +1,14 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras" ToolsVersion="16.0">
+<Project Sdk="MSBuild.Sdk.Extras" ToolsVersion="16.0">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;Xamarin.iOS10</TargetFrameworks>
     <Description>Prism Container Extensions for DryIoc</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="build\**\*.cs" />
+    <None Include="build\**" Pack="true" PackagePath="build" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="4.0.7" />
