@@ -41,20 +41,10 @@ If this project helped you reduce time to develop and made your app better, plea
 [DryIocExtensionsMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.DryIoc.Extensions
 [DryIocExtensionsMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.DryIoc.Extensions.svg
 
-[DryIocFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Forms.Extended
-[DryIocFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.Extended.svg
-[DryIocFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.DryIoc.Forms.Extended
-[DryIocFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.DryIoc.Forms.Extended.svg
-
 [MsftDependencyInjectionExtensionsNuGet]: https://www.nuget.org/packages/Prism.Microsoft.DependencyInjection.Extensions
 [MsftDependencyInjectionExtensionsShield]: https://img.shields.io/nuget/vpre/Prism.Microsoft.DependencyInjection.Extensions.svg
 [MsftDependencyInjectionExtensionsMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Microsoft.DependencyInjection.Extensions
 [MsftDependencyInjectionExtensionsMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Microsoft.DependencyInjection.Extensions.svg
-
-[MsftDependencyInjectionFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.Microsoft.DependencyInjection.Forms.Extended
-[MsftDependencyInjectionFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.Microsoft.DependencyInjection.Forms.Extended.svg
-[MsftDependencyInjectionFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Microsoft.DependencyInjection.Forms.Extended
-[MsftDependencyInjectionFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Microsoft.DependencyInjection.Forms.Extended.svg
 
 [PrismFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.Forms.Extended
 [PrismFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Extended.svg
@@ -70,8 +60,3 @@ If this project helped you reduce time to develop and made your app better, plea
 [UnityExtensionsShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Extensions.svg
 [UnityExtensionsMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Unity.Extensions
 [UnityExtensionsMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Unity.Extensions.svg
-
-[UnityFormsExtendedNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms.Extended
-[UnityFormsExtendedShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.Extended.svg
-[UnityFormsExtendedMyGet]: https://www.myget.org/feed/prism-plugins/package/nuget/Prism.Unity.Forms.Extended
-[UnityFormsExtendedMyGetShield]: https://img.shields.io/myget/prism-plugins/vpre/Prism.Unity.Forms.Extended.svg
