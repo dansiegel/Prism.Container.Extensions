@@ -29,7 +29,8 @@ namespace Prism.Container.Extensions
             return _locatedExtension.Container;
         }
 
-        internal static void LocatePreservedReference(Type type)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void LocatePreservedReference(Type type)
         {
             if (_locatedExtension is null)
             {
