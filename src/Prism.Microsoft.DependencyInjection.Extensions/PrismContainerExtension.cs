@@ -7,7 +7,7 @@ using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Microsoft.DependencyInjection;
 
-[assembly: Preserve]
+[assembly: Prism.Microsoft.DependencyInjection.Preserve]
 [assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]

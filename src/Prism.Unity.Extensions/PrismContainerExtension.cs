@@ -8,7 +8,7 @@ using Unity;
 using Unity.Lifetime;
 using Unity.Resolution;
 
-[assembly: Preserve]
+[assembly: Prism.Unity.Preserve]
 [assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.Unity.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]

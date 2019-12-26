@@ -1,4 +1,4 @@
-﻿using Prism.Container.Extensions;
+﻿using Prism.Microsoft.DependencyInjection;
 
 // Force the assembly into the App Domain
 [assembly: Preserve(typeof(global::Prism.Microsoft.DependencyInjection.PrismContainerExtension))]

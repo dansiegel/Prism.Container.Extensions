@@ -1,4 +1,4 @@
-﻿using Prism.Container.Extensions;
+﻿using Prism.Unity;
 
 // Force the assembly into the App Domain
 [assembly: Preserve(typeof(global::Prism.Unity.PrismContainerExtension))]
