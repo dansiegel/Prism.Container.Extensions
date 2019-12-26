@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Prism.Ioc;
 
 namespace Prism.Container.Extensions
 {
@@ -36,6 +37,10 @@ namespace Prism.Container.Extensions
         public PreserveAttribute(Type referenceType)
             : this(true, false)
         {
+            if(typeof(IContainerExtension).IsAssignableFrom(referenceType))
+            {
+                ContainerLocator.LocatePreservedReference(referenceType);
+            }
         }
     }
 }

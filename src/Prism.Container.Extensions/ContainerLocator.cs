@@ -29,6 +29,19 @@ namespace Prism.Container.Extensions
             return _locatedExtension.Container;
         }
 
+        internal static void LocatePreservedReference(Type type)
+        {
+            if (_locatedExtension is null)
+            {
+                if (!LocatedAssembly(new[] { type.Assembly }, out _locatedExtension))
+                {
+                    throw new DllNotFoundException("No assembly containing a reference to an IContainerExtension implementation could be found. You must have a reference to one of the DI Container Extensions in your final project");
+                }
+
+                Console.WriteLine($"Located Container: {_locatedExtension.Container.GetType().FullName}");
+            }
+        }
+
         private static bool LocatedAssembly(IEnumerable<Assembly> assemblies, out ContainerExtensionAttribute attribute)
         {
             attribute = null;
