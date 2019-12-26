@@ -1,7 +1,7 @@
 using System;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Shiny.Beacons;
+//using Shiny.Beacons;
 using Shiny.BluetoothLE;
 using Shiny.IO;
 using Shiny.Jobs;

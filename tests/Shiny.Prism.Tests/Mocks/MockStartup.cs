@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Shiny.Beacons;
+//using Shiny.Beacons;
 using Shiny.BluetoothLE;
 using Shiny.Locations;
 using Shiny.Prism.Mocks.Delegates;
@@ -33,7 +33,7 @@ namespace Shiny.Prism.Mocks
             Log.Loggers.Clear();
             Log.AddLogger(this);
 
-            services.UseBeacons<MockBeaconDelegate>();
+            //services.UseBeacons<MockBeaconDelegate>();
             services.UseGps<MockGpsDelegate>();
             services.UseGeofencing<MockGeofenceDelegate>();
             //services.RegisterBleAdapterState<MockBleAdapterDelegate>();
