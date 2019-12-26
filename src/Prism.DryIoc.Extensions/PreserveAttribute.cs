@@ -5,10 +5,7 @@ using Prism.Ioc;
 
 namespace Prism.DryIoc
 {
-
-    namespace Prism.Container.Extensions
-    {
-        [AttributeUsage(
+    [AttributeUsage(
             AttributeTargets.Assembly
             | AttributeTargets.Class
             | AttributeTargets.Struct
@@ -21,32 +18,30 @@ namespace Prism.DryIoc
             | AttributeTargets.Interface
             | AttributeTargets.Delegate,
             AllowMultiple = true)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public sealed class PreserveAttribute : Attribute
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public sealed class PreserveAttribute : Attribute
+    {
+        public bool AllMembers { get; }
+        public bool Conditional { get; }
+
+        public PreserveAttribute(bool allMembers, bool conditional)
         {
-            public bool AllMembers { get; }
-            public bool Conditional { get; }
+            AllMembers = allMembers;
+            Conditional = conditional;
+        }
 
-            public PreserveAttribute(bool allMembers, bool conditional)
-            {
-                AllMembers = allMembers;
-                Conditional = conditional;
-            }
+        public PreserveAttribute()
+            : this(true, false)
+        {
+        }
 
-            public PreserveAttribute()
-                : this(true, false)
+        public PreserveAttribute(Type referenceType)
+            : this(true, false)
+        {
+            if (typeof(IContainerExtension).IsAssignableFrom(referenceType))
             {
-            }
-
-            public PreserveAttribute(Type referenceType)
-                : this(true, false)
-            {
-                if (typeof(IContainerExtension).IsAssignableFrom(referenceType))
-                {
-                    ContainerLocator.LocatePreservedReference(referenceType);
-                }
+                ContainerLocator.LocatePreservedReference(referenceType);
             }
         }
     }
-
 }
