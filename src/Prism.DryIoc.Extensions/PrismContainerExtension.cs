@@ -8,7 +8,7 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using IContainer = DryIoc.IContainer;
 
-[assembly: Preserve]
+[assembly: Prism.DryIoc.Preserve]
 [assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
