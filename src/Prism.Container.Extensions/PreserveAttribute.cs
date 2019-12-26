@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using Prism.Container.Extensions;
 using Prism.Ioc;
+
+[assembly: Preserve]
 
 namespace Prism.Container.Extensions
 {
