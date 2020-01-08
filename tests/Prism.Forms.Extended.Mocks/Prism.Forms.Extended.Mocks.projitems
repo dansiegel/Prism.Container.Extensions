@@ -13,10 +13,11 @@
       <SubType>Code</SubType>
       <DependentUpon>AppMock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\BadModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ModuleA.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ModuleB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Navigation\MockNavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewD.xaml.cs">
+      <DependentUpon>ViewD.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Tests\ExecutionAwareCommandTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\FluentNavigationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\PrismApplicationTests.cs" />
@@ -28,6 +29,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\AppMock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

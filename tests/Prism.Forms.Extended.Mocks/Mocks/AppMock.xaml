@@ -4,17 +4,4 @@
                         xmlns:prism="http://prismlibrary.com"
                         xmlns:local="clr-namespace:Prism.Forms.Extended.Mocks"
                         x:Class="Prism.Forms.Extended.Mocks.AppMock">
-    <!--<prism:PrismApplication.ModuleCatalog>
-        <prism:ModuleCatalog>
-            <prism:XamlModuleInfo ModuleName="ModuleA"
-                              ModuleType="{x:Type local:ModuleA}"
-                              InitializationMode="WhenAvailable" />
-            <prism:XamlModuleInfo ModuleName="ModuleA"
-                              ModuleType="{x:Type local:ModuleB}"
-                              InitializationMode="OnDemand" />
-            <prism:XamlModuleInfo ModuleName="ModuleA"
-                              ModuleType="{x:Type local:BadModule}"
-                              InitializationMode="WhenAvailable" />
-        </prism:ModuleCatalog>
-    </prism:PrismApplication.ModuleCatalog>-->
 </prism:PrismApplication>

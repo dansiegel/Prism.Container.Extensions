@@ -99,6 +99,24 @@ namespace Prism.Forms.Extended.Tests
             Assert.True(iOSPage.GetUseSafeArea(app.MainPage));
         }
 
+        [Fact]
+        public async Task UsesExplicitValue()
+        {
+            var app = CreateApp(Device.iOS);
+            var result = await app.NavigationService.NavigateAsync("ViewA");
+
+            Assert.True(result.Success);
+            Assert.IsType<ViewA>(app.MainPage);
+
+            Assert.True(iOSPage.GetUseSafeArea(app.MainPage));
+
+            result = await app.NavigationService.NavigateAsync("/ViewB"); 
+            Assert.True(result.Success);
+            Assert.IsType<ViewB>(app.MainPage);
+
+            Assert.False(iOSPage.GetUseSafeArea(app.MainPage));
+        }
+
         private AppMock CreateApp(string runtimePlatform = "Test")
         {
             Xamarin.Forms.Mocks.MockForms.Init(runtimePlatform);
