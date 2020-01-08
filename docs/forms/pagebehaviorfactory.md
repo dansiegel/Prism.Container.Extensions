@@ -23,3 +23,24 @@ internal class MyPageBehaviorFactoryOptions : IPageBehaviorFactoryOptions
     public bool PreferLargeTitles => true;
 }
 ```
+
+## Using Explicit Values
+
+While it's great to generalize certain Platform Specifics like `UseBottomTabs` or `UseSafeArea`, there may be times which you prefer to opt-out of these platform specifics from the PageBehaviorFactory and either use the default value or a custom value. For these times you can update your XAML as follows:
+
+```xml
+<ContentPage xmlns:prism="http://prismlibrary.com"
+             prism:PlatformSpecifics.UseExplicit="true">
+```
+
+Or in Code:
+
+```csharp
+public class ViewA : ContentPage
+{
+    public ViewA()
+    {
+        PlatformSpecifics.SetUseExplicit(this, true);
+    }
+}
+```
