@@ -6,6 +6,7 @@ using Prism.DryIoc;
 using UIKit;
 using Shiny;
 using PrismSample.Shiny;
+using PreserveAttribute = Prism.DryIoc.PreserveAttribute;
 
 // Force the assembly into the App Domain
 // Required for the Sample... this should be brought in automatically for NuGet references
