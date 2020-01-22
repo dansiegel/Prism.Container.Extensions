@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DryIoc;
+using Prism.Container.Extensions.Shared.Mocks;
 using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
@@ -477,6 +478,57 @@ namespace Prism.DryIoc.Extensions.Tests
                 var bar = c.Resolve<IBar>((typeof(IFoo), overrideFoo));
                 Assert.Same(overrideFoo, bar.Foo);
             }
+        }
+
+        [Fact]
+        public void ResolveNamedInstance()
+        {
+            var genA = new GenericService { Name = "genA" };
+            var genB = new GenericService { Name = "genB" };
+            lock(testLock)
+            {
+                var c = CreateContainer();
+                c.RegisterInstance<IGenericService>(genA, "genA");
+                c.RegisterInstance<IGenericService>(genB, "genB");
+
+                Assert.Same(genA, c.Resolve<IGenericService>("genA"));
+                Assert.Same(genB, c.Resolve<IGenericService>("genB"));
+            }
+        }
+
+        [Fact]
+        public void ResolveNamedInstanceInConstructor()
+        {
+            var genA = new GenericService { Name = "genA" };
+            var genB = new GenericService { Name = "genB" };
+            lock (testLock)
+            {
+                var c = CreateContainer();
+                c.RegisterInstance<IGenericService>(genA, "genA");
+                c.RegisterInstance<IGenericService>(genB, "genB");
+
+                DependencyClass test = null;
+                var ex = Record.Exception(() => test = c.Resolve<DependencyClass>());
+
+                Assert.Null(ex);
+                Assert.NotNull(test);
+
+                Assert.Same(genA, test.GenA);
+                Assert.Same(genB, test.GenB);
+            }
+        }
+
+        private class DependencyClass
+        {
+            public DependencyClass(IGenericService genA, IGenericService genB)
+            {
+                GenA = genA;
+                GenB = genB;
+            }
+
+            public IGenericService GenA { get; }
+
+            public IGenericService GenB { get; }
         }
 
         public static IFoo FooFactory() => new Foo { Message = "expected" };

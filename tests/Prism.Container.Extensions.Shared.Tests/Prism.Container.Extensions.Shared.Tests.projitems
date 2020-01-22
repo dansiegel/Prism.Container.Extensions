@@ -9,6 +9,7 @@
     <Import_RootNamespace>Prism.Container.Extensions.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\GenericService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\CommonAspNetServiceTests.cs" />
   </ItemGroup>
