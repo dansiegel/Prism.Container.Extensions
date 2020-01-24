@@ -20,6 +20,13 @@ namespace PrismSample
 
             if(!result.Success)
             {
+                MainPage = new MainPage
+                {
+                    BindingContext = new MainPageViewModel
+                    {
+                        Message = result.Exception.Message
+                    }
+                };
                 System.Diagnostics.Debugger.Break();
             }
         }
