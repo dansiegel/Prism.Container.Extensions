@@ -3,14 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a seemless wrapper for Prism apps using Shiny</Description>
-    <!-- TODO: Remove this Conditional Suffix when Shiny goes stable -->
-    <VersionSuffix Condition=" $(IS_RELEASE) ">pre</VersionSuffix>
     <LangVersion>8.0</LangVersion>
     <PackageTags>prism shiny background</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shiny.Core" Version="1.0.0.531-beta" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.1174" />
   </ItemGroup>
 
   <ItemGroup>
