@@ -50,7 +50,7 @@ stages:
     - task: NuGetToolInstaller@0
       displayName: Install Latest NuGet
       inputs:
-        versionSpec: 5.1.0
+        checkLatest: true
 
     - task: MSBuild@1
       displayName: Build Projects
@@ -81,12 +81,12 @@ stages:
         SignServiceResourceId: $(SignServiceResourceId)
       condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
 
-    - task: PublishPipelineArtifact@0
+    - task: PublishPipelineArtifact@1
       displayName: Publish Artifacts
       inputs:
         artifactName: NuGet
         targetPath: $(Build.ArtifactStagingDirectory)
-    - task: PublishPipelineArtifact@0
+    - task: PublishPipelineArtifact@1
       displayName: Publish Release Script
       inputs:
         artifactName: build
