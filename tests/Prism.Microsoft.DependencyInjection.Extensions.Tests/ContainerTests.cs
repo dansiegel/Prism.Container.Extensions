@@ -514,41 +514,6 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             }
         }
 
-        [Fact]
-        public void ResolveNamedInstanceInConstructor()
-        {
-            var genA = new GenericService { Name = "genA" };
-            var genB = new GenericService { Name = "genB" };
-            lock (testLock)
-            {
-                var c = CreateContainer();
-                c.RegisterInstance<IGenericService>(genA, "genA");
-                c.RegisterInstance<IGenericService>(genB, "genB");
-
-                DependencyClass test = null;
-                var ex = Record.Exception(() => test = c.Resolve<DependencyClass>());
-
-                Assert.Null(ex);
-                Assert.NotNull(test);
-
-                Assert.Same(genA, test.GenA);
-                Assert.Same(genB, test.GenB);
-            }
-        }
-
-        private class DependencyClass
-        {
-            public DependencyClass(IGenericService genA, IGenericService genB)
-            {
-                GenA = genA;
-                GenB = genB;
-            }
-
-            public IGenericService GenA { get; }
-
-            public IGenericService GenB { get; }
-        }
-
         public static IFoo FooFactory() => new Foo { Message = "expected" };
 
         public static IBar BarFactoryWithIContainerProvider(IContainerProvider containerProvider) =>
