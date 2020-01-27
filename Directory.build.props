@@ -9,7 +9,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <IncludeSymbols>True</IncludeSymbols>
     <IncludeSource>True</IncludeSource>
-    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
+    <PackageIcon>prism-logo.png</PackageIcon>
+    <!-- <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl> -->
     <PackageProjectUrl>https://github.com/dansiegel/Prism.Container.Extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dansiegel/Prism.Container.Extensions.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -49,6 +50,10 @@
 
   <ItemGroup Condition=" $(IsPackable) ">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <None Include="$(MSBuildThisFileDirectory)prism-logo.png"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(IsPackable)' ">
