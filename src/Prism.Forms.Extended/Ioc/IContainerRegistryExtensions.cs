@@ -29,7 +29,8 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
-            containerRegistry.RegisterOnce<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
+            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
+            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>();
         }
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)
