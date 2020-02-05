@@ -48,15 +48,15 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(IsPackable) ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  <ItemGroup Condition=" $(IsPackable) == 'true' ">
+    <PackageReference Condition="$(BUILD_ARTIFACTSTAGINGDIRECTORY) != ''" Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <None Include="$(MSBuildThisFileDirectory)prism-logo.png"
           Visible="False"
           Pack="True"
           PackagePath="" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(IsPackable)' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(IsPackable)' == 'true' ">
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>

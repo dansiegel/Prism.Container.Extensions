@@ -14,6 +14,7 @@ using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.Ta
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
 using Prism.Forms.Extended.Mocks.Views;
+using Prism.Navigation;
 #if DRYIOC
 using Prism.DryIoc;
 #elif UNITY
@@ -115,6 +116,18 @@ namespace Prism.Forms.Extended.Tests
             Assert.IsType<ViewB>(app.MainPage);
 
             Assert.False(iOSPage.GetUseSafeArea(app.MainPage));
+        }
+
+        [Fact]
+        public void ErrorReportingNavigationServiceIsRegistered()
+        {
+            var app = CreateApp();
+            INavigationService navService = null;
+            var ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName));
+
+            Assert.Null(ex);
+            Assert.NotNull(navService);
+            Assert.IsType<ErrorReportingNavigationService>(navService);
         }
 
         private AppMock CreateApp(string runtimePlatform = "Test")

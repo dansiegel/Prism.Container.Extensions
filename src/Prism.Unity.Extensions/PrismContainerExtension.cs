@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Unity;
@@ -14,7 +15,7 @@ using Unity.Resolution;
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
 namespace Prism.Unity
 {
-    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
+    public partial class PrismContainerExtension : IContainerExtension<IUnityContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry, IServiceScopeFactory
     {
         private static IContainerExtension<IUnityContainer> _current;
         public static IContainerExtension<IUnityContainer> Current
@@ -61,9 +62,10 @@ namespace Prism.Unity
             Instance.RegisterInstance<IContainerExtension>(this);
             Instance.RegisterInstance<IContainerRegistry>(this);
             Instance.RegisterInstance<IServiceProvider>(this);
+            Instance.RegisterInstance<IServiceScopeFactory>(this);
         }
 
-        private IUnityContainer _childContainer;
+        private ServiceScope _currentScope;
 
         public IUnityContainer Instance { get; private set; }
 
@@ -210,13 +212,54 @@ namespace Prism.Unity
 
         void IScopeProvider.CreateScope()
         {
-            if(_childContainer != null)
+            CreateScopeInternal();
+        }
+
+        IServiceScope IServiceScopeFactory.CreateScope() =>
+            CreateScopeInternal();
+
+        private IServiceScope CreateScopeInternal()
+        {
+            if (_currentScope != null)
             {
-                _childContainer.Dispose();
-                _childContainer = null;
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
             }
 
-            _childContainer = Instance.CreateChildContainer();
+            _currentScope = new ServiceScope(Instance.CreateChildContainer());
+            return _currentScope;
+        }
+
+        private class ServiceScope : IServiceScope, IServiceProvider
+        {
+            public ServiceScope(IUnityContainer container)
+            {
+                Container = container;
+            }
+
+            public IUnityContainer Container { get; private set; }
+
+            public IServiceProvider ServiceProvider => this;
+
+            public object GetService(Type serviceType)
+            {
+                if (!Container.IsRegistered(serviceType))
+                    return null;
+
+                return Container.Resolve(serviceType);
+            }
+
+            public void Dispose()
+            {
+                if (Container != null)
+                {
+                    Container.Dispose();
+                    Container = null;
+                }
+
+                GC.Collect();
+            }
         }
 
         public object Resolve(Type type) =>
@@ -229,7 +272,7 @@ namespace Prism.Unity
         {
             try
             {
-                var c = _childContainer ?? Instance;
+                var c = _currentScope?.Container ?? Instance;
                 var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
                 return c.Resolve(type, overrides);
             }
@@ -243,7 +286,7 @@ namespace Prism.Unity
         {
             try
             {
-                var c = _childContainer ?? Instance;
+                var c = _currentScope?.Container ?? Instance;
                 var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
                 return c.Resolve(type, name, overrides);
             }

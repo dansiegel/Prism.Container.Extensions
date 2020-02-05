@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DryIoc;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Container.Extensions;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -15,7 +16,7 @@ using IContainer = DryIoc.IContainer;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.DryIoc
 {
-    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry
+    public sealed partial class PrismContainerExtension : IContainerExtension<IContainer>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry, IServiceScopeFactory
     {
         private static IContainerExtension<IContainer> _current;
         public static IContainerExtension<IContainer> Current
@@ -81,9 +82,10 @@ namespace Prism.DryIoc
             Instance.UseInstance<IContainerRegistry>(this);
             Instance.UseInstance<IContainerProvider>(this);
             Instance.UseInstance<IServiceProvider>(this);
+            Instance.UseInstance<IServiceScopeFactory>(this);
         }
 
-        private IResolverContext _currentScope;
+        private ServiceScope _currentScope;
 
         public IContainer Instance { get; private set; }
 
@@ -222,10 +224,52 @@ namespace Prism.DryIoc
 
         void IScopeProvider.CreateScope()
         {
-            _currentScope?.Dispose();
-            _currentScope = null;
-            GC.Collect();
-            _currentScope = Instance.OpenScope();
+            CreateScopeInternal();
+        }
+
+        IServiceScope IServiceScopeFactory.CreateScope() =>
+            CreateScopeInternal();
+
+        private IServiceScope CreateScopeInternal()
+        {
+            if(_currentScope != null)
+            {
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
+            }
+
+            _currentScope = new ServiceScope(Instance.OpenScope());
+            return _currentScope;
+        }
+
+        private class ServiceScope : IServiceScope
+        {
+            public ServiceScope(IResolverContext context)
+            {
+                Context = context;
+            }
+
+            public IResolverContext Context { get; private set; }
+
+            public IServiceProvider ServiceProvider
+            {
+                get
+                {
+                    return Context;
+                }
+            }
+
+            public void Dispose()
+            {
+                if(Context != null)
+                {
+                    Context.Dispose();
+                    Context = null;
+                }
+
+                GC.Collect();
+            }
         }
 
         public object Resolve(Type type) => 
@@ -238,7 +282,7 @@ namespace Prism.DryIoc
         {
             try
             {
-                var container = _currentScope ?? Instance;
+                var container = _currentScope?.Context ?? Instance;
                 return container.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch (Exception ex)
@@ -251,7 +295,7 @@ namespace Prism.DryIoc
         {
             try
             {
-                var container = _currentScope ?? Instance;
+                var container = _currentScope?.Context ?? Instance;
                 return container.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch(Exception ex)
