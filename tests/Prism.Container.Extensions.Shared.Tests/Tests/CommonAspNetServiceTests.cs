@@ -36,6 +36,19 @@ namespace Prism.Container.Extensions.Shared.Tests
         }
 
         [Fact]
+        public void IHttpClientFactoryIsResolvable()
+        {
+            ConfigureServices();
+            IHttpClientFactory service = null;
+            PrismContainerExtension.Current.CreateScope();
+            var ex = Record.Exception(() => service = PrismContainerExtension.Current.Resolve<IHttpClientFactory>());
+
+            Assert.Null(ex);
+            Assert.NotNull(service);
+            Assert.IsAssignableFrom<IHttpClientFactory>(service);
+        }
+
+        [Fact]
         public void DbContextResolveableWithoutScope()
         {
             ConfigureServices();
