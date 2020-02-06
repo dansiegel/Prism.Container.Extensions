@@ -111,6 +111,10 @@ stages:
               nuGetFeedType: external
               publishFeedCredentials: 'Prism.Plugins - MyGet'
 
+- stage: deployNuGetOrg
+  displayName: Deploy NuGets
+  dependsOn: deploy
+  jobs:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
