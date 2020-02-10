@@ -10,7 +10,7 @@ repo_url: https://github.com/dansiegel/Prism.Container.Extensions
 edit_uri: ''
 
 # Copyright
-copyright: 'Copyright &copy; 2016 - 2019 Dan Siegel'
+copyright: 'Copyright &copy; 2016 - 2020 Dan Siegel'
 
 # Configuration
 theme:
@@ -37,7 +37,7 @@ extra:
     - type: twitter
       link: https://twitter.com/DanJSiegel
     - type: youtube
-      link: https://www.youtube.com/channel/UC0kcuQoK6odp-4UAlI8FeqA
+      link: https://www.youtube.com/DanSiegel
     - type: linkedin
       link: https://linkedin.com/in/DanSiegel
 
@@ -81,4 +81,4 @@ nav:
   - Mobile.BuildTools:
     - Mobile.BuildTools: http://mobilebuildtools.com
 
-google_analytics: ['UA-153405647-1', 'Prism.Container.Extensions']
+google_analytics: UA-153405647-1
