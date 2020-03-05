@@ -56,13 +56,13 @@ namespace Prism.DryIoc
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
-                                                                    .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
-                                                                    .WithoutThrowOnRegisteringDisposableTransient()
-            .WithFuncAndLazyWithoutRegistration()
+                                                                   .With(FactoryMethod.ConstructorWithResolvableArguments)
+                                                                   .WithoutThrowOnRegisteringDisposableTransient()
+                                                                   .WithFuncAndLazyWithoutRegistration()
 #if __IOS__
-                                                                    .WithoutFastExpressionCompiler()
+                                                                   .WithUseInterpretation()
 #endif
-                                                                    .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+                                                                   .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
         private PrismContainerExtension() 
             : this(CreateContainerRules())
@@ -78,28 +78,29 @@ namespace Prism.DryIoc
         {
             _current = this;
             Instance = container;
-            Instance.UseInstance<IContainerExtension>(this);
-            Instance.UseInstance<IContainerRegistry>(this);
-            Instance.UseInstance<IContainerProvider>(this);
-            Instance.UseInstance<IServiceProvider>(this);
-            Instance.UseInstance<IServiceScopeFactory>(this);
+            Instance.RegisterInstance<PrismContainerExtension>(this);
+            Instance.RegisterMapping<IContainerExtension,  PrismContainerExtension>();
+            Instance.RegisterMapping<IContainerRegistry,   PrismContainerExtension>();
+            Instance.RegisterMapping<IContainerProvider,   PrismContainerExtension>();
+            Instance.RegisterMapping<IServiceProvider,     PrismContainerExtension>();
+            Instance.RegisterMapping<IServiceScopeFactory, PrismContainerExtension>();
         }
 
         private ServiceScope _currentScope;
 
-        public IContainer Instance { get; private set; }
+        public IContainer Instance { get; }
 
         public void FinalizeExtension() { }
 
         public IContainerRegistry RegisterInstance(Type type, object instance)
         {
-            Instance.UseInstance(type, instance);
+            Instance.RegisterInstance(type, instance);
             return this;
         }
 
         public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
-            Instance.UseInstance(type, instance, serviceKey: name);
+            Instance.RegisterInstance(type, instance, serviceKey: name);
             return this;
         }
 
@@ -173,7 +174,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r));
+            Instance.RegisterDelegate(serviceType, factoryMethod);
             return this;
         }
 
@@ -191,7 +192,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.Singleton);
+            Instance.RegisterDelegate(serviceType, factoryMethod, Reuse.Singleton);
             return this;
         }
 
@@ -218,7 +219,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r), Reuse.ScopedOrSingleton);
+            Instance.RegisterDelegate(serviceType, factoryMethod, Reuse.ScopedOrSingleton);
             return this;
         }
 
@@ -252,13 +253,7 @@ namespace Prism.DryIoc
 
             public IResolverContext Context { get; private set; }
 
-            public IServiceProvider ServiceProvider
-            {
-                get
-                {
-                    return Context;
-                }
-            }
+            public IServiceProvider ServiceProvider => Context;
 
             public void Dispose()
             {
