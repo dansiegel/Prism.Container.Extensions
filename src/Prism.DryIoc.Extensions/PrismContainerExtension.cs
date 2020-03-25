@@ -78,12 +78,14 @@ namespace Prism.DryIoc
         {
             _current = this;
             Instance = container;
-            Instance.RegisterInstance<PrismContainerExtension>(this);
-            Instance.RegisterMapping<IContainerExtension,  PrismContainerExtension>();
-            Instance.RegisterMapping<IContainerRegistry,   PrismContainerExtension>();
-            Instance.RegisterMapping<IContainerProvider,   PrismContainerExtension>();
-            Instance.RegisterMapping<IServiceProvider,     PrismContainerExtension>();
-            Instance.RegisterMapping<IServiceScopeFactory, PrismContainerExtension>();
+            Instance.RegisterInstanceMany(new[]
+            {
+                typeof(IContainerExtension),
+                typeof(IContainerRegistry),
+                typeof(IContainerProvider),
+                typeof(IServiceProvider),
+                typeof(IServiceScopeFactory)
+            }, this);
         }
 
         private ServiceScope _currentScope;
@@ -168,7 +170,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()));
+            Instance.RegisterDelegate(serviceType, factoryMethod);
             return this;
         }
 
@@ -186,7 +188,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()), Reuse.Singleton);
+            Instance.RegisterDelegate(serviceType, factoryMethod, Reuse.Singleton);
             return this;
         }
 
@@ -213,7 +215,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(serviceType, r => factoryMethod(r.Resolve<IContainerProvider>()), Reuse.ScopedOrSingleton);
+            Instance.RegisterDelegate(serviceType, factoryMethod, Reuse.ScopedOrSingleton);
             return this;
         }
 
