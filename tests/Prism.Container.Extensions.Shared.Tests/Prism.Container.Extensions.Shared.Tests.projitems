@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\GenericService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\SharedTestCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\CommonAspNetServiceTests.cs" />
   </ItemGroup>
 </Project>

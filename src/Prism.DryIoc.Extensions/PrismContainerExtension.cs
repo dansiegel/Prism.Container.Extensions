@@ -35,7 +35,8 @@ namespace Prism.DryIoc
         internal static void Reset()
         {
             _current = null;
-            GC.Collect();
+            GC.Collect(Int32.MaxValue, GCCollectionMode.Forced);
+            GC.WaitForFullGCComplete();
         }
 
         public static IContainerExtension Create() =>

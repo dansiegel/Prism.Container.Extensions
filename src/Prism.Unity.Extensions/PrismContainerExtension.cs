@@ -49,6 +49,7 @@ namespace Prism.Unity
 
             return new PrismContainerExtension(container);
         }
+
         private PrismContainerExtension()
            : this(new UnityContainer())
         {
