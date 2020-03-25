@@ -17,8 +17,14 @@ using Prism.Microsoft.DependencyInjection;
 
 namespace Prism.Container.Extensions.Shared.Tests
 {
+    [Collection(nameof(SharedTests))]
     public class CommonAspNetServiceTests
     {
+        public CommonAspNetServiceTests()
+        {
+            PrismContainerExtension.Reset();
+        }
+
         [Fact]
         public void CreatingServicesDoesNotThrowException()
         {
@@ -91,7 +97,6 @@ namespace Prism.Container.Extensions.Shared.Tests
         [Fact]
         public void RegisterServicesExtensionsAddsServicesToContainer()
         {
-            PrismContainerExtension.Reset();
             PrismContainerExtension.Current.RegisterServices(s =>
             {
                 s.AddHttpClient();
@@ -102,7 +107,6 @@ namespace Prism.Container.Extensions.Shared.Tests
 
         private void ConfigureServices()
         {
-            PrismContainerExtension.Reset();
             var services = new ServiceCollection();
             services.AddDbContext<MockDbContext>(o => o.UseInMemoryDatabase("test"));
             services.AddHttpClient();
