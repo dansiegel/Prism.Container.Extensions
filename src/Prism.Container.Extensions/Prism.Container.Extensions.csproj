@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461;net47</TargetFrameworks>
     <Description>Prism Container Extension Abstractions</Description>
     <PackageTags>prism di extensions</PackageTags>
     

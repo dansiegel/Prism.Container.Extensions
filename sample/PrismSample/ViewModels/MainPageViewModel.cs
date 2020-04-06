@@ -10,11 +10,14 @@ namespace PrismSample.ViewModels
     {
         private IConnectivity _connectivity { get; set; }
 
+        public MainPageViewModel() { }
+
         public MainPageViewModel(IConnectivity connectivity)
         {
             _connectivity = connectivity;
+
             _connectivity.WhenInternetStatusChanged()
-                .Subscribe(OnConnectivityChanged);
+                    .Subscribe(OnConnectivityChanged);
 
             OnConnectivityChanged(_connectivity.IsInternetAvailable());
         }
