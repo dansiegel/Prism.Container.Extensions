@@ -5,6 +5,12 @@ namespace Prism.Ioc
 {
     public static class IServiceProviderExtensions
     {
+        /// <summary>
+        /// Creates a <see cref="IServiceProvider" /> using the underlying Container
+        /// </summary>
+        /// <param name="container">The <see cref="IContainerExtension" /></param>
+        /// <param name="services">The <see cref="IServiceCollection"/> to register with the container</param>
+        /// <returns>The <see cref="IServiceProvider" /></returns>
         public static IServiceProvider CreateServiceProvider(this IContainerExtension container, IServiceCollection services)
         {
             var containerRegistry = container as IContainerRegistry;
