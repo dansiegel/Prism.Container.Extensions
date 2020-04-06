@@ -1,11 +1,13 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.Container.Extensions.Shared.Tests;
 using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
 
 namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
 {
+    [Collection(nameof(SharedTests))]
     public class MicrosoftExtensionsTests
     {
         private readonly object testLock = new object();

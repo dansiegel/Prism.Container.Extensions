@@ -58,17 +58,37 @@ stages:
         configuration: $(BuildConfiguration)
         msbuildArguments: '/p:DebugType=portable /p:JavaSdkDirectory="$(JAVA_HOME)" /restore'
 
-    # - powershell: |
-    #    dotnet test .\tests\Prism.DryIoc.Extensions.Tests\Prism.DryIoc.Extensions.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-    #    dotnet test .\tests\Prism.DryIoc.Forms.Extended.Tests\Prism.DryIoc.Forms.Extended.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
+    - task: DotNetCoreCLI@2
+      displayName: DryIoc Extensions Tests
+      inputs:
+        command: test
+        configuration: $(BuildConfiguration)
+        projects: tests\Prism.DryIoc.*\*.csproj
+        arguments: --logger trx --no-build --collect "Code Coverage"
 
-    #   displayName: Run Unit Tests
+    - task: DotNetCoreCLI@2
+      displayName: Microsoft DI Extensions Tests
+      inputs:
+        command: test
+        configuration: $(BuildConfiguration)
+        projects: tests\Prism.Microsoft.DependencyInjection.*\*.csproj
+        arguments: --logger trx --no-build --collect "Code Coverage"
 
-    # - task: PublishTestResults@2
-    #   inputs:
-    #     testResultsFormat: VSTest
-    #     testResultsFiles: '**/*.trx'
-    #     buildConfiguration: $(BuildConfiguration)
+    - task: DotNetCoreCLI@2
+      displayName: Unity Extensions Tests
+      inputs:
+        command: test
+        configuration: $(BuildConfiguration)
+        projects: tests\Prism.Unity.*\*.csproj
+        arguments: --logger trx --no-build --collect "Code Coverage"
+
+    - task: DotNetCoreCLI@2
+      displayName: Shiny Prism Tests
+      inputs:
+        command: test
+        configuration: $(BuildConfiguration)
+        projects: tests\Shiny.Prism.Tests\*.csproj
+        arguments: --logger trx --no-build --collect "Code Coverage"
 
     - powershell: ./Sign-Packages.ps1
       workingDirectory: build

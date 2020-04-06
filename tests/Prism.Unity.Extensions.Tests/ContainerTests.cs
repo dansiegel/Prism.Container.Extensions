@@ -7,9 +7,11 @@ using Prism.Ioc;
 using Xunit;
 using Xunit.Abstractions;
 using Prism.Container.Extensions.Shared.Mocks;
+using Prism.Container.Extensions.Shared.Tests;
 
 namespace Prism.Unity.Extensions.Tests
 {
+    [Collection(nameof(SharedTests))]
     public class ContainerTests
     {
         private readonly object testLock = new object();

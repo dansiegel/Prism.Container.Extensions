@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Prism.DryIoc;
+﻿using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny.Prism.Mocks;
 using Shiny.Prism.Mocks.Modularity;
@@ -12,6 +9,7 @@ using Xunit.Abstractions;
 
 namespace Shiny.Prism.Tests
 {
+    [Collection(nameof(ShinyTests))]
     public class ModularityTests
     {
         private ITestOutputHelper _testOutputHelper { get; }

@@ -1,16 +1,11 @@
 using System;
 using Prism.DryIoc;
 using Prism.Ioc;
-//using Shiny.Beacons;
-using Shiny.BluetoothLE;
 using Shiny.IO;
 using Shiny.Jobs;
-using Shiny.Locations;
 using Shiny.Net;
 using Shiny.Power;
 using Shiny.Prism.Mocks;
-using Shiny.Prism.Mocks.Delegates;
-using Shiny.Prism.Mocks.Modularity;
 using Shiny.Settings;
 using Shiny.Testing;
 using Shiny.Testing.Jobs;
@@ -22,6 +17,7 @@ using Xunit.Abstractions;
 
 namespace Shiny.Prism.Tests
 {
+    [Collection(nameof(ShinyTests))]
     public class PrismStartupTests
     {
         private ITestOutputHelper _testOutputHelper { get; }

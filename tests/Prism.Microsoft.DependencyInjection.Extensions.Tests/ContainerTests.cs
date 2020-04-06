@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Container.Extensions.Shared.Mocks;
+using Prism.Container.Extensions.Shared.Tests;
 using Prism.Container.Extensions.Tests.Mocks;
 using Prism.Ioc;
 using Xunit;
@@ -10,6 +11,7 @@ using Xunit.Abstractions;
 
 namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
 {
+    [Collection(nameof(SharedTests))]
     public class ContainerTests
     {
         private readonly object testLock = new object();
