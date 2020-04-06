@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Prism.Ioc
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IScopeProvider
     {
+        [EditorBrowsable(EditorBrowsableState.Never)]
         void CreateScope();
     }
 
