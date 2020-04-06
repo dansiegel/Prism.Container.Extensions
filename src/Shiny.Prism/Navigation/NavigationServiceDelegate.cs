@@ -10,7 +10,10 @@ namespace Prism.Navigation
 {
     internal class NavigationServiceDelegate : INavigationServiceDelegate
     {
-        private IContainerProvider Container { get; }
+        // Provided to keep compatibility with Prism 8.0
+        private const string NavigationServiceName = "PageNavigationService";
+
+        private IContainerExtension Container { get; }
         private IApplicationProvider ApplicationProvider { get; }
 
         public NavigationServiceDelegate(IContainerExtension container, IApplicationProvider applicationProvider)
@@ -128,7 +131,9 @@ namespace Prism.Navigation
         {
             if (PrismApplicationBase.Current is null) return null;
 
-            var navService = Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName);
+            var navService = Container.IsRegistered<INavigationService>(NavigationServiceName) ? 
+                Container.Resolve<INavigationService>(NavigationServiceName) :
+                Container.Resolve<INavigationService>();
 
             if (navService is IPageAware pa)
             {

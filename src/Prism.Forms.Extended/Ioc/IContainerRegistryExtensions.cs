@@ -15,6 +15,9 @@ namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {
+        // Provided to keep compatibility with Prism 8.0
+        private const string NavigationServiceName = "PageNavigationService";
+
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterManySingletonOnce<AggregateLogger>();
@@ -29,8 +32,9 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
-            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(PrismApplicationBase.NavigationServiceName);
+            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
             containerRegistry.Register<INavigationService, ErrorReportingNavigationService>();
+            var isRegistered = containerRegistry.IsRegistered<INavigationService>(NavigationServiceName);
         }
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)

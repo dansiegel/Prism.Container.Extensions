@@ -123,6 +123,8 @@ namespace Prism.Forms.Extended.Tests
         {
             var app = CreateApp();
             INavigationService navService = null;
+
+            // TODO: Remove internal constants
             var ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName));
 
             Assert.Null(ex);
