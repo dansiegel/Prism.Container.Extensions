@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -125,17 +125,13 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.657" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj">
       <Project>{940ca2d8-b9a8-499a-9ed3-ecee9758073f}</Project>
       <Name>Prism.Container.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj">
-      <Project>{3a82a96a-f3fc-4244-87c3-28706494f614}</Project>
-      <Name>Prism.DryIoc.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj">
       <Project>{771a0fd7-7877-4ab7-8528-7fb07054393d}</Project>

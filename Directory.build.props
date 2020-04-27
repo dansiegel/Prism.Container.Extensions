@@ -2,7 +2,6 @@
 <Project>
 
   <PropertyGroup>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <Authors>dansiegel</Authors>
     <Copyright>© Dan Siegel. All rights reserved.</Copyright>
     <VersionPrefix>7.2.0</VersionPrefix>

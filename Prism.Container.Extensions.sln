@@ -69,7 +69,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismSample.UWP", "sample\P
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.projitems*{24ced393-e72c-4a67-b367-9d7ac5ca6e00}*SharedItemsImports = 5
+		tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems*{407f4e72-cc87-4a58-841b-b75cd914f8b1}*SharedItemsImports = 5
+		tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.projitems*{626759d0-9075-434f-a239-e3c8ac180c44}*SharedItemsImports = 5
+		tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems*{9d2c6e7d-4c6e-4606-a3fa-43b18ed56f32}*SharedItemsImports = 5
 		tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.projitems*{a000e151-d04b-4f18-92a9-173e60975fbc}*SharedItemsImports = 13
+		tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems*{a1664ca9-907a-4af7-9100-c69ccd26900e}*SharedItemsImports = 5
+		tests\Prism.Container.Extensions.Shared.Tests\Prism.Container.Extensions.Shared.Tests.projitems*{d1367051-9f5c-4f7b-9135-6095541c47b2}*SharedItemsImports = 5
 		tests\Prism.Forms.Extended.Mocks\Prism.Forms.Extended.Mocks.projitems*{e13e43d5-6a03-401c-b7e6-298e829e5a2f}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
