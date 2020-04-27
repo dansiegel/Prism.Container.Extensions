@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Prism.Container.Extensions;
 using Prism.Ioc;
+using ContainerLocator = Prism.Container.Extensions.ContainerLocator;
 
 namespace Prism.Microsoft.DependencyInjection
 {

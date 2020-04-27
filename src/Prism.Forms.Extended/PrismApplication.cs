@@ -51,7 +51,7 @@ namespace Prism
 
         protected override IContainerExtension CreateContainerExtension()
         {
-            return ContainerLocator.Locate();
+            return Prism.Container.Extensions.ContainerLocator.Locate();
         }
 
         protected virtual void ConfigureAggregateLogger(IAggregateLogger aggregateLogger, IContainerProvider container)

@@ -164,7 +164,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
 
                 Assert.Null(ex);
 
-                Assert.True(container.IsRegistered<IFoo>());
+                Assert.True(((IContainerRegistry)container).IsRegistered<IFoo>());
             }
         }
     }

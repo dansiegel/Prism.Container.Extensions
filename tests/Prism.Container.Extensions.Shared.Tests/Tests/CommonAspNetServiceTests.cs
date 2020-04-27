@@ -102,7 +102,7 @@ namespace Prism.Container.Extensions.Shared.Tests
                 s.AddHttpClient();
             });
 
-            Assert.True(PrismContainerExtension.Current.IsRegistered<IHttpClientFactory>());
+            Assert.True(((IContainerRegistry)PrismContainerExtension.Current).IsRegistered<IHttpClientFactory>());
         }
 
         private void ConfigureServices()

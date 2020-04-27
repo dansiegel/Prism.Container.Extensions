@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Prism;
 using Prism.Common;
 using Prism.Ioc;
+using Xamarin.Forms;
 
 namespace Prism.Navigation
 {
@@ -13,7 +14,7 @@ namespace Prism.Navigation
         // Provided to keep compatibility with Prism 8.0
         private const string NavigationServiceName = "PageNavigationService";
 
-        private IContainerExtension Container { get; }
+        private IContainerProvider Container { get; }
         private IApplicationProvider ApplicationProvider { get; }
 
         public NavigationServiceDelegate(IContainerExtension container, IApplicationProvider applicationProvider)
@@ -129,7 +130,7 @@ namespace Prism.Navigation
 
         private INavigationService GetNavigationService()
         {
-            if (PrismApplicationBase.Current is null) return null;
+            if (Application.Current is null) return null;
 
             var navService = Container.IsRegistered<INavigationService>(NavigationServiceName) ? 
                 Container.Resolve<INavigationService>(NavigationServiceName) :

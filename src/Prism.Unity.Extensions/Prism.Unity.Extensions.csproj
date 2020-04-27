@@ -11,10 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.6" />
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.Unity.Shared\UnityContainerExtension.cs" Link="UnityContainerExtension.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Unity.Container" Version="5.11.7" />
     <ProjectReference Include="..\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
   </ItemGroup>
 

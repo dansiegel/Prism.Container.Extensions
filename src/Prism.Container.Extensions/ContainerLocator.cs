@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using Prism.Ioc;
 
@@ -26,6 +24,7 @@ namespace Prism.Container.Extensions
                 throw new DllNotFoundException("No assembly containing a reference to an IContainerExtension implementation could be found. You must have a reference to one of the DI Container Extensions in your final project");
             }
 
+            Prism.Ioc.ContainerLocator.SetContainerExtension(() => _locatedExtension.Container);
             return _locatedExtension.Container;
         }
 
@@ -56,6 +55,15 @@ namespace Prism.Container.Extensions
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// This should only ever be called from Unit Tests
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void Reset()
+        {
+            _locatedExtension = null;
         }
     }
 #pragma warning restore CS1591

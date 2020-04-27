@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.DryIoc.Shared\DryIocContainerExtension.cs" Link="DryIocContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="4.1.4" />
   </ItemGroup>
 

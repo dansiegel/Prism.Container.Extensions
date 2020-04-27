@@ -24,7 +24,7 @@ namespace Shiny.Prism.Tests
         {
             ShinyPrismTestHost.Init(new MockModuleStartup(_testOutputHelper));
 
-            Assert.True(PrismContainerExtension.Current.IsRegistered<IMockModuleServiceA>());
+            Assert.True(((IContainerRegistry)PrismContainerExtension.Current).IsRegistered<IMockModuleServiceA>());
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Shiny.Prism.Tests
         {
             ShinyPrismTestHost.Init(new MockModuleStartup(_testOutputHelper));
 
-            Assert.False(PrismContainerExtension.Current.IsRegistered<IMockModuleServiceB>());
+            Assert.False(((IContainerRegistry)PrismContainerExtension.Current).IsRegistered<IMockModuleServiceB>());
         }
 
         [Fact]

@@ -14,7 +14,7 @@ using Prism.Microsoft.DependencyInjection;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry, IServiceCollectionAware
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware
     {
         private static IContainerExtension<IServiceProvider> _current;
         public static IContainerExtension<IServiceProvider> Current
@@ -97,7 +97,7 @@ namespace Prism.Microsoft.DependencyInjection
             Services.AddSingleton<IContainerRegistry>(sp => sp.GetService<PrismContainerExtension>());
             Services.AddSingleton<IContainerExtension>(sp => sp.GetService<PrismContainerExtension>());
             Services.AddSingleton<IContainerProvider>(sp => sp.GetService<PrismContainerExtension>());
-            Services.AddSingleton<IServiceProvider>(sp => sp.GetService<PrismContainerExtension>());
+            //Services.AddSingleton<IServiceProvider>(sp => sp.GetService<PrismContainerExtension>());
         }
 
         public void SetServiceCollection(IServiceCollection services)
@@ -225,47 +225,47 @@ namespace Prism.Microsoft.DependencyInjection
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry Register(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddTransient(serviceType, _ => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry Register(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddTransient(serviceType, sp => factoryMethod(sp.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
-        {
-            requiresRebuild = true;
-            Services.AddTransient(serviceType, factoryMethod);
-            return this;
-        }
+        //public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        //{
+        //    requiresRebuild = true;
+        //    Services.AddTransient(serviceType, factoryMethod);
+        //    return this;
+        //}
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry RegisterSingleton(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddSingleton(serviceType, _ => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry RegisterSingleton(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddSingleton(serviceType, sp => factoryMethod(sp.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
-        {
-            requiresRebuild = true;
-            Services.AddSingleton(serviceType, factoryMethod);
-            return this;
-        }
+        //public IContainerRegistry RegisterSingleton(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        //{
+        //    requiresRebuild = true;
+        //    Services.AddSingleton(serviceType, factoryMethod);
+        //    return this;
+        //}
 
         public IContainerRegistry RegisterScoped(Type serviceType)
         {
@@ -281,26 +281,26 @@ namespace Prism.Microsoft.DependencyInjection
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry RegisterScoped(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, s => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry RegisterScoped(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, s => factoryMethod(s.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
-        {
-            requiresRebuild = true;
-            Services.AddScoped(serviceType, factoryMethod);
-            return this;
-        }
+        //public IContainerRegistry RegisterScoped(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        //{
+        //    requiresRebuild = true;
+        //    Services.AddScoped(serviceType, factoryMethod);
+        //    return this;
+        //}
 
         public object GetService(Type serviceType) =>
             Instance.GetService(serviceType);

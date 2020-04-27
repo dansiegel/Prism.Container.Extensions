@@ -163,7 +163,7 @@ namespace Prism.Unity.Extensions.Tests
 
                 Assert.Null(ex);
 
-                Assert.True(container.IsRegistered<IFoo>());
+                Assert.True(((IContainerRegistry)container).IsRegistered<IFoo>());
             }
         }
     }

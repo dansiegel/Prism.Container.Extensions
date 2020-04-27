@@ -65,7 +65,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
-                Assert.True(PrismContainerExtension.Current.IsRegistered<IServiceProvider>());
+                Assert.True(((IContainerRegistry)PrismContainerExtension.Current).IsRegistered<IServiceProvider>());
             }
         }
 
@@ -76,7 +76,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
-                Assert.True(PrismContainerExtension.Current.IsRegistered<IContainerProvider>());
+                Assert.True(((IContainerRegistry)PrismContainerExtension.Current).IsRegistered<IContainerProvider>());
             }
         }
 
@@ -197,7 +197,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
 
                 c.RegisterInstance<IFoo>(foo);
 
-                Assert.True(c.IsRegistered<IFoo>());
+                Assert.True(((IContainerRegistry)c).IsRegistered<IFoo>());
                 Assert.Same(foo, c.Resolve<IFoo>());
             }
         }
@@ -212,7 +212,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
 
                 c.RegisterInstance<IFoo>(foo, "test");
 
-                Assert.True(c.IsRegistered<IFoo>("test"));
+                Assert.True(((IContainerRegistry)c).IsRegistered<IFoo>("test"));
                 Assert.Same(foo, c.Resolve<IFoo>("test"));
             }
         }
@@ -247,7 +247,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 var c = CreateContainer();
                 var message = "expected";
-                c.RegisterDelegate<IFoo>(FooFactory);
+                c.Register<IFoo>(FooFactory);
 
                 IFoo foo = null;
                 var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -266,7 +266,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 var c = CreateContainer();
                 var message = "expected";
-                c.RegisterSingletonFromDelegate<IFoo>(FooFactory);
+                c.RegisterSingleton<IFoo>(FooFactory);
 
                 IFoo foo = null;
                 var ex = Record.Exception(() => foo = c.Resolve<IFoo>());
@@ -285,7 +285,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 var c = CreateContainer();
                 var expectedMessage = "constructed with IServiceProvider";
-                c.RegisterDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
+                c.Register(typeof(IBar), BarFactoryWithIServiceProvider);
                 c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
                 IBar bar = null;
@@ -306,7 +306,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 var c = CreateContainer();
                 var expectedMessage = "constructed with IServiceProvider";
-                c.RegisterDelegate<IBar>(BarFactoryWithIServiceProvider);
+                c.Register<IBar>(BarFactoryWithIServiceProvider);
                 c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
                 IBar bar = null;
@@ -327,7 +327,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
             {
                 var c = CreateContainer();
                 var expectedMessage = "constructed with IServiceProvider";
-                c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIServiceProvider);
+                c.RegisterSingleton(typeof(IBar), BarFactoryWithIServiceProvider);
                 c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
                 IBar bar = null;
@@ -351,7 +351,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
                     var c = CreateContainer();
                     Assert.NotNull(c);
                     var expectedMessage = "constructed with IServiceProvider";
-                    c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIServiceProvider);
+                    c.RegisterSingleton<IBar>(BarFactoryWithIServiceProvider);
                     c.RegisterInstance<IFoo>(new Foo { Message = expectedMessage });
 
                     IBar bar = null;
@@ -379,7 +379,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
                 var c = CreateContainer();
 
                 var expectedMessage = "constructed with IContainerProvider";
-                c.RegisterDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
+                c.Register(typeof(IBar), BarFactoryWithIContainerProvider);
                 c.RegisterSingleton<IFoo, Foo>();
 
                 IBar bar = null;
@@ -402,7 +402,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
                 var c = CreateContainer();
 
                 var expectedMessage = "constructed with IContainerProvider";
-                c.RegisterDelegate<IBar>(BarFactoryWithIContainerProvider);
+                c.Register<IBar>(BarFactoryWithIContainerProvider);
                 c.RegisterSingleton<IFoo, Foo>();
 
                 IBar bar = null;
@@ -425,7 +425,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
                 var c = CreateContainer();
 
                 var expectedMessage = "constructed with IContainerProvider";
-                c.RegisterSingletonFromDelegate(typeof(IBar), BarFactoryWithIContainerProvider);
+                c.RegisterSingleton(typeof(IBar), BarFactoryWithIContainerProvider);
                 c.RegisterSingleton<IFoo, Foo>();
 
                 IBar bar = null;
@@ -448,7 +448,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
                 var c = CreateContainer();
 
                 var expectedMessage = "constructed with IContainerProvider";
-                c.RegisterSingletonFromDelegate<IBar>(BarFactoryWithIContainerProvider);
+                c.RegisterSingleton<IBar>(BarFactoryWithIContainerProvider);
                 c.RegisterSingleton<IFoo, Foo>();
 
                 IBar bar = null;

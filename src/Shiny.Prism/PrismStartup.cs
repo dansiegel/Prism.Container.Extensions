@@ -6,6 +6,7 @@ using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Modularity;
 using Shiny.Prism.Modularity;
+using ContainerLocator = Prism.Container.Extensions.ContainerLocator;
 
 namespace Shiny.Prism
 {
