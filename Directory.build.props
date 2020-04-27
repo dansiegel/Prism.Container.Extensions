@@ -15,6 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>prism di dryioc</PackageTags>
+    <DefineConstants>$(DefineConstants);ContainerExtensions</DefineConstants>
   </PropertyGroup>
 
   <!-- CI Helpers -->

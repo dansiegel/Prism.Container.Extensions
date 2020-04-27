@@ -1,0 +1,34 @@
+<Project>
+  <PropertyGroup>
+    <!-- <RepoRootDirectory>$([System.IO.Path]::GetDirectoryName($(MSBuildThisFileFullPath).FullName))</RepoRootDirectory> -->
+    <RepoRootDirectory>..\..</RepoRootDirectory>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition=" $(Configuration) == 'MEDI' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);MEDI</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <ProjectReference Include="$(RepoRootDirectory)\src\Prism.Microsoft.DependencyInjection.Extensions\Prism.Microsoft.DependencyInjection.Extensions.csproj" />
+      </ItemGroup>
+    </When>
+    <When Condition=" $(Configuration) == 'Unity' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);Unity</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <ProjectReference Include="$(RepoRootDirectory)\src\Prism.Unity.Extensions\Prism.Unity.Extensions.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);DryIoc</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <ProjectReference Include="$(RepoRootDirectory)\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+</Project>
