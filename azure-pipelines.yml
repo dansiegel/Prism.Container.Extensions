@@ -109,9 +109,9 @@ stages:
   displayName: Deploy NuGets
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: MyGet
-    displayName: MyGet.org
-    environment: MyGet
+  - deployment: SponsorConnect
+    displayName: SponsorConnect.dev
+    environment: SponsorConnect
     strategy:
       runOnce:
         deploy:
@@ -120,9 +120,9 @@ stages:
             displayName: NuGet Push
             inputs:
               command: push
-              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;$(Pipeline.Workspace)/**/*.snupkg'
               nuGetFeedType: external
-              publishFeedCredentials: 'Prism.Plugins - MyGet'
+              publishFeedCredentials: 'SponsorConnect'
 
 - stage: deployNuGetOrg
   displayName: Deploy NuGets
@@ -159,6 +159,6 @@ stages:
             displayName: NuGet Push
             inputs:
               command: push
-              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;$(Pipeline.Workspace)/**/*.snupkg'
               nuGetFeedType: external
               publishFeedCredentials: 'NuGet'

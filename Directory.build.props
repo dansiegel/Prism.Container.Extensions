@@ -6,7 +6,8 @@
     <Copyright>© Dan Siegel. All rights reserved.</Copyright>
     <VersionPrefix>7.2.0</VersionPrefix>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeSource>True</IncludeSource>
     <PackageIcon>prism-logo.png</PackageIcon>
     <!-- <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl> -->
@@ -47,12 +48,21 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition=" $(IsPackable) And '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
   <ItemGroup Condition=" $(IsPackable) == 'true' ">
-    <PackageReference Condition="$(BUILD_ARTIFACTSTAGINGDIRECTORY) != ''" Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Condition="$(BUILD_ARTIFACTSTAGINGDIRECTORY) != ''" Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02" PrivateAssets="All" />
     <None Include="$(MSBuildThisFileDirectory)prism-logo.png"
           Visible="False"
           Pack="True"
           PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(IsPackable)' == 'true' ">
