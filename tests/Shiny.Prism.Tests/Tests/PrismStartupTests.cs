@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Shiny;
 using Shiny.IO;
 using Shiny.Jobs;
 using Shiny.Net;
 using Shiny.Power;
 using Shiny.Prism.Mocks;
+using Shiny.Prism.Mocks.Delegates;
+using Shiny.Push;
 using Shiny.Settings;
 using Shiny.Testing;
 using Shiny.Testing.Jobs;
@@ -51,6 +56,26 @@ namespace Shiny.Prism.Tests
             var fromShiny = ShinyHost.Container.GetService(serviceType);
             Assert.IsType(implementingType, fromShiny);
             Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(serviceType));
+        }
+
+        [Fact]
+        public void CanResolveAll()
+        {
+            ShinyPrismTestHost.Init(_testOutputHelper, services =>
+            {
+                services.AddSingleton<IPushDelegate, MockPushDelegate>();
+            });
+
+            Assert.True(PrismContainerExtension.Current.IsRegistered(typeof(IPushDelegate)));
+
+            var fromShiny = ShinyHost.Resolve<IPushDelegate>();
+            Assert.IsType<MockPushDelegate>(fromShiny);
+            Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(typeof(IPushDelegate)));
+            Assert.Same(fromShiny, ShinyHost.Container.Resolve<IPushDelegate>());
+
+            Assert.Equal(new[] { fromShiny }, ShinyHost.Container.Resolve<IEnumerable<IPushDelegate>>());
+            // Assert.Equal(new[] { fromShiny }, ShinyHost.Container.ResolveAll<IPushDelegate>()); // TODO: exists in Shiny 1.2
+            Assert.Equal(new[] { fromShiny }, ShinyHost.ResolveAll<IPushDelegate>());
         }
 
         [Fact]
