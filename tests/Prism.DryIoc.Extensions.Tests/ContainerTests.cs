@@ -147,6 +147,13 @@ namespace Prism.DryIoc.Extensions.Tests
             Assert.IsType<Foo>(foo);
 
             Assert.Same(foo, c.Resolve<IFoo>());
+
+            IEnumerable<IFoo> foos = null;
+            ex = Record.Exception(() => foos = c.Resolve<IEnumerable<IFoo>>());
+
+            Assert.Null(ex);
+            Assert.NotNull(foos);
+            Assert.Equal(new[] { foo }, foos);
         }
 
         [Fact]
