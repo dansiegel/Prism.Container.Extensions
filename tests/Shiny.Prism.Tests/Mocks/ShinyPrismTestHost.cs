@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Shiny.IO;
 using Shiny.Jobs;
@@ -18,7 +16,8 @@ namespace Shiny.Prism.Mocks
 {
     class ShinyPrismTestHost : ShinyHost
     {
-        public static void Init(ITestOutputHelper testOutputHelper) => Init(new MockStartup(testOutputHelper));
+        public static void Init(ITestOutputHelper testOutputHelper, Action<IServiceCollection> platformBuild = null)
+            => Init(new MockStartup(testOutputHelper), platformBuild);
 
         public static void Init(IShinyStartup startup = null, Action<IServiceCollection> platformBuild = null)
         {
