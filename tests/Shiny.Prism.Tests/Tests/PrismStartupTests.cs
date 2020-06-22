@@ -73,8 +73,9 @@ namespace Shiny.Prism.Tests
             Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(typeof(IPushDelegate)));
             Assert.Same(fromShiny, ShinyHost.Container.Resolve<IPushDelegate>());
 
+            Assert.Equal(new[] { fromShiny }, PrismContainerExtension.Current.Resolve<IEnumerable<IPushDelegate>>());
+            Assert.Equal(new[] { fromShiny }, ShinyHost.Container.GetServices<IPushDelegate>());
             Assert.Equal(new[] { fromShiny }, ShinyHost.Container.Resolve<IEnumerable<IPushDelegate>>());
-            // Assert.Equal(new[] { fromShiny }, ShinyHost.Container.ResolveAll<IPushDelegate>()); // TODO: exists in Shiny 1.2
             Assert.Equal(new[] { fromShiny }, ShinyHost.ResolveAll<IPushDelegate>());
         }
 
