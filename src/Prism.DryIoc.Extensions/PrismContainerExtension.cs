@@ -8,17 +8,22 @@ namespace Prism.DryIoc
     {
         public static Rules DefaultRules => DryIocContainerExtension.DefaultRules;
 
-        public static IContainerExtension Current => ContainerLocator.Current;
+        public static IContainerExtension Current => ContainerLocator.Current ?? Init();
 
-        public static void Init() =>
+        public static IContainerExtension Init() =>
             Init(DefaultRules);
 
-        public static void Init(Rules rules) =>
+        public static IContainerExtension Init(Rules rules) =>
             Init(new global::DryIoc.Container(rules));
 
-        public static void Init(IContainer container)
+        public static IContainerExtension Init(IContainer container)
         {
-            ContainerLocator.SetContainerExtension(() => new DryIocContainerExtension(container));
+            if (ContainerLocator.Current != null)
+                throw new NotSupportedException("The PrismContainerExtension has already been initialized.");
+
+            var extension = new DryIocContainerExtension(container);
+            ContainerLocator.SetContainerExtension(() => extension);
+            return extension;
         }
 
         internal static void Reset()

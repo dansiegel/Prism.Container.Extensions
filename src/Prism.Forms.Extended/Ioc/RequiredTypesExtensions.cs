@@ -13,7 +13,7 @@ using Prism.Services.Dialogs;
 
 namespace Prism.Ioc
 {
-    public static class IContainerRegistryExtensions
+    public static class RequiredTypesExtensions
     {
         // Provided to keep compatibility with Prism 8.0
         private const string NavigationServiceName = "PageNavigationService";
@@ -32,8 +32,8 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
-            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
-            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>();
+            //containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
+            containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>();
             var isRegistered = containerRegistry.IsRegistered<INavigationService>(NavigationServiceName);
         }
 

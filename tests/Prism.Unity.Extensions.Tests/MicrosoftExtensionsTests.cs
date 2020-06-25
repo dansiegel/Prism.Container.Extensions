@@ -22,7 +22,7 @@ namespace Prism.Unity.Extensions.Tests
 
                 var services = new ServiceCollection();
                 services.AddTransient<IFoo, Foo>();
-                var container = PrismContainerExtension.Create();
+                var container = PrismContainerExtension.Init();
                 var serviceProvider = container.CreateServiceProvider(services);
 
                 object service = null;
@@ -47,7 +47,7 @@ namespace Prism.Unity.Extensions.Tests
 
                 var services = new ServiceCollection();
                 services.AddSingleton<IFoo, Foo>();
-                var container = PrismContainerExtension.Create();
+                var container = PrismContainerExtension.Init();
                 var serviceProvider = container.CreateServiceProvider(services);
 
                 object service = null;
@@ -72,7 +72,7 @@ namespace Prism.Unity.Extensions.Tests
 
                 var foo = new Foo();
                 var services = new ServiceCollection(); services.AddSingleton<IFoo>(foo);
-                var container = PrismContainerExtension.Create();
+                var container = PrismContainerExtension.Init();
                 var serviceProvider = container.CreateServiceProvider(services);
 
                 object service = null;
@@ -163,7 +163,7 @@ namespace Prism.Unity.Extensions.Tests
 
                 Assert.Null(ex);
 
-                Assert.True(container.IsRegistered<IFoo>());
+                Assert.True(((IContainerProvider)container).IsRegistered<IFoo>());
             }
         }
     }

@@ -43,7 +43,7 @@ namespace Shiny.Prism.Mocks
         static IContainerExtension RegenerateContainer()
         {
             PrismContainerExtension.Reset();
-            return PrismContainerExtension.Create();
+            return PrismContainerExtension.Init();
         }
 
         public void Write(Exception exception, params (string Key, string Value)[] parameters)

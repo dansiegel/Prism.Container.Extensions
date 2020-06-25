@@ -131,9 +131,10 @@ namespace Prism.Navigation
         {
             if (PrismApplicationBase.Current is null) return null;
 
-            var navService = Container.IsRegistered<INavigationService>(NavigationServiceName) ? 
-                Container.Resolve<INavigationService>(NavigationServiceName) :
-                Container.Resolve<INavigationService>();
+            IContainerProvider container = Container;
+            var navService = container.IsRegistered<INavigationService>(NavigationServiceName) ? 
+                container.Resolve<INavigationService>(NavigationServiceName) :
+                container.Resolve<INavigationService>();
 
             if (navService is IPageAware pa)
             {

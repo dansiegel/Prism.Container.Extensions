@@ -3,11 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides an extended PrismApplication with additional helpers. This can assist with capturing errors and debugging. Additional helpers exist to provide better use of Platform Specifics and styling.</Description>
+    <DefineConstants>$(DefineConstants);ContainerExtensions</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="build\**\*.cs" />
     <None Include="build\**" Pack="true" PackagePath="build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.Unity.Shared\PrismIocExtensions.cs" Link="PrismIocExtensions.cs" />
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.Unity.Shared\UnityContainerExtension.cs" Link="UnityContainerExtension.cs" />
   </ItemGroup>
 
   <ItemGroup>

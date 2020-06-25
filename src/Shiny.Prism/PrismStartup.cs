@@ -11,15 +11,13 @@ namespace Shiny.Prism
 {
     public abstract class PrismStartup : IShinyStartup
     {
-        private IContainerExtension _container;
-
         protected PrismStartup()
         {
         }
 
         protected PrismStartup(IContainerExtension container)
         {
-            _container = container;
+            WithContainer(container);
         }
 
         protected virtual void ConfigureApp(IServiceProvider provider) { }
@@ -38,19 +36,20 @@ namespace Shiny.Prism
 
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {
-            if (_container is null)
+            var container = ContainerLocator.Current;
+            if(container is null && (container = CreateContainerExtension()) is null)
             {
-                _container = CreateContainerExtension();
+                throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
             }
 
-            var sp = _container.CreateServiceProvider(services);
+            var sp = container.CreateServiceProvider(services);
 
-            var moduleCatalog = _container.Resolve<IModuleCatalog>();
+            var moduleCatalog = container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(moduleCatalog);
 
             if(moduleCatalog.Modules.Any() && moduleCatalog.HasStartupModules(out var startupModules))
             {
-                var moduleInitializer = _container.Resolve<IModuleInitializer>() as IShinyPrismModuleInitializer;
+                var moduleInitializer = container.Resolve<IModuleInitializer>() as IShinyPrismModuleInitializer;
                 moduleInitializer.LoadShinyModules(startupModules);
             }
 
@@ -59,12 +58,13 @@ namespace Shiny.Prism
 
         protected virtual IContainerExtension CreateContainerExtension()
         {
-            return _container ?? ContainerLocator.Locate();
+            return null;
+            //return _container ?? ContainerLocator.Locate();
         }
 
         public IShinyStartup WithContainer(IContainerExtension container)
         {
-            _container = container;
+            ContainerLocator.SetContainerExtension(() => container);
             return this;
         }
 

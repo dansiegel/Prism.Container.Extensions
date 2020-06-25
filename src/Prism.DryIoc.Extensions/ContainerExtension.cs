@@ -19,6 +19,7 @@ namespace Prism.DryIoc
                 typeof(IContainerProvider),
                 typeof(IServiceScopeFactory)
             }, this);
+            Instance.RegisterDelegate<IServiceProvider>(r => r);
         }
 
         IServiceScope IServiceScopeFactory.CreateScope()
