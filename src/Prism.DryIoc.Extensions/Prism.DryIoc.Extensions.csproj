@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;Xamarin.iOS10</TargetFrameworks>
     <Description>Prism Container Extensions for DryIoc</Description>
+    <DefineConstants>$(DefineConstants);ContainerExtensions</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.3.1" />
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.DryIoc.Shared\DryIocContainerExtension.cs" Link="DryIocContainerExtension.cs" />
+    <Compile Include="..\..\external\Prism\src\Containers\Prism.DryIoc.Shared\PrismIocExtensions.cs" Link="PrismIocExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" Version="4.1.4" />
   </ItemGroup>
 
   <ItemGroup>

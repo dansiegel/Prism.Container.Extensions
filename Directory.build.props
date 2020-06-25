@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Authors>dansiegel</Authors>
     <Copyright>© Dan Siegel. All rights reserved.</Copyright>
-    <VersionPrefix>7.2.0</VersionPrefix>
+    <VersionPrefix>8.0</VersionPrefix>
     <NeutralLanguage>en-US</NeutralLanguage>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
