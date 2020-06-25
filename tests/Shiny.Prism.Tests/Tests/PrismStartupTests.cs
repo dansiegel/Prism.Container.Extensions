@@ -80,6 +80,21 @@ namespace Shiny.Prism.Tests
         }
 
         [Fact]
+        public void CanResolveAllWithoutRegistration()
+        {
+            ShinyPrismTestHost.Init(_testOutputHelper);
+
+            Assert.False(PrismContainerExtension.Current.IsRegistered(typeof(IPushDelegate)));
+
+            Assert.Null(ShinyHost.Resolve<IPushDelegate>());
+
+            Assert.Empty(PrismContainerExtension.Current.Resolve<IEnumerable<IPushDelegate>>());
+            Assert.Empty(ShinyHost.Container.GetServices<IPushDelegate>());
+            Assert.Empty(ShinyHost.Container.Resolve<IEnumerable<IPushDelegate>>());
+            Assert.Empty(ShinyHost.ResolveAll<IPushDelegate>());
+        }
+
+        [Fact]
         public void PrismStartupLocatesContainerExtension()
         {
             var ex = Record.Exception(() => ShinyPrismTestHost.Init(new MockStartup(_testOutputHelper, false)));
