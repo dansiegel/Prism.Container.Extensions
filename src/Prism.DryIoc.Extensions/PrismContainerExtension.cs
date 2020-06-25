@@ -155,7 +155,8 @@ namespace Prism.DryIoc
 
         public bool IsRegistered(Type type)
         {
-            return Instance.IsRegistered(type);
+            return Instance.IsRegistered(type) ||
+                Instance.IsRegistered(type, factoryType: FactoryType.Wrapper);
         }
 
         public bool IsRegistered(Type type, string name)
