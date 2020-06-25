@@ -17,7 +17,7 @@ namespace Prism.Behaviors
             _options = options;
         }
 
-        public override void ApplyTabbedPageBehaviors(TabbedPage page)
+        protected override void ApplyTabbedPageBehaviors(TabbedPage page)
         {
             base.ApplyTabbedPageBehaviors(page);
 
@@ -37,7 +37,7 @@ namespace Prism.Behaviors
             }
         }
 
-        public override void ApplyPageBehaviors(Page page)
+        protected override void ApplyPageBehaviors(Page page)
         {
             base.ApplyPageBehaviors(page);
 
@@ -47,7 +47,7 @@ namespace Prism.Behaviors
             }
         }
 
-        public override void ApplyNavigationPageBehaviors(NavigationPage page)
+        protected override void ApplyNavigationPageBehaviors(NavigationPage page)
         {
             base.ApplyNavigationPageBehaviors(page);
 

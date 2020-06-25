@@ -17,7 +17,6 @@ using Prism.Mvvm;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-[assembly: Prism.Container.Extensions.Preserve]
 [assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Prism.Unity.Forms.Extended.Tests")]
@@ -51,7 +50,7 @@ namespace Prism
 
         protected override IContainerExtension CreateContainerExtension()
         {
-            return ContainerLocator.Locate();
+            return ContainerLocator.Current ?? throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
         }
 
         protected virtual void ConfigureAggregateLogger(IAggregateLogger aggregateLogger, IContainerProvider container)
