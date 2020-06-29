@@ -123,8 +123,16 @@ namespace Prism.Microsoft.DependencyInjection
 
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
-            return provider.GetService(type) ?? throw NullResolutionException(type);
+            try
+            {
+                var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
+
+                return provider.GetOrConstructService(type, parameters) ?? throw NullResolutionException(type);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
