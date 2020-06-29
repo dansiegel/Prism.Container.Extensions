@@ -56,14 +56,13 @@ namespace Prism.DryIoc
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
-                                                                   .With(FactoryMethod.ConstructorWithResolvableArguments)
-                                                                   .WithoutThrowOnRegisteringDisposableTransient()
-                                                                   .WithFuncAndLazyWithoutRegistration()
-#if __IOS__
-                                                                   .WithUseInterpretation()
-#endif
-                                                                   .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+        public static Rules CreateContainerRules() => Rules.Default.WithConcreteTypeDynamicRegistrations()
+                                                         .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                         .WithFuncAndLazyWithoutRegistration()
+                                                         .WithTrackingDisposableTransients()
+                                                         .WithoutFastExpressionCompiler()
+                                                         .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.AppendNewImplementation)
+                                                         .WithFactorySelector(Rules.SelectLastRegisteredFactory());
 
         private PrismContainerExtension() 
             : this(CreateContainerRules())
@@ -103,7 +102,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
-            Instance.RegisterInstance(type, instance, serviceKey: name);
+            Instance.RegisterInstance(type, instance, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
@@ -127,7 +126,7 @@ namespace Prism.DryIoc
 
         public IContainerRegistry Register(Type from, Type to, string name)
         {
-            Instance.Register(from, to, serviceKey: name);
+            Instance.Register(from, to, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
@@ -155,12 +154,12 @@ namespace Prism.DryIoc
 
         public bool IsRegistered(Type type)
         {
-            return Instance.IsRegistered(type);
+            return Instance.IsRegistered(type) || Instance.IsRegistered(type, factoryType: FactoryType.Wrapper);
         }
 
         public bool IsRegistered(Type type, string name)
         {
-            return Instance.IsRegistered(type, name);
+            return Instance.IsRegistered(type, name) || Instance.IsRegistered(type, name, factoryType: FactoryType.Wrapper);
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
