@@ -9,6 +9,11 @@ namespace Prism.Container.Extensions.Shared.Mocks
         public string Name { get; set; }
     }
 
+    public class AltGenericService : IGenericService
+    {
+        public string Name { get; set; }
+    }
+
     public interface IGenericService
     {
         string Name { get; }
