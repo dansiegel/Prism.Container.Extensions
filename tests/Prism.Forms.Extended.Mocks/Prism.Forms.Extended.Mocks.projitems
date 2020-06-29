@@ -14,6 +14,10 @@
       <DependentUpon>AppMock.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Navigation\MockNavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewAViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewBViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewCViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewDViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewD.xaml.cs">
       <DependentUpon>ViewD.xaml</DependentUpon>
       <SubType>Code</SubType>

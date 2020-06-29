@@ -1,20 +1,24 @@
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Prism.Behaviors;
+using Prism.Common;
+using Prism.Forms.Extended.ViewModels;
 using Prism.Ioc;
 using Prism.Forms.Extended.Mocks;
-using Xunit;
+using Prism.Forms.Extended.Mocks.ViewModels;
+using Prism.Forms.Extended.Mocks.Views;
+using Prism.Navigation;
 using Xamarin.Forms;
-using System.Threading.Tasks;
-using Prism.Forms.Extended.ViewModels;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using NavigationPage = Xamarin.Forms.NavigationPage;
-using TabbedPage = Xamarin.Forms.TabbedPage;
+using Xunit;
+
 using AndroidTabbedPage = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage;
 using iOSPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page;
 using iOSNavPage = Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
-using Prism.Forms.Extended.Mocks.Views;
-using Prism.Navigation;
+using NavigationPage = Xamarin.Forms.NavigationPage;
+using TabbedPage = Xamarin.Forms.TabbedPage;
+
 #if DRYIOC
 using Prism.DryIoc;
 #elif UNITY
@@ -25,7 +29,7 @@ using Prism.Microsoft.DependencyInjection;
 
 namespace Prism.Forms.Extended.Tests
 {
-    public class PrismApplicationTests
+    public class PrismApplicationTests : IDisposable
     {
         [Fact]
         public void PageBehaviorFactorySetsTabbedPageTitle()
@@ -132,11 +136,46 @@ namespace Prism.Forms.Extended.Tests
             Assert.IsType<ErrorReportingNavigationService>(navService);
         }
 
+#if MICROSOFT_DI
+        [Fact(Skip = "Not supported")]
+#else
+        [Fact]
+#endif
+        public async Task NavigationServiceHasExpectedPage()
+        {
+            var app = CreateApp();
+            await app.NavigationService.NavigateAsync("ViewA");
+            Assert.IsType<ViewA>(app.MainPage);
+            Assert.NotNull(app.MainPage.BindingContext);
+            Assert.IsType<ViewAViewModel>(app.MainPage.BindingContext);
+            var vm = (ViewAViewModel)app.MainPage.BindingContext;
+            var pa = (IPageAware)vm.NavigationService;
+            Assert.NotNull(pa.Page);
+            Assert.Same(app.MainPage, pa.Page);
+
+            Assert.Empty(app.MainPage.Navigation.ModalStack);
+            await vm.NavigationService.NavigateAsync("ViewB");
+            Assert.NotEmpty(app.MainPage.Navigation.ModalStack);
+            var modal = app.MainPage.Navigation.ModalStack.First();
+            Assert.IsType<ViewB>(modal);
+            Assert.NotNull(modal.BindingContext);
+            Assert.IsType<ViewBViewModel>(modal.BindingContext);
+            var vm2 = (ViewBViewModel)modal.BindingContext;
+            var pa2 = (IPageAware)vm2.NavigationService;
+            Assert.NotNull(pa2.Page);
+            Assert.Same(modal, pa2.Page);
+        }
+
         private AppMock CreateApp(string runtimePlatform = "Test")
         {
             Xamarin.Forms.Mocks.MockForms.Init(runtimePlatform);
             PrismContainerExtension.Reset();
             return new AppMock();
+        }
+
+        public void Dispose()
+        {
+            PrismContainerExtension.Reset();
         }
     }
 }
