@@ -18,7 +18,7 @@ namespace Prism.Unity
 
             var extension = new UnityContainerExtension(container);
             ContainerLocator.SetContainerExtension(() => extension);
-            return extension;
+            return ContainerLocator.Current;
         }
 
         internal static void Reset()

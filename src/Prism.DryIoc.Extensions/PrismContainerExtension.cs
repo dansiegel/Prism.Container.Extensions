@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DryIoc;
 using Prism.Ioc;
 
@@ -23,7 +23,7 @@ namespace Prism.DryIoc
 
             var extension = new DryIocContainerExtension(container);
             ContainerLocator.SetContainerExtension(() => extension);
-            return extension;
+            return ContainerLocator.Current;
         }
 
         internal static void Reset()
