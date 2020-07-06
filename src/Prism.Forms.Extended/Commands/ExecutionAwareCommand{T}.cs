@@ -76,8 +76,7 @@ namespace Prism.Commands
                         {
                             throw new UnhandledCommandException(t.Exception);
                         }
-                    })
-                        .Start();
+                    });
                 }
             }
             catch (Exception ex)
