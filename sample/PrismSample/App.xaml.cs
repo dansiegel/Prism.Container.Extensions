@@ -16,17 +16,17 @@ namespace PrismSample
         {
             InitializeComponent();
 
-            var result = await NavigationService.NavigateAsync("MainPage");
+            var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
 
             if(!result.Success)
             {
-                MainPage = new MainPage
+                MainPage = new NavigationPage(new MainPage
                 {
                     BindingContext = new MainPageViewModel
                     {
                         Message = result.Exception.Message
                     }
-                };
+                });
                 System.Diagnostics.Debugger.Break();
             }
         }
@@ -35,6 +35,7 @@ namespace PrismSample
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<OtherPage, OtherPageViewModel>();
         }
     }
 }

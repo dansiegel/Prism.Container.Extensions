@@ -14,7 +14,14 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj" />
+    <ProjectReference Include="..\..\src\Prism.Microsoft.DependencyInjection.Extensions\Prism.Microsoft.DependencyInjection.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Shiny.Prism\Shiny.Prism.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\OtherPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

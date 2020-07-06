@@ -7,11 +7,12 @@
              Title="Main Page"
              x:Class="PrismSample.Views.MainPage">
 
-  <StackLayout Padding="20">
+  <StackLayout Padding="20" Orientation="Vertical">
     <Label Text="{Binding Message}" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"
            HorizontalTextAlignment="Center"/>
+    <Button Text="Go to OtherPage" Command="{Binding GoToOtherCommand}"/>
   </StackLayout>
 
 </ContentPage>

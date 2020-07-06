@@ -331,7 +331,7 @@ namespace Prism.Microsoft.DependencyInjection
                 services.AddSingleton(param.Type, param.Instance);
             }
 
-            SetServiceCollection(services);
+            Services = services;
 
             var rootSP = services.BuildServiceProvider();
 
