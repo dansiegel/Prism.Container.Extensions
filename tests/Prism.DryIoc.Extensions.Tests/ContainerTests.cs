@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Prism.Container.Extensions.Shared.Mocks;
 using Prism.Container.Extensions.Shared.Tests;
 using Prism.Container.Extensions.Tests.Mocks;
@@ -412,6 +413,34 @@ namespace Prism.DryIoc.Extensions.Tests
 
             Assert.Same(genA, c.Resolve<IGenericService>("genA"));
             Assert.Same(genB, c.Resolve<IGenericService>("genB"));
+        }
+
+        [Fact]
+        public void ResolveTakesLastIn()
+        {
+            var c = CreateContainer();
+            c.Register<IGenericService, GenericService>();
+            c.Register<IGenericService, AltGenericService>();
+
+            Assert.IsType<AltGenericService>(c.Resolve<IGenericService>());
+        }
+
+        [Fact]
+        public void ResolveEnumerableResolvesAll()
+        {
+            var c = CreateContainer();
+            c.Register<IGenericService, GenericService>();
+            c.Register<IGenericService, AltGenericService>();
+
+            IEnumerable<IGenericService> all = null;
+            var ex = Record.Exception(() => all = c.Resolve<IEnumerable<IGenericService>>());
+
+            Assert.Null(ex);
+            Assert.NotNull(all);
+            Assert.NotEmpty(all);
+            Assert.Equal(2, all.Count());
+            Assert.Contains(all, x => x is GenericService);
+            Assert.Contains(all, x => x is AltGenericService);
         }
 
         public static IFoo FooFactory() => new Foo { Message = "expected" };

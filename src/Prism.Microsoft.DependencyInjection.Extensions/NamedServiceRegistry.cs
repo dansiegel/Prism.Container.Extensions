@@ -53,6 +53,11 @@ namespace Prism.Microsoft.DependencyInjection
             return registry?.GetService(serviceProvider);
         }
 
+        public Type GetRegistrationType(string key)
+        {
+            return Services.FirstOrDefault(x => x.Name.Equals(key, StringComparison.OrdinalIgnoreCase) || x.ImplementationType.Name.Equals(key, StringComparison.OrdinalIgnoreCase))?.ImplementationType;
+        }
+
         private void CheckDuplicate(string name, Type serviceType)
         {
             var registry = GetServiceRegistry(name, serviceType);
@@ -73,7 +78,7 @@ namespace Prism.Microsoft.DependencyInjection
             public Type ImplementationType { get; set; }
 
             public virtual object GetService(IServiceProvider serviceProvider) =>
-                serviceProvider.GetService(ImplementationType);
+                serviceProvider.GetOrConstructService(ImplementationType);
         }
 
         class NamedSingletonService : NamedService
@@ -84,7 +89,7 @@ namespace Prism.Microsoft.DependencyInjection
             {
                 if(Instance is null)
                 {
-                    Instance = serviceProvider.GetService(ImplementationType);
+                    Instance = serviceProvider.GetOrConstructService(ImplementationType);
                 }
 
                 return Instance;

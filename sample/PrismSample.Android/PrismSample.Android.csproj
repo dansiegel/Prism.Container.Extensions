@@ -53,7 +53,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.967" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +95,10 @@
     <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj">
       <Project>{940ca2d8-b9a8-499a-9ed3-ecee9758073f}</Project>
       <Name>Prism.Container.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj">
+      <Project>{3a82a96a-f3fc-4244-87c3-28706494f614}</Project>
+      <Name>Prism.DryIoc.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj">
       <Project>{771a0fd7-7877-4ab7-8528-7fb07054393d}</Project>
