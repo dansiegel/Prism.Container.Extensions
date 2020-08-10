@@ -512,7 +512,7 @@ namespace Prism.Unity.Extensions.Tests
             Assert.IsType<AltGenericService>(c.Resolve<IGenericService>());
         }
 
-        [Fact(Skip = "Not Supported on Unity")]
+        [Fact]
         public void ResolveEnumerableResolvesAll()
         {
             var c = CreateContainer();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,7 +76,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             Instance.RegisterInstance(type, instance);
-            return this;
+            return RegisterInstance(type, instance, instance.GetType().AssemblyQualifiedName);
         }
 
         public IContainerRegistry RegisterInstance(Type type, object instance, string name)
@@ -87,7 +88,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
-            return this;
+            return RegisterSingleton(from, to, to.AssemblyQualifiedName);
         }
 
         public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
@@ -99,7 +100,7 @@ namespace Prism.Unity
         public IContainerRegistry Register(Type from, Type to)
         {
             Instance.RegisterType(from, to);
-            return this;
+            return Register(from, to, to.AssemblyQualifiedName);
         }
 
         public IContainerRegistry Register(Type from, Type to, string name)
@@ -140,6 +141,7 @@ namespace Prism.Unity
             foreach(var service in serviceTypes)
             {
                 Instance.RegisterFactory(service, c => c.Resolve(implementingType));
+                Instance.RegisterFactory(service, $"{service.FullName}{Guid.NewGuid()}", c => c.Resolve(implementingType));
             }
 
             return this;
@@ -148,66 +150,76 @@ namespace Prism.Unity
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, _ => factoryMethod());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", _ => factoryMethod());
             return this;
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()));
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()));
             return this;
         }
 
         public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()));
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IServiceProvider>()));
             return this;
         }
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, _ => factoryMethod(), new ContainerControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", _ => factoryMethod(), new ContainerControlledLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new ContainerControlledLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IServiceProvider>()), new ContainerControlledLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScoped(Type serviceType)
         {
-            Instance.RegisterType(serviceType, new HierarchicalLifetimeManager());
+            Instance.RegisterType(serviceType, serviceType.AssemblyQualifiedName, new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScoped(Type serviceType, Type implementationType)
         {
             Instance.RegisterType(serviceType, implementationType, new HierarchicalLifetimeManager());
+            Instance.RegisterType(serviceType, implementationType, implementationType.AssemblyQualifiedName, new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(), new HierarchicalLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(), new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
             return this;
         }
 
         public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(serviceType, c => factoryMethod(c.Resolve<IServiceProvider>()), new HierarchicalLifetimeManager());
+            Instance.RegisterFactory(serviceType, $"{serviceType.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IServiceProvider>()), new HierarchicalLifetimeManager());
             return this;
         }
 
@@ -275,6 +287,13 @@ namespace Prism.Unity
             {
                 var c = _currentScope?.Container ?? Instance;
                 var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+
+                if(type.GetGenericArguments().Length == 1 && typeof(IEnumerable).IsAssignableFrom(type))
+                {
+                    type = type.GetGenericArguments()[0];
+                    return c.ResolveAll(type, overrides);
+                }
+
                 return c.Resolve(type, overrides);
             }
             catch (Exception ex)
