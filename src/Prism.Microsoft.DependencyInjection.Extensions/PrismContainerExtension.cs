@@ -1,21 +1,33 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Prism.Container.Extensions;
 using Prism.Ioc;
-using Prism.Microsoft.DependencyInjection;
+using Prism.Ioc.Internals;
+using Prism.Microsoft.DependencyInjection.Extensions;
 
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware, IServiceProvider
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware, IServiceProvider, IContainerInfo
     {
-        public static IContainerExtension Current =>
-            ContainerLocator.Current ?? Init();
+        public static IContainerExtension Current
+        {
+            get
+            {
+                var container = TryGetContainer();
+                if (container != null)
+                    return container;
+
+                Init();
+                return ContainerLocator.Current;
+            }
+        }
 
         public IScopedProvider CurrentScope { get; private set; }
 
@@ -30,13 +42,28 @@ namespace Prism.Microsoft.DependencyInjection
 
         public static IContainerExtension Init(IServiceCollection services)
         {
-            if (ContainerLocator.Current != null)
+            if (TryGetContainer() != null)
                 throw new NotSupportedException("The PrismContainerExtension has already been initialized.");
 
             var extension = new PrismContainerExtension(services);
             ContainerLocator.SetContainerExtension(() => extension);
             return extension;
         }
+
+        private static IContainerExtension TryGetContainer()
+        {
+            try
+            {
+                return ContainerLocator.Current;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private Dictionary<string, Type> _typeFactories { get; }
+        private Func<Type, Type> _defaultViewTypeToViewModelTypeResolver { get; }
 
         private IServiceScope _serviceScope;
         private bool requiresRebuild;
@@ -178,7 +205,14 @@ namespace Prism.Microsoft.DependencyInjection
         public IContainerRegistry Register(Type from, Type to, string name)
         {
             requiresRebuild = true;
+            Services.AddTransient(to);
             NamedServiceRegistry.Add(name, from, to);
+
+            if(from == typeof(object) && to.Namespace.Contains("Views"))
+            {
+
+            }
+
             return this;
         }
 
@@ -335,12 +369,26 @@ namespace Prism.Microsoft.DependencyInjection
 
             var rootSP = services.BuildServiceProvider();
 
-            if(_serviceScope is null)
+            if (_serviceScope is null)
             {
                 return new ConcreteAwareServiceProvider(rootSP);
             }
 
-            throw new NotSupportedException("We do not currently support using a child container within a ServiceScope");
+            return new ConcreteAwareOverrideProvider(Instance, Services, parameters);
+        }
+
+        Type IContainerInfo.GetRegistrationType(string key)
+        {
+            var matchingRegistration = NamedServiceRegistry.GetRegistrationType(key);
+            if (matchingRegistration != null)
+                return matchingRegistration;
+
+            return Services.FirstOrDefault(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal))?.ImplementationType;
+        }
+
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            return Services.FirstOrDefault(x => x.ServiceType == serviceType)?.ImplementationType;
         }
 
         private class ScopedProvider : IScopedProvider

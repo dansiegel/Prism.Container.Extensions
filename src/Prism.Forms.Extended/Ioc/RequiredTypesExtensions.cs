@@ -20,7 +20,7 @@ namespace Prism.Ioc
 
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterManySingletonOnce<AggregateLogger>();
+            containerRegistry.RegisterManySingletonOnce<AggregateLogger>(typeof(IAggregateLogger), typeof(ILogger), typeof(IAnalyticsService), typeof(ICrashesService));
             containerRegistry.RegisterSingletonOnce<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingletonOnce<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingletonOnce<IEventAggregator, EventAggregator>();
@@ -32,17 +32,17 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
-            //containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
+            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
             containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>();
             var isRegistered = containerRegistry.IsRegistered<INavigationService>(NavigationServiceName);
         }
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)
         {
-            services.RegisterSingletonIfNotRegistered<ILogger, ConsoleLoggingService>();
-            services.RegisterSingletonIfNotRegistered<ILoggerFacade>(sp => (ILogger)sp.GetService(typeof(ILogger)));
-            services.RegisterSingletonIfNotRegistered<IAnalyticsService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
-            services.RegisterSingletonIfNotRegistered<ICrashesService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
+            services.RegisterSingletonIfNotRegistered<IAggregableLogger, ConsoleLoggingService>();
+            services.RegisterSingletonIfNotRegistered<IAnalyticsService>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
+            services.RegisterSingletonIfNotRegistered<ICrashesService>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
+            services.RegisterSingletonIfNotRegistered<ILogger>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
             services.RegisterSingletonIfNotRegistered<IEventAggregator, EventAggregator>();
             services.RegisterSingletonIfNotRegistered<IModuleCatalog, ModuleCatalog>();
             services.RegisterSingletonIfNotRegistered<IModuleManager, ModuleManager>();

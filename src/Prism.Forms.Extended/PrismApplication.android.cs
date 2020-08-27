@@ -28,9 +28,8 @@ namespace Prism
             base.Initialize();
 
             Logger = Container.Resolve<ILogger>();
-            Log.Listeners.Add(Container.Resolve<FormsLogListener>());
+            Log.Listeners.Add(new FormsLogListener(Logger));
             Container.Resolve<IEventAggregator>().GetEvent<NavigationErrorEvent>().Subscribe(OnNavigationError);
-            ConfigureAggregateLogger(Container.Resolve<IAggregateLogger>(), Container);
         }
 
         private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs args)

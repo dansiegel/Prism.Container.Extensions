@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using Prism.Container.Extensions;
 using Prism.Events;
 using Prism.Forms.Extended.ViewModels;
 using Prism.Ioc;
@@ -34,15 +32,11 @@ namespace Prism
         {
         }
 
-        protected PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver) : base(platformInitializer, setFormsDependencyResolver)
-        {
-        }
-
         public ILogger Logger { get; private set; }
 
         protected IModuleCatalog ModuleCatalog { get; private set; }
 
-        protected override sealed void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterRequiredTypes();
             ViewModelLocationProvider.Register<TabbedPage, DefaultViewModel>();
@@ -51,14 +45,6 @@ namespace Prism
         protected override IContainerExtension CreateContainerExtension()
         {
             return ContainerLocator.Current ?? throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
-        }
-
-        protected virtual void ConfigureAggregateLogger(IAggregateLogger aggregateLogger, IContainerProvider container)
-        {
-            if(!aggregateLogger.Loggers.Any())
-            {
-                aggregateLogger.AddLogger(container.Resolve<ConsoleLoggingService>());
-            }
         }
 
         protected sealed override void InitializeModules()

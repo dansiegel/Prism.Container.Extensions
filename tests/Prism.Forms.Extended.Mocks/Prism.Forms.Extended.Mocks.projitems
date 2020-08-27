@@ -23,6 +23,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Tests\ExecutionAwareCommandTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ExtendedPageBehaviorFactoryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\FluentNavigationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\PrismApplicationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewA.cs" />

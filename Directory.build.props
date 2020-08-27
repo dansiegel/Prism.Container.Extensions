@@ -69,4 +69,9 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <ItemGroup Condition=" $(ProjectName.EndsWith('Tests')) ">
+    <Content Include="$(MSBuildThisFileDirectory)xunit.runner.json"
+             CopyToOutputDirectory="always" />
+  </ItemGroup>
+
 </Project>

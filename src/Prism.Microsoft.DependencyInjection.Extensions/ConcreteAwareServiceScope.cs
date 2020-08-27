@@ -10,9 +10,10 @@ namespace Prism.Microsoft.DependencyInjection
         public ConcreteAwareServiceScope(IServiceScope serviceScope)
         {
             _serviceScope = serviceScope;
+            ServiceProvider = new ConcreteAwareServiceProvider(_serviceScope.ServiceProvider); ;
         }
 
-        public IServiceProvider ServiceProvider => _serviceScope.ServiceProvider;
+        public IServiceProvider ServiceProvider { get; }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

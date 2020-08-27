@@ -23,6 +23,24 @@ namespace Prism.Forms.Extended.Mocks.Navigation
             return Task.FromResult(Result);
         }
 
+        public Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            if(parameters is null)
+            {
+                parameters = new NavigationParameters();
+            }
+            if(useModalNavigation.HasValue)
+            {
+                parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
+            }
+            return GoBackAsync(parameters);
+        }
+
+        public Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
+        {
+            return GoBackAsync(parameters);
+        }
+
         public Task<INavigationResult> NavigateAsync(Uri uri) => NavigateAsync(uri, null);
 
         public Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters)
@@ -41,6 +59,32 @@ namespace Prism.Forms.Extended.Mocks.Navigation
             NavigationName = name;
             ParametersUsed = parameters;
             return Task.FromResult(Result);
+        }
+
+        public Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            if (parameters is null)
+            {
+                parameters = new NavigationParameters();
+            }
+            if (useModalNavigation.HasValue)
+            {
+                parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
+            }
+            return NavigateAsync(name, parameters);
+        }
+
+        public Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            if (parameters is null)
+            {
+                parameters = new NavigationParameters();
+            }
+            if (useModalNavigation.HasValue)
+            {
+                parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
+            }
+            return NavigateAsync(uri, parameters);
         }
     }
 
