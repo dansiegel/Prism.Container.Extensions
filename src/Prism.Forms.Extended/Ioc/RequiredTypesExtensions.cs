@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.AppModel;
@@ -20,7 +21,9 @@ namespace Prism.Ioc
 
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterManySingletonOnce<AggregateLogger>(typeof(IAggregateLogger), typeof(ILogger), typeof(IAnalyticsService), typeof(ICrashesService));
+            if (!containerRegistry.IsRegistered<IAggregateLogger>())
+                containerRegistry.UseAggregateLogger();
+
             containerRegistry.RegisterSingletonOnce<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingletonOnce<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingletonOnce<IEventAggregator, EventAggregator>();
@@ -34,20 +37,31 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
             containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
             containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>();
-            var isRegistered = containerRegistry.IsRegistered<INavigationService>(NavigationServiceName);
         }
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)
         {
-            services.RegisterSingletonIfNotRegistered<IAggregableLogger, ConsoleLoggingService>();
-            services.RegisterSingletonIfNotRegistered<IAnalyticsService>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
-            services.RegisterSingletonIfNotRegistered<ICrashesService>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
-            services.RegisterSingletonIfNotRegistered<ILogger>(sp => (IAggregableLogger)sp.GetService(typeof(IAggregableLogger)));
+            if(!services.IsRegistered<IAggregateLogger>())
+            {
+                services.AddSingleton<AggregateLogger>(p =>
+                {
+                    var logger = new AggregateLogger();
+                    logger.AddLoggers(p.GetService<IEnumerable<IAggregableLogger>>());
+                    return logger;
+                });
+                services.AddTransient<IAggregateLogger>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<ILogger>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<IAnalyticsService>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<ICrashesService>(p => p.GetRequiredService<AggregateLogger>());
+            }
             services.RegisterSingletonIfNotRegistered<IEventAggregator, EventAggregator>();
             services.RegisterSingletonIfNotRegistered<IModuleCatalog, ModuleCatalog>();
             services.RegisterSingletonIfNotRegistered<IModuleManager, ModuleManager>();
             services.RegisterSingletonIfNotRegistered<IModuleInitializer, ModuleInitializer>();
         }
+
+        private static bool IsRegistered<T>(this IServiceCollection services) =>
+            services.Any(x => x.ServiceType == typeof(T));
 
         private static void RegisterSingletonIfNotRegistered<T, TImpl>(this IServiceCollection services)
             where T : class
@@ -55,13 +69,6 @@ namespace Prism.Ioc
         {
             if (!services.Any(s => s.ServiceType == typeof(T)))
                 services.AddSingleton<T, TImpl>();
-        }
-
-        private static void RegisterSingletonIfNotRegistered<T>(this IServiceCollection services, Func<IServiceProvider, T> implementationFactory)
-            where T : class
-        {
-            if (!services.Any(s => s.ServiceType == typeof(T)))
-                services.AddSingleton<T>(implementationFactory);
         }
     }
 }
