@@ -56,6 +56,11 @@ stages:
       - JDK
       - AndroidSDK
     steps:
+    - checkout: self
+      clean: true
+      lfs: true
+      submodules: true
+
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -69,6 +74,7 @@ stages:
     - task: MSBuild@1
       displayName: Build Projects
       inputs:
+        solution: Prism.Container.Extensions.sln
         configuration: $(BuildConfiguration)
         msbuildArguments: '/p:DebugType=portable /p:JavaSdkDirectory="$(JAVA_HOME)" /restore'
 
@@ -131,11 +137,13 @@ stages:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
-    condition: and(succeeded(), or(eq(variables['IS_PREVIEW'], true), eq(variables['IS_RELEASE'], true)))
     strategy:
       runOnce:
         deploy:
           steps:
+          - checkout: self
+            clean: false
+
           - powershell: ./Process-Release.ps1
             name: processName
             displayName: Process Artifacts for Release

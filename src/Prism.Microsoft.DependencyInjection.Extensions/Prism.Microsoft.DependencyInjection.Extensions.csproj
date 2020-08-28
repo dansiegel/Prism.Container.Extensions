@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageTags>prism di iserviceprovider iservicecollection microsoft-dependencyinjection</PackageTags>
     <Authors>dansiegel</Authors>
-    <Description>Prism Container Extensions for the Microsoft.Extensions.DependencyInjection implementations of IServiceCollection / IServiceProvider</Description>
+    <Description>Prism Container Extensions for the Microsoft.Extensions.DependencyInjection implementations of IServiceCollection / IServiceProvider. NOTE: This is an EXPERIMENTAL Container! While this may basic basic tests, this container may still have unknown issues as the Microsoft.Extensions.DependencyInjection package inheriently does not support either Named Types or Container Mutability.</Description>
   </PropertyGroup>
 
   <ItemGroup>

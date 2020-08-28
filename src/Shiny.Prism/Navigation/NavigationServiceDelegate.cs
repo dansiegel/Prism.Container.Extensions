@@ -86,7 +86,7 @@ namespace Prism.Navigation
         #endregion
 
         #region IPlatformNavigationService
-        Task<INavigationResult> IPlatformNavigationService.GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        Task<INavigationResult> INavigationService.GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var navService = GetNavigationService();
             if (navService is null)
@@ -96,7 +96,7 @@ namespace Prism.Navigation
             return navService.GoBackAsync(parameters, useModalNavigation, animated);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.GoBackToRootAsync(INavigationParameters parameters)
+        Task<INavigationResult> INavigationService.GoBackToRootAsync(INavigationParameters parameters)
         {
             var navService = GetNavigationService();
             if (navService is null)
@@ -106,7 +106,7 @@ namespace Prism.Navigation
             return navService.GoBackToRootAsync(parameters);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        Task<INavigationResult> INavigationService.NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var navService = GetNavigationService();
             if (navService is null)
@@ -116,7 +116,7 @@ namespace Prism.Navigation
             return navService.NavigateAsync(name, parameters, useModalNavigation, animated);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        Task<INavigationResult> INavigationService.NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var navService = GetNavigationService();
             if (navService is null)
@@ -131,9 +131,10 @@ namespace Prism.Navigation
         {
             if (PrismApplicationBase.Current is null) return null;
 
-            var navService = Container.IsRegistered<INavigationService>(NavigationServiceName) ? 
-                Container.Resolve<INavigationService>(NavigationServiceName) :
-                Container.Resolve<INavigationService>();
+            IContainerProvider container = Container;
+            var navService = container.IsRegistered<INavigationService>(NavigationServiceName) ? 
+                container.Resolve<INavigationService>(NavigationServiceName) :
+                container.Resolve<INavigationService>();
 
             if (navService is IPageAware pa)
             {

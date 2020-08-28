@@ -37,20 +37,20 @@ namespace Prism.Ioc
                         else if (service.ImplementationInstance != null)
                             containerRegistry.RegisterInstance(service.ServiceType, service.ImplementationInstance);
                         else if (service.ImplementationFactory != null)
-                            containerRegistry.RegisterSingletonFromDelegate(service.ServiceType, service.ImplementationFactory);
+                            containerRegistry.RegisterSingleton(service.ServiceType, c => ServiceFactory(c, service.ImplementationFactory));
                         break;
                     case ServiceLifetime.Transient:
                         if (service.ImplementationType != null)
                             containerRegistry.Register(service.ServiceType, service.ImplementationType);
                         else if (service.ImplementationFactory != null)
-                            containerRegistry.RegisterDelegate(service.ServiceType, service.ImplementationFactory);
+                            containerRegistry.Register(service.ServiceType, c => ServiceFactory(c, service.ImplementationFactory));
                         // Transient Lifetime cannot occur with an Instance
                         break;
                     case ServiceLifetime.Scoped:
                         if (service.ImplementationType != null)
                             containerRegistry.RegisterScoped(service.ServiceType, service.ImplementationType);
                         else if (service.ImplementationType is null)
-                            containerRegistry.RegisterScopedFromDelegate(service.ServiceType, service.ImplementationFactory);
+                            containerRegistry.RegisterScoped(service.ServiceType, c => ServiceFactory(c, service.ImplementationFactory));
                         else if (service.ServiceType.IsAbstract)
                             throw new NotSupportedException($"Cannot register the service {service.ServiceType.FullName} as it is an abstract type");
                         else if (service.ServiceType.IsInterface)
@@ -60,6 +60,12 @@ namespace Prism.Ioc
                         break;
                 }
             }
+        }
+
+        private static object ServiceFactory(IContainerProvider container, Func<IServiceProvider, object> implementationFactory)
+        {
+            var sp = container.Resolve<IServiceProvider>();
+            return implementationFactory(sp);
         }
     }
 }

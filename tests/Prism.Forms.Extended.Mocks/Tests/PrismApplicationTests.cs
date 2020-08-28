@@ -29,11 +29,18 @@ using Prism.Microsoft.DependencyInjection;
 
 namespace Prism.Forms.Extended.Tests
 {
-    public class PrismApplicationTests : IDisposable
+    public sealed class PrismApplicationTests : IDisposable
     {
+        public PrismApplicationTests()
+        {
+            Xamarin.Forms.Mocks.MockForms.Init();
+            PrismContainerExtension.Init();
+        }
+
         [Fact]
         public void PageBehaviorFactorySetsTabbedPageTitle()
         {
+            Assert.Null(Record.Exception(() => PrismContainerExtension.Current));
             var app = CreateApp();
             var pageBehaviorFactory = app.Container.Resolve<IPageBehaviorFactory>();
 
@@ -61,7 +68,7 @@ namespace Prism.Forms.Extended.Tests
             var app = CreateApp();
             var result = await app.NavigationService.NavigateAsync("/TabbedPage?createTab=ViewA&createTab=ViewB&title=Title%20From%20Uri");
 
-            Assert.True(result.Success);
+            Assert.Null(result.Exception);
             Assert.IsType<TabbedPage>(app.MainPage);
             Assert.IsType<DefaultViewModel>(app.MainPage.BindingContext);
             Assert.Equal("Title From Uri", app.MainPage.Title);
@@ -73,7 +80,7 @@ namespace Prism.Forms.Extended.Tests
             var app = CreateApp(Device.Android);
             var result = await app.NavigationService.NavigateAsync("/TabbedPage?createTab=ViewA&createTab=ViewB");
 
-            Assert.True(result.Success);
+            Assert.Null(result.Exception);
             Assert.IsType<TabbedPage>(app.MainPage);
 
             var toolbarPlacement = AndroidTabbedPage.GetToolbarPlacement(app.MainPage);
@@ -128,19 +135,41 @@ namespace Prism.Forms.Extended.Tests
             var app = CreateApp();
             INavigationService navService = null;
 
-            // TODO: Remove internal constants
-            var ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName));
+            var ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>());
+
+            Assert.Null(ex);
+            Assert.NotNull(navService);
+            navService = null;
+
+            // The unnamed resolve is Scoped while the Named is transient
+            ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName));
+
+            if(ex is ContainerResolutionException cre)
+            {
+                var errors = cre.GetErrors();
+            }
 
             Assert.Null(ex);
             Assert.NotNull(navService);
             Assert.IsType<ErrorReportingNavigationService>(navService);
         }
 
-#if MICROSOFT_DI
-        [Fact(Skip = "Not supported")]
-#else
         [Fact]
-#endif
+        public async Task AppRegistersDefaultPageBehaviorFactoryOptions()
+        {
+            var app = CreateApp();
+            IPageBehaviorFactoryOptions options = null;
+            var ex = Record.Exception(() => options = app.Container.Resolve<IPageBehaviorFactoryOptions>());
+
+            Assert.Null(ex);
+
+            Assert.True(options.PreferLargeTitles);
+            Assert.True(options.UseBottomTabs);
+            Assert.True(options.UseChildTitle);
+            Assert.True(options.UseSafeArea);
+        }
+
+        [Fact]
         public async Task NavigationServiceHasExpectedPage()
         {
             var app = CreateApp();
@@ -168,14 +197,15 @@ namespace Prism.Forms.Extended.Tests
 
         private AppMock CreateApp(string runtimePlatform = "Test")
         {
+            Assert.Null(Record.Exception(() => PrismContainerExtension.Current));
             Xamarin.Forms.Mocks.MockForms.Init(runtimePlatform);
-            PrismContainerExtension.Reset();
             return new AppMock();
         }
 
         public void Dispose()
         {
             PrismContainerExtension.Reset();
+            PageNavigationRegistry.ClearRegistrationCache();
         }
     }
 }

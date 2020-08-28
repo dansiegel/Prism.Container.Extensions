@@ -1,53 +1,69 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Prism.Container.Extensions;
 using Prism.Ioc;
-using Prism.Microsoft.DependencyInjection;
+using Prism.Ioc.Internals;
+using Prism.Microsoft.DependencyInjection.Extensions;
 
-[assembly: Prism.Microsoft.DependencyInjection.Preserve]
-[assembly: ContainerExtension(typeof(PrismContainerExtension))]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Extensions.Tests")]
 [assembly: InternalsVisibleTo("Prism.Microsoft.DependencyInjection.Forms.Extended.Tests")]
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IExtendedContainerRegistry, IScopeProvider, IScopedFactoryRegistry, IServiceCollectionAware
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware, IServiceProvider, IContainerInfo
     {
-        private static IContainerExtension<IServiceProvider> _current;
-        public static IContainerExtension<IServiceProvider> Current
+        public static IContainerExtension Current
         {
             get
             {
-                if (_current is null)
-                {
-                    Create();
-                }
+                var container = TryGetContainer();
+                if (container != null)
+                    return container;
 
-                return _current;
+                Init();
+                return ContainerLocator.Current;
             }
         }
+
+        public IScopedProvider CurrentScope { get; private set; }
 
         internal static void Reset()
         {
-            _current = null;
+            ContainerLocator.ResetContainer();
             GC.Collect();
         }
 
-        public static IContainerExtension Create() =>
-            Create(new ServiceCollection());
+        public static IContainerExtension Init() =>
+            Init(new ServiceCollection());
 
-        public static IContainerExtension Create(IServiceCollection services)
+        public static IContainerExtension Init(IServiceCollection services)
         {
-            if (_current != null)
-            {
-                throw new NotSupportedException($"An instance of {nameof(PrismContainerExtension)} has already been created.");
-            }
+            if (TryGetContainer() != null)
+                throw new NotSupportedException("The PrismContainerExtension has already been initialized.");
 
-            return new PrismContainerExtension(services);
+            var extension = new PrismContainerExtension(services);
+            ContainerLocator.SetContainerExtension(() => extension);
+            return extension;
         }
+
+        private static IContainerExtension TryGetContainer()
+        {
+            try
+            {
+                return ContainerLocator.Current;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private Dictionary<string, Type> _typeFactories { get; }
+        private Func<Type, Type> _defaultViewTypeToViewModelTypeResolver { get; }
 
         private IServiceScope _serviceScope;
         private bool requiresRebuild;
@@ -89,7 +105,6 @@ namespace Prism.Microsoft.DependencyInjection
 
         public PrismContainerExtension(IServiceCollection services)
         {
-            _current = this;
             Services = services;
             NamedServiceRegistry = new NamedServiceRegistry();
 
@@ -126,8 +141,7 @@ namespace Prism.Microsoft.DependencyInjection
             try
             {
                 var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
-
-                return provider.GetOrConstructService(type, parameters) ?? throw NullResolutionException(type);
+                return provider.GetService(type) ?? throw NullResolutionException(type);
             }
             catch (Exception ex)
             {
@@ -137,11 +151,18 @@ namespace Prism.Microsoft.DependencyInjection
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
-            return NamedServiceRegistry.GetService(provider, name, type) ?? throw NullResolutionException(type, name);
+            try
+            {
+                var provider = parameters.Length > 0 ? GetChildProvider(parameters) : Instance;
+                return NamedServiceRegistry.GetService(provider, name, type) ?? throw NullResolutionException(type, name);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
         }
 
-        private Exception NullResolutionException(Type type, string name = null)
+        private static Exception NullResolutionException(Type type, string name = null)
         {
             return new Exception(string.IsNullOrEmpty(name) ? $"There was a problem while attempting create an instance of {type.FullName}" : $"Unable to create an instance of '{type.FullName}' with the service name '{name}'.");
         }
@@ -184,7 +205,14 @@ namespace Prism.Microsoft.DependencyInjection
         public IContainerRegistry Register(Type from, Type to, string name)
         {
             requiresRebuild = true;
+            Services.AddTransient(to);
             NamedServiceRegistry.Add(name, from, to);
+
+            if(from == typeof(object) && to.Namespace.Contains("Views"))
+            {
+
+            }
+
             return this;
         }
 
@@ -233,42 +261,42 @@ namespace Prism.Microsoft.DependencyInjection
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry Register(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddTransient(serviceType, _ => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry Register(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddTransient(serviceType, sp => factoryMethod(sp.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        public IContainerRegistry Register(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddTransient(serviceType, factoryMethod);
             return this;
         }
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry RegisterSingleton(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddSingleton(serviceType, _ => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry RegisterSingleton(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddSingleton(serviceType, sp => factoryMethod(sp.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterSingletonFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        public IContainerRegistry RegisterSingleton(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddSingleton(serviceType, factoryMethod);
@@ -289,21 +317,21 @@ namespace Prism.Microsoft.DependencyInjection
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<object> factoryMethod)
+        public IContainerRegistry RegisterScoped(Type serviceType, Func<object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, s => factoryMethod());
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IContainerProvider, object> factoryMethod)
+        public IContainerRegistry RegisterScoped(Type serviceType, Func<IContainerProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, s => factoryMethod(s.GetService<IContainerProvider>()));
             return this;
         }
 
-        public IContainerRegistry RegisterScopedFromDelegate(Type serviceType, Func<IServiceProvider, object> factoryMethod)
+        public IContainerRegistry RegisterScoped(Type serviceType, Func<IServiceProvider, object> factoryMethod)
         {
             requiresRebuild = true;
             Services.AddScoped(serviceType, factoryMethod);
@@ -313,13 +341,13 @@ namespace Prism.Microsoft.DependencyInjection
         public object GetService(Type serviceType) =>
             Instance.GetService(serviceType);
 
-        public void CreateScope()
+        public IScopedProvider CreateScope()
         {
-            _serviceScope?.Dispose();
-            _serviceScope = null;
             _serviceScope = new ConcreteAwareServiceScope(Instance.CreateScope());
+            return new ScopedProvider(_serviceScope, NamedServiceRegistry, Services);
         }
 
+        // TODO: Refactor to share this with the child scope
         private IServiceProvider GetChildProvider((Type Type, object Instance)[] parameters)
         {
             if (parameters is null || parameters.Length == 0)
@@ -341,12 +369,124 @@ namespace Prism.Microsoft.DependencyInjection
 
             var rootSP = services.BuildServiceProvider();
 
-            if(_serviceScope is null)
+            if (_serviceScope is null)
             {
                 return new ConcreteAwareServiceProvider(rootSP);
             }
 
-            throw new NotSupportedException("We do not currently support using a child container within a ServiceScope");
+            return new ConcreteAwareOverrideProvider(Instance, Services, parameters);
+        }
+
+        Type IContainerInfo.GetRegistrationType(string key)
+        {
+            var matchingRegistration = NamedServiceRegistry.GetRegistrationType(key);
+            if (matchingRegistration != null)
+                return matchingRegistration;
+
+            return Services.FirstOrDefault(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal))?.ImplementationType;
+        }
+
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            return Services.FirstOrDefault(x => x.ServiceType == serviceType)?.ImplementationType;
+        }
+
+        private class ScopedProvider : IScopedProvider
+        {
+            private IServiceScope _serviceScope;
+            private NamedServiceRegistry _namedServiceRegistry;
+            private IServiceCollection _services;
+
+            public ScopedProvider(IServiceScope serviceScope, NamedServiceRegistry namedServiceRegistry, IServiceCollection services)
+            {
+                _serviceScope = serviceScope;
+                _namedServiceRegistry = namedServiceRegistry;
+                _services = services;
+            }
+
+            public bool IsAttached { get; set; }
+
+            public IScopedProvider CurrentScope { get; }
+
+            public IScopedProvider CreateScope()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Dispose()
+            {
+                if(_serviceScope != null)
+                {
+                    _serviceScope.Dispose();
+                    _serviceScope = null;
+                }
+            }
+
+            public object Resolve(Type type) =>
+            Resolve(type, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, string name) =>
+                Resolve(type, name, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : _serviceScope.ServiceProvider;
+                    return provider.GetService(type) ?? throw NullResolutionException(type);
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, ex);
+                }
+            }
+
+            public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : _serviceScope.ServiceProvider;
+                    return _namedServiceRegistry.GetService(provider, name, type) ?? throw NullResolutionException(type, name);
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, name, ex);
+                }
+            }
+
+            private static Exception NullResolutionException(Type type, string name = null)
+            {
+                return new Exception(string.IsNullOrEmpty(name) ? $"There was a problem while attempting create an instance of {type.FullName}" : $"Unable to create an instance of '{type.FullName}' with the service name '{name}'.");
+            }
+
+            private IServiceProvider GetChildProvider((Type Type, object Instance)[] parameters)
+            {
+                if (parameters is null || parameters.Length == 0)
+                    return _serviceScope.ServiceProvider;
+
+                var services = new ServiceCollection();
+                foreach (var service in _services)
+                {
+                    if (parameters.Any(x => x.Type == service.ServiceType))
+                        continue;
+
+                    services.Add(service);
+                }
+
+                foreach (var param in parameters)
+                {
+                    services.AddSingleton(param.Type, param.Instance);
+                }
+
+                var rootSP = services.BuildServiceProvider();
+
+                if (_serviceScope is null)
+                {
+                    return new ConcreteAwareServiceProvider(rootSP);
+                }
+
+                throw new NotSupportedException("We do not currently support using a child container within a ServiceScope");
+            }
         }
     }
 }

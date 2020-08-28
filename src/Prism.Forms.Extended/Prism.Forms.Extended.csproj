@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Prism.Forms" Version="7.2.0.1422" />
-    <PackageReference Include="Prism.Plugin.Logging.Abstractions" Version="7.2.0.1114" />
+    <PackageReference Include="Prism.Forms" Version="8.0.0.1850-pre" />
+    <PackageReference Include="Prism.Plugin.Logging.Abstractions" Version="8.0.11-beta" />
   </ItemGroup>
 
   <ItemGroup>

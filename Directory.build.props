@@ -4,7 +4,6 @@
   <PropertyGroup>
     <Authors>dansiegel</Authors>
     <Copyright>© Dan Siegel. All rights reserved.</Copyright>
-    <VersionPrefix>7.2.0</VersionPrefix>
     <NeutralLanguage>en-US</NeutralLanguage>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -28,11 +27,11 @@
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
     <IS_PREVIEW Condition=" $(IS_PREVIEW) == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" $(IS_RELEASE) == '' ">false</IS_RELEASE>
-    <VersionPrefix Condition=" $(BUILD_BUILDNUMBER) != '' ">$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
-    <VersionSuffix>ci</VersionSuffix>
-    <VersionSuffix Condition=" $(IS_PREVIEW) ">pre</VersionSuffix>
-    <VersionSuffix Condition=" $(IS_RELEASE) "></VersionSuffix>
   </PropertyGroup>
+
+  <ItemGroup Condition=" $(IsPackable) == 'true' ">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
+  </ItemGroup>
 
   <PropertyGroup>
     <!-- Strong Naming -->
@@ -69,5 +68,10 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup Condition=" $(ProjectName.EndsWith('Tests')) ">
+    <Content Include="$(MSBuildThisFileDirectory)xunit.runner.json"
+             CopyToOutputDirectory="always" />
+  </ItemGroup>
 
 </Project>

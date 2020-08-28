@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.AppModel;
@@ -13,14 +14,16 @@ using Prism.Services.Dialogs;
 
 namespace Prism.Ioc
 {
-    public static class IContainerRegistryExtensions
+    public static class RequiredTypesExtensions
     {
         // Provided to keep compatibility with Prism 8.0
         private const string NavigationServiceName = "PageNavigationService";
 
         public static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterManySingletonOnce<AggregateLogger>();
+            if (!containerRegistry.IsRegistered<IAggregateLogger>())
+                containerRegistry.UseAggregateLogger();
+
             containerRegistry.RegisterSingletonOnce<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingletonOnce<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingletonOnce<IEventAggregator, EventAggregator>();
@@ -33,21 +36,32 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingletonOnce<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingletonOnce<IDialogService, DialogService>();
             containerRegistry.Register<INavigationService, ErrorReportingNavigationService>(NavigationServiceName);
-            containerRegistry.Register<INavigationService, ErrorReportingNavigationService>();
-            var isRegistered = containerRegistry.IsRegistered<INavigationService>(NavigationServiceName);
+            containerRegistry.RegisterScoped<INavigationService, ErrorReportingNavigationService>();
         }
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)
         {
-            services.RegisterSingletonIfNotRegistered<ILogger, ConsoleLoggingService>();
-            services.RegisterSingletonIfNotRegistered<ILoggerFacade>(sp => (ILogger)sp.GetService(typeof(ILogger)));
-            services.RegisterSingletonIfNotRegistered<IAnalyticsService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
-            services.RegisterSingletonIfNotRegistered<ICrashesService>(sp => (ILogger)sp.GetService(typeof(ILogger)));
+            if(!services.IsRegistered<IAggregateLogger>())
+            {
+                services.AddSingleton<AggregateLogger>(p =>
+                {
+                    var logger = new AggregateLogger();
+                    logger.AddLoggers(p.GetService<IEnumerable<IAggregableLogger>>());
+                    return logger;
+                });
+                services.AddTransient<IAggregateLogger>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<ILogger>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<IAnalyticsService>(p => p.GetRequiredService<AggregateLogger>());
+                services.AddTransient<ICrashesService>(p => p.GetRequiredService<AggregateLogger>());
+            }
             services.RegisterSingletonIfNotRegistered<IEventAggregator, EventAggregator>();
             services.RegisterSingletonIfNotRegistered<IModuleCatalog, ModuleCatalog>();
             services.RegisterSingletonIfNotRegistered<IModuleManager, ModuleManager>();
             services.RegisterSingletonIfNotRegistered<IModuleInitializer, ModuleInitializer>();
         }
+
+        private static bool IsRegistered<T>(this IServiceCollection services) =>
+            services.Any(x => x.ServiceType == typeof(T));
 
         private static void RegisterSingletonIfNotRegistered<T, TImpl>(this IServiceCollection services)
             where T : class
@@ -55,13 +69,6 @@ namespace Prism.Ioc
         {
             if (!services.Any(s => s.ServiceType == typeof(T)))
                 services.AddSingleton<T, TImpl>();
-        }
-
-        private static void RegisterSingletonIfNotRegistered<T>(this IServiceCollection services, Func<IServiceProvider, T> implementationFactory)
-            where T : class
-        {
-            if (!services.Any(s => s.ServiceType == typeof(T)))
-                services.AddSingleton<T>(implementationFactory);
         }
     }
 }

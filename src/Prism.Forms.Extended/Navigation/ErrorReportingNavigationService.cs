@@ -15,9 +15,8 @@ namespace Prism.Navigation
         public ErrorReportingNavigationService(IContainerExtension container,
                                                IApplicationProvider applicationProvider,
                                                IPageBehaviorFactory pageBehaviorFactory,
-                                               ILoggerFacade logger,
                                                IEventAggregator eventAggregator)
-            : base(container, applicationProvider, pageBehaviorFactory, logger)
+            : base(container, applicationProvider, pageBehaviorFactory)
         {
             EventAggregator = eventAggregator;
         }
