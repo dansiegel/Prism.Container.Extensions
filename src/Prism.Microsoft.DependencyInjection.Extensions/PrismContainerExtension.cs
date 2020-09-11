@@ -70,6 +70,8 @@ namespace Prism.Microsoft.DependencyInjection
         private NamedServiceRegistry NamedServiceRegistry { get; }
         public IServiceCollection Services { get; private set; }
 
+
+        private IServiceScope _parentScope=null;
         private IServiceProvider _instance;
         public IServiceProvider Instance
         {
@@ -81,15 +83,15 @@ namespace Prism.Microsoft.DependencyInjection
                     if (_serviceScope != null)
                     {
                         createScope = true;
-                        _serviceScope.Dispose();
+                        _parentScope?.Dispose();
                     }
-
                     _instance = new ConcreteAwareServiceProvider(Services.BuildServiceProvider());
                     requiresRebuild = false;
 
                     if(createScope)
                     {
-                        _serviceScope = new ConcreteAwareServiceScope(_instance.CreateScope());
+                        _parentScope = _instance.CreateScope();
+                        _serviceScope = new ConcreteAwareServiceScope(_parentScope);
                     }
                 }
 
@@ -343,7 +345,9 @@ namespace Prism.Microsoft.DependencyInjection
 
         public IScopedProvider CreateScope()
         {
-            _serviceScope = new ConcreteAwareServiceScope(Instance.CreateScope());
+
+            _parentScope = Instance.CreateScope();
+            _serviceScope = new ConcreteAwareServiceScope(_parentScope);
             return new ScopedProvider(_serviceScope, NamedServiceRegistry, Services);
         }
 
@@ -421,6 +425,7 @@ namespace Prism.Microsoft.DependencyInjection
                     _serviceScope = null;
                 }
             }
+
 
             public object Resolve(Type type) =>
             Resolve(type, Array.Empty<(Type, object)>());
