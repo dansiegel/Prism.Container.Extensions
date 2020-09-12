@@ -5,31 +5,19 @@ namespace Prism.Microsoft.DependencyInjection
 {
     public class ConcreteAwareServiceScope : IServiceScope
     {
-        private IServiceScope _serviceScope;
-
         public ConcreteAwareServiceScope(IServiceScope serviceScope)
         {
-            _serviceScope = serviceScope;
-            ServiceProvider = new ConcreteAwareServiceProvider(_serviceScope.ServiceProvider); ;
+            ServiceProvider = new ConcreteAwareServiceProvider(serviceScope.ServiceProvider);
         }
 
         public IServiceProvider ServiceProvider { get; }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+       
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _serviceScope.Dispose();
-                    _serviceScope = null;
-                }
 
-                disposedValue = true;
-            }
         }
 
         // This code added to correctly implement the disposable pattern.
