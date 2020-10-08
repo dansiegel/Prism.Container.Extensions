@@ -71,14 +71,14 @@ namespace Prism.Microsoft.DependencyInjection
         public IServiceCollection Services { get; private set; }
 
 
-        private IServiceScope _parentScope=null;
+        private IServiceScope _parentScope = null;
         private IServiceProvider _instance;
         public IServiceProvider Instance
         {
             get
             {
                 bool createScope = false;
-                if(requiresRebuild || _instance is null)
+                if (requiresRebuild || _instance is null)
                 {
                     if (_serviceScope != null)
                     {
@@ -88,7 +88,7 @@ namespace Prism.Microsoft.DependencyInjection
                     _instance = new ConcreteAwareServiceProvider(Services.BuildServiceProvider());
                     requiresRebuild = false;
 
-                    if(createScope)
+                    if (createScope)
                     {
                         _parentScope = _instance.CreateScope();
                         _serviceScope = new ConcreteAwareServiceScope(_parentScope);
@@ -119,9 +119,9 @@ namespace Prism.Microsoft.DependencyInjection
 
         public void SetServiceCollection(IServiceCollection services)
         {
-            if(Services.Any())
+            if (Services.Any())
             {
-                foreach(var service in Services)
+                foreach (var service in Services)
                 {
                     services.Add(service);
                 }
@@ -210,7 +210,7 @@ namespace Prism.Microsoft.DependencyInjection
             Services.AddTransient(to);
             NamedServiceRegistry.Add(name, from, to);
 
-            if(from == typeof(object) && to.Namespace.Contains("Views"))
+            if (from == typeof(object) && to.Namespace.Contains("Views"))
             {
 
             }
@@ -234,7 +234,7 @@ namespace Prism.Microsoft.DependencyInjection
         public IContainerRegistry RegisterMany(Type implementingType, params Type[] serviceTypes)
         {
             requiresRebuild = true;
-            if(serviceTypes is null || serviceTypes.Count() == 0)
+            if (serviceTypes is null || serviceTypes.Count() == 0)
             {
                 serviceTypes = implementingType.GetInterfaces();
             }
@@ -419,7 +419,7 @@ namespace Prism.Microsoft.DependencyInjection
 
             public void Dispose()
             {
-                if(_serviceScope != null)
+                if (_serviceScope != null)
                 {
                     _serviceScope.Dispose();
                     _serviceScope = null;

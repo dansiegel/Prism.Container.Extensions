@@ -122,7 +122,7 @@ namespace Prism.Forms.Extended.Tests
 
             Assert.True(iOSPage.GetUseSafeArea(app.MainPage));
 
-            result = await app.NavigationService.NavigateAsync("/ViewB"); 
+            result = await app.NavigationService.NavigateAsync("/ViewB");
             Assert.True(result.Success);
             Assert.IsType<ViewB>(app.MainPage);
 
@@ -144,7 +144,7 @@ namespace Prism.Forms.Extended.Tests
             // The unnamed resolve is Scoped while the Named is transient
             ex = Record.Exception(() => navService = app.Container.Resolve<INavigationService>(PrismApplicationBase.NavigationServiceName));
 
-            if(ex is ContainerResolutionException cre)
+            if (ex is ContainerResolutionException cre)
             {
                 var errors = cre.GetErrors();
             }

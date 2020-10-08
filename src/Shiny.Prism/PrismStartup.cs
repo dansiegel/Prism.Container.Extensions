@@ -37,7 +37,7 @@ namespace Shiny.Prism
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {
             var container = ContainerLocator.Current;
-            if(container is null && (container = CreateContainerExtension()) is null)
+            if (container is null && (container = CreateContainerExtension()) is null)
             {
                 throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
             }
@@ -47,7 +47,7 @@ namespace Shiny.Prism
             var moduleCatalog = container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(moduleCatalog);
 
-            if(moduleCatalog.Modules.Any() && moduleCatalog.HasStartupModules(out var startupModules))
+            if (moduleCatalog.Modules.Any() && moduleCatalog.HasStartupModules(out var startupModules))
             {
                 var moduleInitializer = container.Resolve<IModuleInitializer>() as IShinyPrismModuleInitializer;
                 moduleInitializer.LoadShinyModules(startupModules);

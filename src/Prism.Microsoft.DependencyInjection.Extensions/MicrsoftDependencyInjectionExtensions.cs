@@ -13,7 +13,7 @@ namespace Prism.Microsoft.DependencyInjection
     {
         public static IServiceCollection ServiceCollection(this IContainerRegistry containerRegistry)
         {
-            if(containerRegistry is PrismContainerExtension pce)
+            if (containerRegistry is PrismContainerExtension pce)
             {
                 return pce.Services;
             }

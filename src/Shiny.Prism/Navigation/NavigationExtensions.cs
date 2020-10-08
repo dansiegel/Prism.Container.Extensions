@@ -10,7 +10,7 @@ namespace Shiny
         public static void UseNavigationDelegate(this IServiceCollection services)
         {
             services.AddSingleton<INavigationServiceDelegate, NavigationServiceDelegate>();
-            if(!services.Any(x => x.ServiceType == typeof(IApplicationProvider)))
+            if (!services.Any(x => x.ServiceType == typeof(IApplicationProvider)))
             {
                 services.AddSingleton<IApplicationProvider, ApplicationProvider>();
             }

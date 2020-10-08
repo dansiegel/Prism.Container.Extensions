@@ -8,7 +8,7 @@ namespace Shiny.Prism.Mocks.Modularity
 {
     public class MockModuleStartup : MockStartup
     {
-        public MockModuleStartup(ITestOutputHelper testOutputHelper) 
+        public MockModuleStartup(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
         }
