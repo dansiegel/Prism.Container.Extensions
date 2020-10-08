@@ -76,7 +76,7 @@ namespace Prism.Navigation
         Task<INavigationResult> INavigationService.NavigateAsync(string name, INavigationParameters parameters)
         {
             var navService = GetNavigationService();
-            if(navService is null)
+            if (navService is null)
             {
                 return PrismNotInitialized();
             }
@@ -132,7 +132,7 @@ namespace Prism.Navigation
             if (PrismApplicationBase.Current is null) return null;
 
             IContainerProvider container = Container;
-            var navService = container.IsRegistered<INavigationService>(NavigationServiceName) ? 
+            var navService = container.IsRegistered<INavigationService>(NavigationServiceName) ?
                 container.Resolve<INavigationService>(NavigationServiceName) :
                 container.Resolve<INavigationService>();
 

@@ -22,7 +22,7 @@ namespace Shiny.Prism.Mocks
         {
             _testOutputHelper = testOutputHelper;
 
-            if(!setContainer)
+            if (!setContainer)
             {
                 RegenerateContainer();
             }
@@ -61,7 +61,7 @@ namespace Shiny.Prism.Mocks
 
         private void WriteParams((string Key, string Value)[] parameters)
         {
-            foreach((string Key, string Value) in parameters)
+            foreach ((string Key, string Value) in parameters)
             {
                 _testOutputHelper.WriteLine($"{Key}: {Value}");
             }

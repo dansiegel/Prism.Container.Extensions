@@ -28,11 +28,11 @@ namespace Prism.Commands
             try
             {
                 T param = default;
-                if(parameter is T TParam)
+                if (parameter is T TParam)
                 {
                     param = TParam;
                 }
-                else if(parameter != null && ThrowOnInvalidCast)
+                else if (parameter != null && ThrowOnInvalidCast)
                 {
                     throw new InvalidCastException($"The Command expected a typeof '{typeof(T).FullName}' but recieved a parameter of type '{parameter.GetType().FullName}");
                 }

@@ -49,12 +49,12 @@ namespace Prism.Forms.Extended.Navigation
 
         public NavigationBuilder WithParameters(params (string key, object value)[] parameters)
         {
-            if(_parameters is null)
+            if (_parameters is null)
             {
                 _parameters = new NavigationParameters();
             }
 
-            foreach((var key, var value) in parameters)
+            foreach ((var key, var value) in parameters)
             {
                 _parameters.Add(key, value);
             }

@@ -61,7 +61,7 @@ namespace Prism.Microsoft.DependencyInjection
         private void CheckDuplicate(string name, Type serviceType)
         {
             var registry = GetServiceRegistry(name, serviceType);
-            if(registry != null)
+            if (registry != null)
             {
                 Console.WriteLine($"'{serviceType.FullName}' with the name '{name}' has already been registered and will be replaced.");
                 Services.Remove(registry);
@@ -87,7 +87,7 @@ namespace Prism.Microsoft.DependencyInjection
 
             public override object GetService(IServiceProvider serviceProvider)
             {
-                if(Instance is null)
+                if (Instance is null)
                 {
                     Instance = serviceProvider.GetOrConstructService(ImplementationType);
                 }

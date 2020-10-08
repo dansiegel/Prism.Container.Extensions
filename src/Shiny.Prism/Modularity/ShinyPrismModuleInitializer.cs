@@ -57,7 +57,7 @@ namespace Shiny.Prism.Modularity
     {
         public static void LoadShinyModules(this IShinyPrismModuleInitializer initializer, IEnumerable<IModuleInfo> modules)
         {
-            foreach(var module in modules)
+            foreach (var module in modules)
             {
                 initializer.LoadShinyModule(module);
             }

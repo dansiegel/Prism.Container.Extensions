@@ -38,7 +38,7 @@ namespace Prism.Microsoft.DependencyInjection
                 return sp.GetService(serviceType);
             }
 
-            if(serviceType.IsValueType)
+            if (serviceType.IsValueType)
             {
                 return Activator.CreateInstance(serviceType);
             }

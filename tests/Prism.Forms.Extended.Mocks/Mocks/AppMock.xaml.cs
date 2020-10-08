@@ -16,7 +16,7 @@ namespace Prism.Forms.Extended.Mocks
     {
         public AppMock()
         {
-            
+
         }
 
         public new INavigationService NavigationService => base.NavigationService;

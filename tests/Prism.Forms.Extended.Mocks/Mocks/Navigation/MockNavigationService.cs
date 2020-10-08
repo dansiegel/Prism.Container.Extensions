@@ -25,11 +25,11 @@ namespace Prism.Forms.Extended.Mocks.Navigation
 
         public Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            if(parameters is null)
+            if (parameters is null)
             {
                 parameters = new NavigationParameters();
             }
-            if(useModalNavigation.HasValue)
+            if (useModalNavigation.HasValue)
             {
                 parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
             }

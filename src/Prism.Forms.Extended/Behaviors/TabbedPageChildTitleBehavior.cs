@@ -9,8 +9,8 @@ namespace Prism.Behaviors
         {
             base.OnAttachedTo(bindable);
             bindable.SetBinding(Page.TitleProperty, new Binding { Path = "CurrentPage.Title", Source = bindable });
-            
-            if(bindable.BindingContext is INotifyPropertyChanged vm)
+
+            if (bindable.BindingContext is INotifyPropertyChanged vm)
             {
                 vm.PropertyChanged += OnViewModelPropertyChanged;
             }
@@ -28,7 +28,7 @@ namespace Prism.Behaviors
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == "Title")
+            if (e.PropertyName == "Title")
             {
                 AssociatedObject.RemoveBinding(Page.TitleProperty);
                 var property = AssociatedObject.BindingContext.GetType().GetProperty(e.PropertyName);

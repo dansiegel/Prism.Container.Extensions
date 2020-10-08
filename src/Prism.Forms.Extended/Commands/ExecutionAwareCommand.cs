@@ -34,7 +34,7 @@ namespace Prism.Commands
             {
                 IsExecuting = true;
 
-                if(AsyncExecuteDelegate is null)
+                if (AsyncExecuteDelegate is null)
                 {
                     ExecuteDelegate();
                 }
@@ -53,14 +53,14 @@ namespace Prism.Commands
             }
             catch (Exception ex)
             {
-                if(!_registry.HandledException(ex))
+                if (!_registry.HandledException(ex))
                 {
                     throw new UnhandledCommandException(ex);
                 }
             }
             finally
             {
-                if(AsyncExecuteDelegate is null)
+                if (AsyncExecuteDelegate is null)
                 {
                     IsExecuting = false;
                 }

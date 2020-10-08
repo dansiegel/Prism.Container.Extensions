@@ -25,7 +25,7 @@ namespace Prism.Navigation
         {
             var result = await base.GoBackInternal(parameters, useModalNavigation, animated);
 
-            if(result.Exception != null)
+            if (result.Exception != null)
             {
                 EventAggregator.GetEvent<NavigationErrorEvent>().Publish(new NavigationError
                 {
@@ -40,7 +40,7 @@ namespace Prism.Navigation
 
         protected override async Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)
         {
-            var result = await  base.GoBackToRootInternal(parameters);
+            var result = await base.GoBackToRootInternal(parameters);
 
             if (result.Exception != null)
             {

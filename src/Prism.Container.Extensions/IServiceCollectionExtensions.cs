@@ -18,7 +18,7 @@ namespace Prism.Ioc
         /// <returns></returns>
         public static IContainerRegistry RegisterServices(this IContainerRegistry containerRegistry, Action<IServiceCollection> registerServices)
         {
-            if(containerRegistry is IServiceCollectionAware sca)
+            if (containerRegistry is IServiceCollectionAware sca)
             {
                 sca.RegisterServices(registerServices);
             }

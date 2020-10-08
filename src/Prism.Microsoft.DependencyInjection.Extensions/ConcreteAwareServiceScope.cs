@@ -13,7 +13,7 @@ namespace Prism.Microsoft.DependencyInjection
         public IServiceProvider ServiceProvider { get; }
 
         #region IDisposable Support
-       
+
 
         protected virtual void Dispose(bool disposing)
         {

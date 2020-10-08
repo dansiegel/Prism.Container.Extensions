@@ -24,7 +24,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void StaticInstanceSameAsNewInstance()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -36,7 +36,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void StaticInstanceSameAsCreateInstance()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -48,7 +48,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void CreateCanOnlyBeCalledOnce()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var newInstance1 = CreateContainer();
                 Assert.Same(newInstance1, PrismContainerExtension.Current);
@@ -62,7 +62,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void IServiceProviderIsRegistered()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -73,7 +73,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void IContainerProviderIsRegistered()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -84,7 +84,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterManyHasSameTypeAcrossServices()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.RegisterMany<FooBarImpl>();
@@ -110,7 +110,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterManyHasSameInstanceAcrossServices()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.RegisterManySingleton<FooBarImpl>();
@@ -139,7 +139,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterTransientService()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.Register<IFoo, Foo>();
@@ -176,7 +176,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterSingletonService()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.RegisterSingleton<IFoo, Foo>();
@@ -194,7 +194,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterInstanceResolveSameInstance()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 var foo = new Foo();
@@ -209,7 +209,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterInstanceResolveSameNamedInstance()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 var foo = new Foo();
@@ -224,7 +224,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void RegisterSingletonNamedService()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.RegisterSingleton<IFoo, Foo>("fooBar");
@@ -247,7 +247,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithoutContainerProvider()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 var message = "expected";
@@ -266,7 +266,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithoutContainerProvider()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 var message = "expected";
@@ -378,7 +378,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithContainerProvider()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
 
@@ -401,7 +401,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesTransientTypeWithContainerProviderWithGeneric()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
 
@@ -424,7 +424,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithContainerProvider()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
 
@@ -447,7 +447,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void FactoryCreatesSingletonTypeWithContainerProviderWithGeneric()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
 
@@ -470,7 +470,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void ResolveWithSpecifiedTypeOverridesRegistration()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 var c = CreateContainer();
                 c.Register<IBar, Bar>();

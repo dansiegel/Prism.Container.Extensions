@@ -14,7 +14,7 @@ namespace Shiny.Prism.Modularity
         {
             startupModules = FilterForStartup(moduleCatalog.Modules);
 
-            if(startupModules.Any())
+            if (startupModules.Any())
             {
                 startupModules = moduleCatalog.CompleteListWithDependencies(startupModules);
             }
@@ -22,7 +22,7 @@ namespace Shiny.Prism.Modularity
             return startupModules.Any();
         }
 
-        private  static IEnumerable<IModuleInfo> FilterForStartup(IEnumerable<IModuleInfo> modules) =>
+        private static IEnumerable<IModuleInfo> FilterForStartup(IEnumerable<IModuleInfo> modules) =>
             modules.Where(m => Type.GetType(m.ModuleType)
                                    .GetInterfaces()
                                    .Any(x => x == typeof(IStartupModule))

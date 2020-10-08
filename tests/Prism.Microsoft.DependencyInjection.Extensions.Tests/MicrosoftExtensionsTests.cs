@@ -40,7 +40,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
         [Fact]
         public void SingletonServiceIsRegistered()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -65,7 +65,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
         [Fact]
         public void SingletonInstanceIsResolved()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -91,7 +91,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
         [Fact]
         public void SingletonFactoryIsResolved()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -149,7 +149,7 @@ namespace Prism.Microsoft.DependencyInjection.Extensions.Tests
         [Fact]
         public void ScopedServiceIsSupported()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();

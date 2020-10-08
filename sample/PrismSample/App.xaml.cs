@@ -18,7 +18,7 @@ namespace PrismSample
 
             var result = await NavigationService.NavigateAsync("MainPage");
 
-            if(!result.Success)
+            if (!result.Success)
             {
                 MainPage = new MainPage
                 {

@@ -41,7 +41,7 @@ namespace Prism.Ioc
 
         public static void RegisterPrismCoreServices(this IServiceCollection services)
         {
-            if(!services.IsRegistered<IAggregateLogger>())
+            if (!services.IsRegistered<IAggregateLogger>())
             {
                 services.AddSingleton<AggregateLogger>(p =>
                 {

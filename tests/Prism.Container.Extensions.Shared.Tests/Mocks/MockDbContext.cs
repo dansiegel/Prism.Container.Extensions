@@ -9,7 +9,7 @@ namespace Prism.Container.Extensions.Shared.Mocks
 {
     public class MockDbContext : DbContext
     {
-        public MockDbContext([NotNull] DbContextOptions<MockDbContext> options) 
+        public MockDbContext([NotNull] DbContextOptions<MockDbContext> options)
             : base(options)
         {
         }

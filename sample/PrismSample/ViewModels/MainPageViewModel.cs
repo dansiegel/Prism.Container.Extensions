@@ -31,7 +31,7 @@ namespace PrismSample.ViewModels
 
         private void OnConnectivityChanged(bool connected)
         {
-            if(connected)
+            if (connected)
             {
                 Message = "The internet is connected... We can now do our anti-Social Media... and swipe right, and like our friend's lunch...";
             }

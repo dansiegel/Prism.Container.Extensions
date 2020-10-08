@@ -49,9 +49,9 @@ namespace Prism.Forms.Extended.Common
             if (ex is null) return true;
 
             var type = ex.GetType();
-            foreach(var key in Keys)
+            foreach (var key in Keys)
             {
-                if(type.IsAssignableFrom(key))
+                if (type.IsAssignableFrom(key))
                 {
                     var handler = this[key];
                     handler?.Invoke(ex);
@@ -59,7 +59,7 @@ namespace Prism.Forms.Extended.Common
                 }
             }
 
-            if(ex is AggregateException ae)
+            if (ex is AggregateException ae)
             {
                 var results = ae.InnerExceptions.Select(e => HandledException(e));
                 return results.Where(x => x == false).Count() == 0;

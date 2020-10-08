@@ -40,7 +40,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void SingletonServiceIsRegistered()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -65,7 +65,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void SingletonInstanceIsResolved()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
@@ -148,7 +148,7 @@ namespace Prism.Unity.Extensions.Tests
         [Fact]
         public void ScopedServiceIsSupported()
         {
-            lock(testLock)
+            lock (testLock)
             {
                 PrismContainerExtension.Reset();
                 GC.Collect();
