@@ -41,9 +41,24 @@ namespace Prism.Forms.Extended.Navigation
         private Uri _uri { get; }
         private INavigationParameters _parameters;
 
+        private bool? _modalNavigation;
+        private bool _animated = true;
+
         public NavigationBuilder WithParameters(INavigationParameters parameters)
         {
             _parameters = parameters;
+            return this;
+        }
+
+        public NavigationBuilder UseModalNavigation(bool value = true)
+        {
+            _modalNavigation = value;
+            return this;
+        }
+
+        public NavigationBuilder WithAnimated(bool value)
+        {
+            _animated = value;
             return this;
         }
 
@@ -87,7 +102,7 @@ namespace Prism.Forms.Extended.Navigation
                     result = await _navigationService.GoBackToRootAsync(_parameters);
                     break;
                 default:
-                    result = await _navigationService.NavigateAsync(_uri, _parameters);
+                    result = await _navigationService.NavigateAsync(_uri, _parameters, _modalNavigation, _animated);
                     break;
             }
 
