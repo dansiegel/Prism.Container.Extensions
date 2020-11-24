@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Container.Extensions.Internals;
 using Prism.Events;
 using Prism.Forms.Extended.ViewModels;
 using Prism.Ioc;
@@ -44,7 +45,8 @@ namespace Prism
 
         protected override IContainerExtension CreateContainerExtension()
         {
-            return ContainerLocator.Current ?? throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
+            return ContainerLocationHelper.LocateContainer() ??
+                throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
         }
 
         protected sealed override void InitializeModules()

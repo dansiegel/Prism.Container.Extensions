@@ -25,7 +25,6 @@ namespace Shiny.Prism.Modularity
             if (module != null)
             {
                 module.RegisterTypes(_container);
-                module.GetType().AutoRegisterViews(_container);
                 module.OnInitialized(_container);
             }
         }

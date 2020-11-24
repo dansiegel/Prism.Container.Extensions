@@ -6,11 +6,11 @@ using Prism.DryIoc;
 using UIKit;
 using Shiny;
 using PrismSample.Shiny;
-using PreserveAttribute = Prism.DryIoc.PreserveAttribute;
+using Prism.DryIoc.Internals;
 
 // Force the assembly into the App Domain
 // Required for the Sample... this should be brought in automatically for NuGet references
-[assembly: Preserve(typeof(PrismContainerExtension))]
+[assembly: PrismContainerExtension]
 namespace PrismSample.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 

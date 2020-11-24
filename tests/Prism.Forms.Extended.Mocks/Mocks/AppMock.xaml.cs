@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Forms.Extended.Mocks.Views;
 using Prism.Ioc;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -11,7 +7,6 @@ using Xamarin.Forms.Xaml;
 namespace Prism.Forms.Extended.Mocks
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    [AutoRegisterForNavigation]
     public partial class AppMock : PrismApplication
     {
         public AppMock()
@@ -30,6 +25,10 @@ namespace Prism.Forms.Extended.Mocks
         {
             containerRegistry.RegisterForNavigation<TabbedPage>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<ViewA>();
+            containerRegistry.RegisterForNavigation<ViewB>();
+            containerRegistry.RegisterForNavigation<ViewC>();
+            containerRegistry.RegisterForNavigation<ViewD>();
         }
     }
 }
