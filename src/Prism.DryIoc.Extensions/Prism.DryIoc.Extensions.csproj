@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="build\**\*.cs" />
     <None Include="build\**" Pack="true" PackagePath="buildTransitive" />
+    <None Include="ReadMe.txt" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
