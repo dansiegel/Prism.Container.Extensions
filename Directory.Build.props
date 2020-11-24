@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackable) == 'true' ">
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
