@@ -512,6 +512,8 @@ namespace Prism.Unity.Extensions.Tests
             Assert.IsType<AltGenericService>(c.Resolve<IGenericService>());
         }
 
+// Unity does not currently support Resolve All
+#if false
         [Fact]
         public void ResolveEnumerableResolvesAll()
         {
@@ -529,6 +531,7 @@ namespace Prism.Unity.Extensions.Tests
             Assert.Contains(all, x => x is GenericService);
             Assert.Contains(all, x => x is AltGenericService);
         }
+#endif
 
         public static IFoo FooFactory() => new Foo { Message = "expected" };
 
