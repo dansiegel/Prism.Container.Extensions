@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer.Core" Version="2.8.26" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
   </ItemGroup>
 
   <ItemGroup>
