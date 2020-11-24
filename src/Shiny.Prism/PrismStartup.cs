@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Container.Extensions;
+using Prism.Container.Extensions.Internals;
 using Prism.Ioc;
 using Prism.Modularity;
 using Shiny.Prism.Modularity;
@@ -36,11 +35,8 @@ namespace Shiny.Prism
 
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {
-            var container = ContainerLocator.Current;
-            if (container is null && (container = CreateContainerExtension()) is null)
-            {
+            var container = ContainerLocationHelper.LocateContainer(CreateContainerExtension()) ??
                 throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
-            }
 
             var sp = container.CreateServiceProvider(services);
 
@@ -59,7 +55,6 @@ namespace Shiny.Prism
         protected virtual IContainerExtension CreateContainerExtension()
         {
             return null;
-            //return _container ?? ContainerLocator.Locate();
         }
 
         public IShinyStartup WithContainer(IContainerExtension container)
