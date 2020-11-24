@@ -66,7 +66,7 @@ stages:
         packageType: 'sdk'
         useGlobalJson: true
 
-    - task: NuGetToolInstaller@0
+    - task: NuGetToolInstaller@1
       displayName: Install Latest NuGet
       inputs:
         checkLatest: true
@@ -105,11 +105,6 @@ stages:
       inputs:
         artifactName: NuGet
         targetPath: $(Build.ArtifactStagingDirectory)
-    - task: PublishPipelineArtifact@1
-      displayName: Publish Release Script
-      inputs:
-        artifactName: build
-        targetPath: build/Process-Release.ps1
 
 - stage: deploy
   displayName: Deploy NuGets
@@ -147,7 +142,7 @@ stages:
           - powershell: ./Process-Release.ps1
             name: processName
             displayName: Process Artifacts for Release
-            workingDirectory: $(Pipeline.Workspace)/build
+            workingDirectory: build
             env:
               searchDirectory: $(Pipeline.Workspace)/NuGet
 
