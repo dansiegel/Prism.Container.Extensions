@@ -512,7 +512,7 @@ namespace Prism.Unity.Extensions.Tests
             Assert.IsType<AltGenericService>(c.Resolve<IGenericService>());
         }
 
-// Unity does not currently support Resolve All
+        // Unity does not currently support Resolve All
 #if false
         [Fact]
         public void ResolveEnumerableResolvesAll()

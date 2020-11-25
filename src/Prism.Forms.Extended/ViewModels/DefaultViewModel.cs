@@ -14,7 +14,7 @@ namespace Prism.Forms.Extended.ViewModels
 
         public void Initialize(INavigationParameters parameters)
         {
-            if(parameters.TryGetValue("Title", out string title) ||
+            if (parameters.TryGetValue("Title", out string title) ||
                 parameters.TryGetValue("title", out title))
             {
                 Title = title;

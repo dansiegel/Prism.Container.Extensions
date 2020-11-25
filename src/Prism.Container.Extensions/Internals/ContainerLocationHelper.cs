@@ -12,7 +12,7 @@ namespace Prism.Container.Extensions.Internals
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static IContainerExtension LocateContainer(IContainerExtension container = null)
         {
-            if(container != null)
+            if (container != null)
             {
                 ContainerLocator.SetContainerExtension(() => container);
             }
