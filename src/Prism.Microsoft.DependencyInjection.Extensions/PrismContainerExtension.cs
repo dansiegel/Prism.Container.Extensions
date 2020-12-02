@@ -14,7 +14,7 @@ using Prism.Microsoft.DependencyInjection.Extensions;
 [assembly: InternalsVisibleTo("Shiny.Prism.Tests")]
 namespace Prism.Microsoft.DependencyInjection
 {
-    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware, IServiceProvider, IContainerInfo
+    public class PrismContainerExtension : IContainerExtension<IServiceProvider>, IServiceCollectionAware, IServiceProvider, IContainerInfo, IServiceScopeFactory
     {
         public static IContainerExtension Current
         {
@@ -111,10 +111,11 @@ namespace Prism.Microsoft.DependencyInjection
             NamedServiceRegistry = new NamedServiceRegistry();
 
             Services.AddSingleton<PrismContainerExtension>(this);
-            Services.AddSingleton<IContainerRegistry>(sp => sp.GetService<PrismContainerExtension>());
-            Services.AddSingleton<IContainerExtension>(sp => sp.GetService<PrismContainerExtension>());
-            Services.AddSingleton<IContainerProvider>(sp => sp.GetService<PrismContainerExtension>());
-            Services.AddSingleton<IServiceProvider>(sp => sp.GetService<PrismContainerExtension>());
+            Services.AddSingleton<IContainerRegistry>(sp => sp.GetRequiredService<PrismContainerExtension>());
+            Services.AddSingleton<IContainerExtension>(sp => sp.GetRequiredService<PrismContainerExtension>());
+            Services.AddSingleton<IContainerProvider>(sp => sp.GetRequiredService<PrismContainerExtension>());
+            Services.AddSingleton<IServiceProvider>(sp => sp.GetRequiredService<PrismContainerExtension>());
+            Services.AddSingleton<IServiceScopeFactory>(sp => sp.GetRequiredService<PrismContainerExtension>());
         }
 
         public void SetServiceCollection(IServiceCollection services)
@@ -345,10 +346,15 @@ namespace Prism.Microsoft.DependencyInjection
 
         public IScopedProvider CreateScope()
         {
-
             _parentScope = Instance.CreateScope();
             _serviceScope = new ConcreteAwareServiceScope(_parentScope);
             return new ScopedProvider(_serviceScope, NamedServiceRegistry, Services);
+        }
+
+        IServiceScope IServiceScopeFactory.CreateScope()
+        {
+            var scopedProvider = CreateScope() as ScopedProvider;
+            return scopedProvider.ServiceScope;
         }
 
         // TODO: Refactor to share this with the child scope
@@ -397,13 +403,12 @@ namespace Prism.Microsoft.DependencyInjection
 
         private class ScopedProvider : IScopedProvider
         {
-            private IServiceScope _serviceScope;
             private NamedServiceRegistry _namedServiceRegistry;
             private IServiceCollection _services;
 
             public ScopedProvider(IServiceScope serviceScope, NamedServiceRegistry namedServiceRegistry, IServiceCollection services)
             {
-                _serviceScope = serviceScope;
+                ServiceScope = serviceScope;
                 _namedServiceRegistry = namedServiceRegistry;
                 _services = services;
             }
@@ -412,20 +417,21 @@ namespace Prism.Microsoft.DependencyInjection
 
             public IScopedProvider CurrentScope { get; }
 
+            public IServiceScope ServiceScope { get; private set; }
+
             public IScopedProvider CreateScope()
             {
-                throw new NotImplementedException();
+                return Current.CreateScope();
             }
 
             public void Dispose()
             {
-                if (_serviceScope != null)
+                if (ServiceScope != null)
                 {
-                    _serviceScope.Dispose();
-                    _serviceScope = null;
+                    ServiceScope.Dispose();
+                    ServiceScope = null;
                 }
             }
-
 
             public object Resolve(Type type) =>
             Resolve(type, Array.Empty<(Type, object)>());
@@ -437,7 +443,7 @@ namespace Prism.Microsoft.DependencyInjection
             {
                 try
                 {
-                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : _serviceScope.ServiceProvider;
+                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : ServiceScope.ServiceProvider;
                     return provider.GetService(type) ?? throw NullResolutionException(type);
                 }
                 catch (Exception ex)
@@ -450,7 +456,7 @@ namespace Prism.Microsoft.DependencyInjection
             {
                 try
                 {
-                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : _serviceScope.ServiceProvider;
+                    var provider = parameters.Length > 0 ? GetChildProvider(parameters) : ServiceScope.ServiceProvider;
                     return _namedServiceRegistry.GetService(provider, name, type) ?? throw NullResolutionException(type, name);
                 }
                 catch (Exception ex)
@@ -467,7 +473,7 @@ namespace Prism.Microsoft.DependencyInjection
             private IServiceProvider GetChildProvider((Type Type, object Instance)[] parameters)
             {
                 if (parameters is null || parameters.Length == 0)
-                    return _serviceScope.ServiceProvider;
+                    return ServiceScope.ServiceProvider;
 
                 var services = new ServiceCollection();
                 foreach (var service in _services)
@@ -485,7 +491,7 @@ namespace Prism.Microsoft.DependencyInjection
 
                 var rootSP = services.BuildServiceProvider();
 
-                if (_serviceScope is null)
+                if (ServiceScope is null)
                 {
                     return new ConcreteAwareServiceProvider(rootSP);
                 }
