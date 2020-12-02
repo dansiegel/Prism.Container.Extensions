@@ -105,6 +105,32 @@ namespace Prism.Container.Extensions.Shared.Tests
             Assert.True(((IContainerProvider)PrismContainerExtension.Current).IsRegistered<IHttpClientFactory>());
         }
 
+        [Fact]
+        public void IServiceScopeFactoryIsRegistered()
+        {
+            PrismContainerExtension.Current.RegisterServices(s =>
+            {
+                s.AddHttpClient();
+            });
+
+            Assert.True(((IContainerProvider)PrismContainerExtension.Current).IsRegistered<IServiceScopeFactory>());
+        }
+
+        [Fact]
+        public void ResolvesHttpClientWithHttpClientFactory()
+        {
+            PrismContainerExtension.Current.RegisterServices(s =>
+            {
+                s.AddHttpClient();
+            });
+
+            HttpClient client = null;
+            var ex = Record.Exception(() => client = PrismContainerExtension.Current.Resolve<HttpClient>());
+
+            Assert.Null(ex);
+            Assert.NotNull(client);
+        }
+
         private void ConfigureServices()
         {
             var services = new ServiceCollection();
