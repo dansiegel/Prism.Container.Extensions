@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -32,8 +33,10 @@ namespace Prism.Container.Extensions.Internals
                 ContainerLocator.ResetContainer();
             }
 
-            var entryAssembly = Assembly.GetEntryAssembly();
-            var containerAttributes = entryAssembly.GetCustomAttributes().OfType<ContainerExtensionAttribute>();
+            var containerAttributes = AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(x => x.GetCustomAttributes<ContainerExtensionAttribute>().Any())
+                    .Select(x => x.GetCustomAttribute<ContainerExtensionAttribute>())
+                    .Distinct();
 
             if (!containerAttributes.Any())
                 throw new InvalidOperationException("An instance of the IContainerExtension has not been registered with the ContainerLocator, and no ContainerExtensionAttribute has been found in the entry assembly.");
