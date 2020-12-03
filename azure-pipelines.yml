@@ -4,12 +4,6 @@ trigger:
     include:
     - master
   paths:
-    include:
-      - build/*
-      - sample/*
-      - src/*
-      - tests/*
-      - azure-pipelines.yml
     exclude:
     - README.md
     - .editorconfig
