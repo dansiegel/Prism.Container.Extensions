@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Prism.Container.Extensions.Internals;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -19,19 +20,22 @@ namespace Shiny.Prism
             WithContainer(container);
         }
 
-        protected virtual void ConfigureApp(IServiceProvider provider) { }
+        protected virtual void ConfigureLogging(ILoggingBuilder builder, IPlatform platform) { }
 
-        protected abstract void ConfigureServices(IServiceCollection services);
+        protected abstract void ConfigureServices(IServiceCollection services, IPlatform platform);
 
-        void IShinyStartup.ConfigureServices(IServiceCollection services)
+        protected virtual void RegisterServices(IContainerRegistry containerRegistry) { }
+
+        void IShinyStartup.ConfigureLogging(ILoggingBuilder builder, IPlatform platform) =>
+            ConfigureLogging(builder, platform);
+
+        void IShinyStartup.ConfigureServices(IServiceCollection services, IPlatform platform)
         {
-            ConfigureServices(services);
+            ConfigureServices(services, platform);
             services.RegisterPrismCoreServices();
             services.Remove(services.First(x => x.ServiceType == typeof(IModuleInitializer)));
             services.AddSingleton<IModuleInitializer, ShinyPrismModuleInitializer>();
         }
-
-        void IShinyStartup.ConfigureApp(IServiceProvider provider) => ConfigureApp(provider);
 
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {
@@ -39,6 +43,7 @@ namespace Shiny.Prism
                 throw new NullReferenceException("Call PrismContainerExtension.Init() prior to initializing PrismApplication");
 
             var sp = container.CreateServiceProvider(services);
+            RegisterServices(container);
 
             var moduleCatalog = container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(moduleCatalog);
@@ -60,29 +65,10 @@ namespace Shiny.Prism
         public IShinyStartup WithContainer(IContainerExtension container)
         {
             ContainerLocator.SetContainerExtension(() => container);
+            var _ = ContainerLocator.Container;
             return this;
         }
 
         protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
     }
-
-    //public abstract class PrismStartupTask : IShinyStartupTask
-    //{
-    //    async void IShinyStartupTask.Start()
-    //    {
-    //        try
-    //        {
-    //            Start();
-    //            await StartAsync();
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Log.Write(ex);
-    //        }
-    //    }
-
-    //    protected virtual void Start() { }
-
-    //    protected virtual Task StartAsync() => Task.CompletedTask;
-    //}
 }

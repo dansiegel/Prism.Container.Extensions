@@ -7,6 +7,7 @@ using Prism.Container.Extensions.Shared.Mocks;
 using Xunit;
 using Prism.Ioc;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 #if DRYIOC
 using Prism.DryIoc;
 #elif UNITY
@@ -129,6 +130,24 @@ namespace Prism.Container.Extensions.Shared.Tests
 
             Assert.Null(ex);
             Assert.NotNull(client);
+        }
+
+        [Fact]
+        public void RegistersOpenGenerics()
+        {
+            PrismContainerExtension.Current.RegisterServices(s =>
+            {
+                s.AddLogging(b => b.SetMinimumLevel(LogLevel.Warning));
+            });
+
+            ILogger<CommonAspNetServiceTests> logger = null;
+            var ex = Record.Exception(() =>
+            {
+                logger = PrismContainerExtension.Current.Resolve<ILogger<CommonAspNetServiceTests>>();
+            });
+
+            Assert.Null(ex);
+            Assert.NotNull(logger);
         }
 
         private void ConfigureServices()

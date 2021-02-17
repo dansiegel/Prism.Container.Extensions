@@ -28,7 +28,7 @@ namespace PrismSample.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            iOSShinyHost.Init(new Startup());
+            this.ShinyFinishedLaunching(new Startup());
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
