@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reactive.Subjects;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Shiny.Infrastructure;
 using Shiny.Jobs;
 using Shiny.Net;
 using Shiny.Power;
@@ -17,27 +15,14 @@ using Xunit.Abstractions;
 
 namespace Shiny.Prism.Mocks
 {
-    class ShinyPrismTestHost : IPlatform
+    class ShinyPrismTestHost : TestPlatform
     {
-        private readonly Subject<PlatformState> _stateChanged = new Subject<PlatformState>();
         private readonly Action<IServiceCollection> _platformBuild;
 
         private ShinyPrismTestHost(Action<IServiceCollection> platformBuild)
         {
             _platformBuild = platformBuild;
         }
-
-        public DirectoryInfo AppData { get; }
-        public DirectoryInfo Cache { get; }
-        public DirectoryInfo Public { get; }
-        public string AppIdentifier { get; }
-        public string AppVersion { get; }
-        public string AppBuild { get; }
-        public string MachineName { get; }
-        public string OperatingSystem { get; }
-        public string OperatingSystemVersion { get; }
-        public string Manufacturer { get; }
-        public string Model { get; }
 
         public static void Init(ITestOutputHelper testOutputHelper) => Init(new MockStartup(testOutputHelper));
 
@@ -46,20 +31,15 @@ namespace Shiny.Prism.Mocks
             ShinyHost.Init(new ShinyPrismTestHost(platformBuild), startup);
         }
 
-        public void Register(IServiceCollection services)
+        public override void Register(IServiceCollection services)
         {
+            base.Register(services);
             services.AddSingleton<IJobManager, TestJobManager>();
             services.AddSingleton<IConnectivity, TestConnectivity>();
             services.AddSingleton<IPowerManager, TestPowerManager>();
-            //services.AddSingleton<IFileSystem, FileSystemImpl>();
             services.AddSingleton<ISettings, TestSettings>();
-            //services.AddSingleton<IEnvironment, TestEnvironment>();
+            services.AddSingleton<ISerializer, ShinySerializer>();
             _platformBuild?.Invoke(services);
-        }
-
-        public IObservable<PlatformState> WhenStateChanged()
-        {
-            return _stateChanged;
         }
     }
 }
