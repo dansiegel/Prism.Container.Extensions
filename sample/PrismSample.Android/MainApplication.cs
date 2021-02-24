@@ -20,7 +20,7 @@ namespace PrismSample.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            AndroidShinyHost.Init(this, new Startup());
+            this.ShinyOnCreate(new Startup());
         }
     }
 }

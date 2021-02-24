@@ -1,13 +1,12 @@
 using System;
+using System.Linq;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Shiny.IO;
 using Shiny.Jobs;
 using Shiny.Net;
 using Shiny.Power;
 using Shiny.Prism.Mocks;
 using Shiny.Settings;
-using Shiny.Testing;
 using Shiny.Testing.Jobs;
 using Shiny.Testing.Net;
 using Shiny.Testing.Power;
@@ -36,16 +35,21 @@ namespace Shiny.Prism.Tests
         }
 
         [Theory]
+        [InlineData(typeof(IPlatform), typeof(ShinyPrismTestHost))]
         [InlineData(typeof(IJobManager), typeof(TestJobManager))]
         [InlineData(typeof(IConnectivity), typeof(TestConnectivity))]
         [InlineData(typeof(IPowerManager), typeof(TestPowerManager))]
-        [InlineData(typeof(IFileSystem), typeof(FileSystemImpl))]
         [InlineData(typeof(ISettings), typeof(TestSettings))]
-        [InlineData(typeof(IEnvironment), typeof(TestEnvironment))]
-        //[InlineData(typeof(IBleAdapterDelegate), typeof(MockBleAdapterDelegate))]
         public void ExpectedTypesAreRegisteredAndResolve(Type serviceType, Type implementingType)
         {
             ShinyPrismTestHost.Init(_testOutputHelper);
+            var types = ContainerLocator.Container
+                .GetContainer()
+                .GetServiceRegistrations()
+                .Where(x => x.ServiceType.Assembly.GetName().Name == "Shiny.Core");
+            foreach (var type in types)
+                _testOutputHelper.WriteLine($"Found: {type.ServiceType.FullName} - {type.ImplementationType?.FullName}");
+
             Assert.True(PrismContainerExtension.Current.IsRegistered(serviceType));
 
             var fromShiny = ShinyHost.Container.GetService(serviceType);
@@ -59,7 +63,7 @@ namespace Shiny.Prism.Tests
             var ex = Record.Exception(() => ShinyPrismTestHost.Init(new MockStartup(_testOutputHelper, false)));
 
             Assert.Null(ex);
-            Assert.NotNull(PrismContainerExtension.Current.Resolve<IConnectivity>());
+            Assert.NotNull(PrismContainerExtension.Current.Resolve<IJobManager>());
         }
     }
 }

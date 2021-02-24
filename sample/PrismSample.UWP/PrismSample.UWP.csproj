@@ -143,10 +143,26 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.12" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Prism.Container.Extensions\Prism.Container.Extensions.csproj">
+      <Project>{940ca2d8-b9a8-499a-9ed3-ecee9758073f}</Project>
+      <Name>Prism.Container.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Prism.DryIoc.Extensions\Prism.DryIoc.Extensions.csproj">
+      <Project>{3a82a96a-f3fc-4244-87c3-28706494f614}</Project>
+      <Name>Prism.DryIoc.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Prism.Forms.Extended\Prism.Forms.Extended.csproj">
+      <Project>{771a0fd7-7877-4ab7-8528-7fb07054393d}</Project>
+      <Name>Prism.Forms.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Shiny.Prism\Shiny.Prism.csproj">
+      <Project>{fd30086e-fa39-408e-935f-8921b454d282}</Project>
+      <Name>Shiny.Prism</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PrismSample\PrismSample.csproj">
       <Project>{0C2D6820-FA64-4050-9546-BF034329D363}</Project>
       <Name>PrismSample</Name>

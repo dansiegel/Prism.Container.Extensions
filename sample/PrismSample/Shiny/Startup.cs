@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shiny;
 using Shiny.Prism;
-using Shiny.Power;
 
 namespace PrismSample.Shiny
 {
     public class Startup : PrismStartup
     {
-        protected override void ConfigureServices(IServiceCollection services)
+        protected override void ConfigureServices(IServiceCollection services, IPlatform platform)
         {
             // Register Stuff
         }

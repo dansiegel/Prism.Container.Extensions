@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Reactive.Subjects;
 using Microsoft.Extensions.DependencyInjection;
-using Shiny.IO;
+using Shiny.Infrastructure;
 using Shiny.Jobs;
 using Shiny.Net;
 using Shiny.Power;
@@ -16,22 +15,31 @@ using Xunit.Abstractions;
 
 namespace Shiny.Prism.Mocks
 {
-    class ShinyPrismTestHost : ShinyHost
+    class ShinyPrismTestHost : TestPlatform
     {
+        private readonly Action<IServiceCollection> _platformBuild;
+
+        private ShinyPrismTestHost(Action<IServiceCollection> platformBuild)
+        {
+            _platformBuild = platformBuild;
+        }
+
         public static void Init(ITestOutputHelper testOutputHelper) => Init(new MockStartup(testOutputHelper));
 
         public static void Init(IShinyStartup startup = null, Action<IServiceCollection> platformBuild = null)
         {
-            InitPlatform(startup, services =>
-            {
-                services.AddSingleton<IJobManager, TestJobManager>();
-                services.AddSingleton<IConnectivity, TestConnectivity>();
-                services.AddSingleton<IPowerManager, TestPowerManager>();
-                services.AddSingleton<IFileSystem, FileSystemImpl>();
-                services.AddSingleton<ISettings, TestSettings>();
-                services.AddSingleton<IEnvironment, TestEnvironment>();
-                platformBuild?.Invoke(services);
-            });
+            ShinyHost.Init(new ShinyPrismTestHost(platformBuild), startup);
+        }
+
+        public override void Register(IServiceCollection services)
+        {
+            base.Register(services);
+            services.AddSingleton<IJobManager, TestJobManager>();
+            services.AddSingleton<IConnectivity, TestConnectivity>();
+            services.AddSingleton<IPowerManager, TestPowerManager>();
+            services.AddSingleton<ISettings, TestSettings>();
+            services.AddSingleton<ISerializer, ShinySerializer>();
+            _platformBuild?.Invoke(services);
         }
     }
 }
