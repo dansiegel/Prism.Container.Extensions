@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shiny.Core" Version="1.1.0.1473" />
+    <PackageReference Include="Shiny.Core" Version="[2.2.0.2829, 3)" />
   </ItemGroup>
 
   <ItemGroup>

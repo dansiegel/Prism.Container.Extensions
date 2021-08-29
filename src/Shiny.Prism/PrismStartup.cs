@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Prism.Container.Extensions;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -12,6 +12,8 @@ namespace Shiny.Prism
     public abstract class PrismStartup : IShinyStartup
     {
         private IContainerExtension _container;
+
+        public Action<IServiceCollection> RegisterPlatformServices { get; set; }
 
         protected PrismStartup()
         {
@@ -26,15 +28,13 @@ namespace Shiny.Prism
 
         protected abstract void ConfigureServices(IServiceCollection services);
 
-        void IShinyStartup.ConfigureServices(IServiceCollection services)
+        void IShinyStartup.ConfigureServices(IServiceCollection services, IPlatform platform)
         {
             ConfigureServices(services);
             services.RegisterPrismCoreServices();
             services.Remove(services.First(x => x.ServiceType == typeof(IModuleInitializer)));
             services.AddSingleton<IModuleInitializer, ShinyPrismModuleInitializer>();
         }
-
-        void IShinyStartup.ConfigureApp(IServiceProvider provider) => ConfigureApp(provider);
 
         IServiceProvider IShinyStartup.CreateServiceProvider(IServiceCollection services)
         {
@@ -69,6 +69,16 @@ namespace Shiny.Prism
         }
 
         protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
+
+        public void ConfigureLogging(ILoggingBuilder builder, IPlatform platform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ConfigureServices(IServiceCollection services, IPlatform platform)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     //public abstract class PrismStartupTask : IShinyStartupTask
