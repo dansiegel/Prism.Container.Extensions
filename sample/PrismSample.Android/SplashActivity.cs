@@ -1,13 +1,13 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Content;
 using Android.Util;
+using AndroidX.AppCompat.App;
 
 namespace PrismSample.Droid
 {
-    [Activity(Theme = "@style/MainTheme.Splash", 
-              MainLauncher = true, 
+    [Activity(Theme = "@style/MainTheme.Splash",
+              MainLauncher = true,
               NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
