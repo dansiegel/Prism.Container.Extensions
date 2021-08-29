@@ -1,17 +1,13 @@
 using System;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Shiny.IO;
 using Shiny.Jobs;
 using Shiny.Net;
 using Shiny.Power;
 using Shiny.Prism.Mocks;
-using Shiny.Settings;
-using Shiny.Testing;
 using Shiny.Testing.Jobs;
 using Shiny.Testing.Net;
 using Shiny.Testing.Power;
-using Shiny.Testing.Settings;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -39,16 +35,13 @@ namespace Shiny.Prism.Tests
         [InlineData(typeof(IJobManager), typeof(TestJobManager))]
         [InlineData(typeof(IConnectivity), typeof(TestConnectivity))]
         [InlineData(typeof(IPowerManager), typeof(TestPowerManager))]
-        [InlineData(typeof(IFileSystem), typeof(FileSystemImpl))]
-        [InlineData(typeof(ISettings), typeof(TestSettings))]
-        [InlineData(typeof(IEnvironment), typeof(TestEnvironment))]
         //[InlineData(typeof(IBleAdapterDelegate), typeof(MockBleAdapterDelegate))]
         public void ExpectedTypesAreRegisteredAndResolve(Type serviceType, Type implementingType)
         {
             ShinyPrismTestHost.Init(_testOutputHelper);
             Assert.True(PrismContainerExtension.Current.IsRegistered(serviceType));
 
-            var fromShiny = ShinyHost.Container.GetService(serviceType);
+            var fromShiny = ShinyHost.ServiceProvider.GetService(serviceType);
             Assert.IsType(implementingType, fromShiny);
             Assert.Same(fromShiny, PrismContainerExtension.Current.Resolve(serviceType));
         }

@@ -24,6 +24,7 @@ namespace Shiny.Prism
             _container = container;
         }
 
+        public virtual void ConfigureLogging(ILoggingBuilder builder, IPlatform platform) { }
         protected virtual void ConfigureApp(IServiceProvider provider) { }
 
         protected abstract void ConfigureServices(IServiceCollection services);
@@ -69,16 +70,6 @@ namespace Shiny.Prism
         }
 
         protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
-
-        public void ConfigureLogging(ILoggingBuilder builder, IPlatform platform)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ConfigureServices(IServiceCollection services, IPlatform platform)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     //public abstract class PrismStartupTask : IShinyStartupTask

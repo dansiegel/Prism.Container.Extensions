@@ -1,8 +1,9 @@
 ﻿using System;
 using Android.App;
 using Android.Runtime;
-using Shiny;
 using PrismSample.Shiny;
+using Shiny;
+
 
 namespace PrismSample.Droid
 {
@@ -20,7 +21,7 @@ namespace PrismSample.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            AndroidShinyHost.Init(this, new Startup());
+            this.ShinyOnCreate(new Startup());
         }
     }
 }
